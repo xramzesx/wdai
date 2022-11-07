@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    background-color: lightseagreen;
+}
+
+.container {
+    min-height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.clip {
+    position: absolute;
+    left : 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    height: 10rem;
+    clip-path: polygon(0 60%, 100% 0, 100% 100%, 0% 100%);
+}
+section.content {
+    max-width: 480px;
+    color: white;
+}
+
+section.content > * {
+    transform: translateX(-100vw);
+}
+
+section.content h1 {
+    animation: slidein-left 1s forwards;
+}
+
+section.content p {
+    margin: 1rem 0;
+    animation: slidein-left 1s forwards;
+    animation-delay: .25s;
+}
+
+section.content button {
+    border: .1rem solid white;
+    background-color: transparent;
+    padding: 1rem;
+    color: white;
+    border-radius: .5rem;
+    width: 100%;
+    max-width: 125px;
+    animation: slidein-left 1s forwards;
+    animation-delay: .5s;
+}
+
+section.form {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: .5rem .5rem 2rem -1rem #42445a;
+    
+    transform: translateX(100vw);
+
+    animation: slidein-right 1s forwards;
+
+}
+
+section.form form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+
+    margin-top: 1rem;
+}
+
+section.form input {
+    display: block;
+}
+
+
+section.form input[type="text"],
+section.form input[type="email"] {
+    border: none;
+    border-bottom: .1rem solid lightgray;
+    padding: .5rem 0;
+    font-size: 1rem;
+    width: 100%
+}
+
+
+section.form input[type="submit"] {
+    border: none;
+    padding: 1rem;
+    border-radius: .5rem;
+    max-width: 100px;
+    width: 100%;
+
+    color: white;
+    background-color: lightseagreen;
+}
+
+
+@keyframes slidein-left {
+    from {
+        transform: translateX(-100vw);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slidein-right {
+    from {
+        transform: translateX(100vw);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}

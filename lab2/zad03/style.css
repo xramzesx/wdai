@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    padding: 2rem;
+    min-height: inherit;
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    gap: 1rem;
+}
+
+.card {
+    flex: 1 1 0px;
+    flex-basis: 30%;
+
+
+    max-width: 425px;
+
+    transition: width .25s ease;
+
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 0 .5rem 0 #42445a55;
+    transition: 
+        box-shadow .1s ease,
+        max-width .25s ease;
+}
+
+.card:hover {
+    box-shadow: 0 0 1rem 0 #d2756a;
+}
+
+.card picture,
+.card picture source,
+.card picture img {
+    width: 100%;
+    height: auto;
+}
+
+.card picture {
+    background-color: #d2756a;
+    aspect-ratio: auto 2 / 1;
+}
+
+.card figcaption {
+    padding: 1rem;
+}
+
+.card figcaption > p {
+    padding: 1rem 0;
+}
+
+.card .footer {
+    border-top: .1rem solid lightgray;
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card .footer button {
+    background-color: #d2756a;
+    border: none;
+    color: white;
+    padding: 1rem;
+    cursor: pointer;
+    transition: background-color .25s ease;
+}
+
+.card .footer button:hover {
+    background-color: #ea8b80;
+}
+
+.card .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .25rem;
+}
+
+.card .info > * {
+    display: flex;
+    gap: .25rem;
+}
+
+.card .icon {
+    height: 1rem;
+}
+
+@media (max-width: 1390px) {
+    .card {
+        min-width: 275px ;    
+        max-width: 350px;
+    }
+}
+
+@media (max-width: 1170px) {
+    .card {
+        max-width: 275px;
+    }
+}
+
+@media (max-width: 650px) {
+    .card {
+        min-width: 300px;
+        width: 100vw;
+        max-width: 100%;
+    }
+}

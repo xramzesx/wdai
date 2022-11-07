@@ -1,0 +1,78 @@
+body:has(input[value="pony"]:checked) {
+    --font-family: cursive;
+    --text-color: #b10267;
+    --body-background: #ee458e;
+    --main-background: #f4b6d2;
+  }
+  body:has(input[value="wine"]:checked),
+  body:has(input[value="wine"]:hover):hover
+   {
+    --font-family: avenir, helvetica;
+    --text-color: white;
+    --body-background: black;
+    --main-background: brown;
+  }
+  body:has(input[value="molly"]:checked),
+  body:has(input[value="molly"]:hover):hover {
+    --font-family: helvetica;
+    --text-color: white;
+    --body-background: #6c3;
+    --main-background: #09c;
+  }
+  body:has(input[value="zeldman"]:checked),
+  body:has(input[value="zeldman"]:hover)
+   {
+    --font-family: georgia;
+    --text-color: black;
+    --body-background: #c30;
+    --main-background: #f60;
+  }
+  body { 
+    background-color: var(--body-background); 
+  }
+  main {
+    color: var(--text-color);
+    background-color: var(--main-background);
+    padding: 2rem;
+    height: 80vh;
+    font-family: var(--font-family);
+  }
+  h1 {
+    margin: 0;
+    font-weight: 400;
+    font-size: 2.4rem;
+  }
+  
+  
+  /* Warning message about support for :has() */
+  
+  @supports selector(:has(img)) {
+    body small {
+      display: none;
+    }
+  }
+  small {
+    background: red;
+    color: white;
+    padding: 1rem;
+    display: block;
+    font-family: Helvetica;
+    font-weight: 600;
+    font-size: 1rem;
+    max-width: max-content;
+    margin-bottom: 2rem;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+  }
+  small code {
+    font-family: courier;
+    font-size: 1.2rem;
+    background: rgba(255, 255, 255, 0.33);
+  }
+  small a {
+    color: white;
+  }
+  small a:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }

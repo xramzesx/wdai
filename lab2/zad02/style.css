@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.box {
+    display: flex;
+    min-height: 10rem;
+    border: .25rem solid lightseagreen;
+    padding: 1rem
+}
+
+.box > div {
+    padding: 1rem;
+    border: .1rem solid lightslategray;
+    background-color: lightskyblue;
+    border-radius: .25rem;
+}
+
+.box > div:nth-child(1) {
+    align-self: stretch;
+}
+
+.box > div:nth-child(2),
+.box > div:nth-child(4) {
+    align-self: flex-start;
+}
+
+.box > div:nth-child(3) {
+    align-self: center;
+}
+
+@media (max-width: 400px) {
+    .box {
+        flex-direction: column;
+
+    }
+    
+}

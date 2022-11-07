@@ -1,0 +1,283 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+
+:root {
+    --fg-color : rgb(31, 116, 158);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+
+    background-image: url("bg.jpg");
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    font-family: 'Lato', Arial, Helvetica, sans-serif;
+}
+
+.container {
+    min-height: inherit;
+    background-color: #0af6;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    justify-content: center;
+    background-color: rgb(31, 116, 158);    
+}
+
+header > nav {
+    width: 100vw;
+    max-width: 1140px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+header nav > * {
+    flex: 1;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    /* color: #ddf; */
+    color: white;
+    padding: 0 .25rem;
+}
+
+.logo__content {
+    background-color: rgb(23, 101, 140);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    clip-path: polygon(2.5% 0, 100% 0, 97.5% 100%, 0 100%);
+}
+
+.logo .logo__brand {
+    font-weight: 900;
+    margin-right: .75rem;
+}
+
+.logo .logo__name {
+    /* font-weight: 600; */
+}
+
+nav > * {
+    background-color: rgb(31, 116, 158);    
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: flex-start;
+}
+
+.route {
+    text-decoration: none;
+    padding: 1rem;
+    font-weight: 600;
+    color: #ddf;
+    text-transform: uppercase;
+    transition: 
+        background-color .1s ease,
+        color .1s ease;
+}
+
+.route:hover {
+    background-color: rgb(23, 101, 140);
+    color: white !important;
+}
+
+.submenu {
+    position: relative;
+    display: flex;
+}
+
+.submenu__content {
+    position: absolute;
+    width: 150px;
+    /* visibility: hidden; */
+    pointer-events: none;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    top: 100%;
+    transform: translateY(-1rem);
+    transition: opacity .25s ease, transform .25s ease;
+    background-color: white;
+    z-index: -100;
+}
+
+.triangle {
+    background-color: white;
+    width: 1rem;
+    height: .75rem;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%) rotateX(180deg) translateY(.25rem) scale(.75);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    opacity: 0.5;
+    transition: opacity .25s ease, transform .25s ease;
+}
+
+.submenu:hover .submenu__content {
+    visibility:visible;
+    pointer-events: all;
+    opacity: 1;
+    transform: none;
+}
+
+.submenu:hover .triangle {
+    opacity: 1;
+    transform: translateX(-50%);
+}
+
+.submenu__content .route {
+    color: #aad;
+}
+
+.account {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .5rem;
+    padding: 0 .25rem;
+}
+
+.account .submenu {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.account .submenu__content {
+    right: -.25rem;
+}
+
+.account-icon {
+    height: 2rem;
+    display: none;
+    cursor: pointer;
+    color: white;
+    filter: 
+        brightness(0)
+        invert(100%);
+
+    opacity: .6;
+
+    transition: opacity .5s ease;
+}
+
+
+.submenu:hover .account-icon {
+    opacity: 1;
+
+}
+
+.account > button {
+    padding: .5rem 1.5rem;
+    border-radius: 10rem;
+    background-color: #ddf;
+    border: .25rem solid #ddf;
+    color: var(--fg-color);
+    font-weight: 900;
+    cursor: pointer;
+    transition: 
+        background-color .1s ease, 
+        border-color .1s ease, 
+        color .1s ease;
+}
+
+.account > button:hover {
+    background-color: white;
+    border-color: white;
+    color: var(--fg-color);
+}
+
+.account > .login {
+    background-color: #fff0;
+    color: #ddf;
+}
+
+.account > .signup {
+
+}
+
+
+.short {
+    display: none;
+}
+
+.short .logo__brand {
+    margin-right: .1rem;
+}
+
+.account .submenu button {
+    border: none;
+    cursor: pointer;
+}
+
+@media (max-width: 870px) {
+    .logo__content {
+        display: none;
+    }
+    .short {
+        display: flex;
+    }
+
+    .account > button {
+        display: none;
+    }
+    .account .account-icon {
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        display: none;
+    }
+}
+
+@media (max-width: 390px ) {
+    .menu > .route,
+    .menu > * > .route {
+        padding: 1rem .5rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    .menu > * {
+        flex: 1;
+        width: 100%;
+    }
+
+    .menu {
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .account {
+        flex: initial;
+        width: 52px !important;
+        padding-right: .5rem;
+    }
+}

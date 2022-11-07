@@ -1,0 +1,462 @@
+@font-face {
+    font-family: Wahyu and Sani;
+    src: url(fonts/Wahyu\ and\ Sani\ Co.\ -\ Genera\ SemiBold.ttf);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Wahyu and Sani;
+    src: url(fonts/Wahyu\ and\ Sani\ Co.\ -\ Genera\ Alt\ Light.ttf);
+    font-weight: normal;
+}
+
+:root {
+    /* COLOR VARIABLES */
+    --image-filter-blue:hue-rotate(0deg);
+    --image-filter-red:hue-rotate(140deg) saturate(200%);
+    --image-filter-green:hue-rotate(240deg) saturate(200%);
+    --image-filter-pink:hue-rotate(90deg) saturate(200%);
+    --image-filter-black:hue-rotate(0deg) saturate(0%);
+
+    --colored-bg: #3030ff;
+    --fg: #36332F;
+
+    --image-filter-checked : --image-filter-blue;
+    --image-filter-hover : --image-filter-blue;
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Wahyu and Sani;
+}
+
+.container {
+    min-height: inherit;
+    background-color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+section.card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+
+
+/* CARD IMAGE */
+
+section.card .image {
+    position: relative;
+    width: 450px;
+    height: 450px;
+    display: flex;
+    justify-content: space-between;
+
+    background: linear-gradient(45deg, rgba(13,9,88,1) 0%, rgba(9,9,121,1) 22%, rgba(0,212,255,1) 100%);
+
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1;
+
+    box-shadow: 0 0 1rem 0 rgba(123, 123, 123, 0.589);
+    user-select: none;
+}
+
+.filter {
+    filter: var(--image-filter-checked);
+    transition: filter .25s ease;
+}
+
+/* section.card:has( .color.radio label:hover ) .image, */
+section.card:has( .color.radio label:hover ) .filter
+{
+    filter: var(--image-filter-hover) !important;
+}
+
+section.card .image .shoe {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.3) rotate(-15deg) translate(-3.5rem, 1rem);
+    z-index: 1;
+    transition: transform .25s ease;
+    pointer-events: none;
+    user-select: none;
+}
+
+section.card .image:hover .shoe {
+    transform: translate(-50%, -50%) scale(1.3) rotate(-10deg) translate(-3.5rem, 1rem) scale(1.025);
+}
+
+section.card .image .banner {
+    display: flex;
+    padding: 1.5rem;
+    width: 100%;
+    height: auto;
+
+    justify-content: space-between;
+}
+
+section.card .image .logo {
+    filter: invert(1);
+    height: 2rem;
+    width: auto;
+}
+
+section.card .image .share {
+    padding: .75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    border: none;
+    
+    cursor: pointer;
+    filter: saturate(150%);
+    
+    opacity: .9;
+    box-shadow: 0 0 1rem 0 rgba(0,0,0, 0.25);
+
+    transition: 
+        opacity .25s ease,
+        box-shadow .25s ease,
+        transform .1s ease;
+}
+
+section.card .image .share:hover {
+    box-shadow: 0 0 1.5rem 0 rgba(0,0,0, 0.5);
+    opacity: 1;
+}
+
+section.card .image .text-logo {
+    align-self: center;
+    color: white;
+    justify-self: flex-start;
+    flex: 1;
+    font-size: 10rem;
+    font-weight: 900;
+    opacity: .25;
+    user-select: none;
+    pointer-events: none;
+}
+
+
+/* CARD DETAILS */
+
+section.card .details {
+    max-width: 400px;
+    background-color: white;
+    padding: 2rem;
+    box-shadow: 0 0 1rem 0 rgba(123, 123, 123, 0.589);
+    z-index: 2;
+}
+
+section.card .details h1 {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    color: var(--fg);
+}
+
+.label {
+    font-size: .5em;
+    padding: .35em;
+    background-color: var(--colored-bg);
+    color: white;
+    border-radius: .25em;
+}
+
+section.card hr {
+    margin: .5rem 0;
+    border-color: #eee;
+    background-color: #eee;
+    border-style: solid;
+}
+
+section.card .details h2 {
+    color: #888;
+    font-size: 1rem;
+    margin: .25rem 0;
+    font-weight: 600;
+}
+
+section.card .details h3 {
+    text-transform: uppercase;
+    color: var(--fg);
+}
+
+section.card .details p {
+    margin-top: .25rem;
+}
+
+.radio input {
+    display: none;
+}
+
+.colors, .sizes {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem
+}
+
+.color.radio label {
+    background-color: white;
+    display: block;
+
+    height: 1.5rem;
+    width: 1.5rem;
+
+    border-radius: 1rem;
+    /* border: 2px solid black; */
+    cursor: pointer;
+    background-color: white;
+
+    border: 0 solid green;
+    position: relative;
+
+    transition: 
+        box-shadow .25s ease,
+        transform .1s ease;
+}
+
+.color.radio label::before {
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+    /* border: 2px solid black; */
+    
+    position: absolute;
+    
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 1rem;
+    background-color: #3030ff;
+
+    filter: var(--radio-filter);
+    transition: transform .25s ease;
+}
+
+.color.radio input:checked ~ label,
+.color.radio input:hover ~ label {
+    box-shadow: 0 0 .5rem 0 rgba(123, 123, 123, 0.589);
+}
+
+
+.color.radio label:hover:before {
+    transform: scale(.85);
+}
+
+.color.radio input:checked ~ label::before {
+    transform: scale(.75);
+}
+
+.size.radio label {
+    background-color: #eee;
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: .25rem;
+    cursor: pointer;
+
+    font-weight: 600;
+    color: var(--fg);
+    
+    transition: 
+        background-color .25s ease,
+        color .25s ease,
+        transform .1s ease;
+}
+
+.size.radio input:checked ~ label,
+.size.radio input:hover ~ label {
+    background-color: var(--colored-bg);
+    color: white;
+}
+
+.summary {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button.buy {
+    border: none;
+    background-color: var(--colored-bg);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .75rem;
+    text-transform: uppercase;
+    color: white;
+    gap: .25rem;
+    cursor: pointer;
+    border-radius: .5rem;
+    transition: 
+        background-color .25s ease,
+        transform .1s ease;
+}
+
+button.buy:hover, button.buy:active {
+    background-color: #0a0aaa;
+}
+
+
+label:active,
+button.share:active,
+button.buy:active {
+    transform: scale(.9);
+}
+
+button.buy img {
+    filter: brightness(0) invert(1);
+    height: 1rem;
+}
+
+.summary .price {
+    font-weight: 900;
+    font-size: 2rem;
+    color: var(--fg);
+    display: flex;
+}
+
+.summary .price .sup{
+    font-size: .7em;
+    padding-top: .15em;
+}
+
+/* RADIO COLOR PROPS */
+
+/* BASE RADIO COLORS */
+
+.color.radio {
+    cursor: pointer;
+}
+
+
+label[for="color-blue"] {
+    --radio-filter : var(--image-filter-blue);
+}
+
+label[for="color-red"] {
+    --radio-filter : var(--image-filter-red);
+}
+
+label[for="color-green"] {
+    --radio-filter : var(--image-filter-green);
+}
+
+label[for="color-pink"] {
+    --radio-filter : var(--image-filter-pink);
+}
+
+label[for="color-black"] {
+    --radio-filter : var(--image-filter-black);
+}
+
+
+/* HOVERS */
+
+section.card:has( input#color-blue+label:hover ):hover {
+    --image-filter-hover: var(--image-filter-blue);
+}
+
+section.card:has(input#color-red+label:hover ):hover {
+    --image-filter-hover: var(--image-filter-red)
+}
+
+section.card:has(input#color-green+label:hover ):hover {
+    --image-filter-hover: var(--image-filter-green)
+}
+
+section.card:has(input#color-pink+label:hover ):hover {
+    --image-filter-hover: var(--image-filter-pink)
+}
+
+section.card:has(input#color-black+label:hover ):hover {
+    --image-filter-hover: var(--image-filter-black);
+}
+
+/* CHECKS */
+
+section.card:has( input#color-blue:checked ) {
+    --image-filter-checked : var(--image-filter-blue)
+}
+
+section.card:has( input#color-red:checked ) {
+    --image-filter-checked : var(--image-filter-red)
+}
+
+section.card:has( input#color-green:checked ) {
+    --image-filter-checked : var(--image-filter-green);
+}
+
+section.card:has( input#color-pink:checked ) {
+    --image-filter-checked : var(--image-filter-pink)
+}
+
+section.card:has( input#color-black:checked ) {
+    --image-filter-checked : var(--image-filter-black)
+}
+
+@media (max-width: 935px) {
+    section.card {
+        flex-direction: column;
+        box-shadow: 0 0 .5rem 0 rgba(123, 123, 123, 0.589);
+    }
+
+    section.card .image,
+    section.card .details {
+        max-width: 450px;
+        box-shadow: none;
+        width: 100%;
+    }
+
+    section.card .image .shoe {
+        transform: translate(-50%, -50%) translate(-2rem, 1rem) rotateZ(-5deg);
+    }
+
+    section.card .image:hover .shoe {
+        transform: translate(-50%, -50%) translate(-2rem, 1rem) rotateZ(-10deg) scale(1.05);
+    }
+
+    section.card .image .banner {
+        padding-bottom: 0;
+    }
+
+    section.card .image .text-logo {
+        padding-bottom: 1rem;
+        transform: translateY(-1.5rem);
+    }
+}
+
+@media (max-width: 450px) {
+    section.card .image,
+    section.card .details{
+        max-width: 100%;
+        width: 100%;
+    }
+}
