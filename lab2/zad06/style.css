@@ -19,6 +19,7 @@ body {
 
 .container {
     min-height: inherit;
+    overflow-x: hidden;
 }
 
 header {
@@ -26,11 +27,13 @@ header {
     background: linear-gradient(180deg, rgba(153,152,122,1) 0%,  rgba(255,255,255,0) 80%);
     display: flex;
     justify-content: center;
+    /* overflow: hidden; */
 }
 
 header > nav {
     height: 3rem;
     display: flex;
+    /* overflow: hidden; */
     
     width: 100vw;
     max-width: 1140px;
@@ -53,10 +56,12 @@ header > nav {
 
     font-weight: 600;
     text-transform: uppercase;
+
 }
 
 .menu .desktop {
     padding-right: .5rem;
+    transition: transform .25s ease;
 }
 
 .menu .item {
@@ -79,7 +84,16 @@ header > nav {
 /* HAMBURGER MENU */
 
 .menu .mobile {
-    display: none;
+    pointer-events: none;
+    /* display: none; */
+    position: absolute;
+    /* transform: scale(0); */
+    opacity: 0;
+    right: 0;
+    bottom: 0;
+    transition: 
+        transform .25s ease,
+        opacity .25s ease;
 }
 
 input#hamburger {
@@ -202,17 +216,21 @@ input#hamburger:checked ~ .hamburger-icon .line {
     right: 0;
     left: 0;
     bottom: 0;
-
     padding-top: 3.5rem;
+    background-color: white;
     
     clip-path: circle(0% at calc(100% - 2rem) 1.75rem );
     
-    display: flex;
-    flex-direction: column;
     z-index: 8;
 
     transition: clip-path .25s ease-out;
     transition-delay: .1s;
+}
+.menu .mobile .submenu-container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 100%;
 }
 
 .menu .mobile .submenu::before,
@@ -223,7 +241,9 @@ input#hamburger:checked ~ .hamburger-icon .line {
     right: 0;
     left: 0;
     bottom: 0;
-
+    height: 200%;
+    max-height: 100%;
+    /* min-height: 200%; */
     padding-top: 3rem;
     z-index: -10;
     clip-path: circle(0% at calc(100% - 2rem) 1.75rem );
@@ -270,11 +290,15 @@ input#hamburger:checked ~ .submenu::after {
 
 @media (max-width: 800px) {
     .menu .desktop {
-        display: none;
+        /* display: none; */
+        transform: translateY(-50vh);
     }
 
     .menu .mobile {
         display: flex;
+        transform: none;
+        opacity: 1;
+        pointer-events: all;
     }
 }
 
