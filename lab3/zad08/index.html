@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="finish">
+        <h1>Hurra!</h1>
+        <button class="reset">Reset</button>
+    </div>
+    <div class="container">
+        <form onsubmit="return false">
+            <div class="input-container">
+                <label for="password">New Password</label>
+                <div class="input">
+                    <input type="password" name="password" id="password">
+                    <button type="button" class="visibility">
+                        <img src="icons/eye-closed.svg">
+                    </button>
+                </div>
+            </div>
+            <div class="input-container">
+                <label for="repeat-password">Repeat new password</label>
+                <div class="input">
+                    <input type="password" name="repeat-password" id="repeat-password">
+                    <button type="button" class="visibility">
+                        <img src="icons/eye-closed.svg">
+                    </button>
+                </div>
+            </div>
+            <div class="requirements">
+                <label>Password requirements</label>
+                <div class="requirements-status"></div>
+            </div>
+            <input type="submit" value="">
+        </form>
+        <div class="errorBox"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+}
+
+.container {
+    min-height: inherit;
+}
+
+
+.errorBox {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background-color: red;
+    padding: 1rem;
+    max-width: min( calc( 100vw - 2rem ), 500px);
+    color: white;
+    font-weight: 500;
+    transform: translateY(100vh);
+    transition: transform .25s ease;
+}
+
+.show {
+    transform: translate(0);
+}

@@ -1,0 +1,34 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#image {
+    transition: border .25s ease;
+}
+
+#image img {
+    width: 400px;
+    height: 450px;
+    object-fit: cover;
+    display: block;
+}
+
+.red {
+    border: .25rem solid red;
+}
+
+.blue {
+    border: .25rem solid blue;
+}
+
+.green {
+    border: .25rem solid green;
+}

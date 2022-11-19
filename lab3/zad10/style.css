@@ -1,0 +1,70 @@
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    min-height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color .15s ease;
+}
+
+.area {
+    width: 500px;
+    height: 300px;
+    border: 2px solid #0d0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: wheat;
+    position: relative;
+    cursor: pointer;
+    flex-direction: column;
+    gap: .25rem
+}
+
+.area * {
+    pointer-events: none;
+}
+
+.pointer {
+    --position-x: 0;
+    --position-y: 0;
+
+    position: absolute;
+    top: var(--position-y);
+    left: var(--position-x);
+
+    transform: translate(-50%, -50%);
+    transition: 
+        left .5s ease, 
+        top .5s ease,
+        opacity .25s ease;
+
+    padding: 2rem;
+    background-color: #d00;
+    border-radius: 3rem;
+    pointer-events: none;
+    opacity: .9;
+}
+
+.valid {
+    background-color: #0d0;
+}
+
+.invalid {
+    background-color: #500;
+}
+
+.invalid .pointer {
+    opacity: 0;
+}
