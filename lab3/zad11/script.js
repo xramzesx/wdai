@@ -182,7 +182,7 @@ const removeSubregions = () => {
 const generateSubregions = (grouped, matched) => {
     const table = document.querySelector('.container table')
 
-    for ( const [ subregion, subregionContent ] of Object.entries(grouped) ) {
+    for ( const [ subregion, subregionContent ] of Object.entries(grouped).sort() ) {
         table.append( createSubregionContainer( subregion, subregionContent, matched) )
     }
 }
@@ -191,13 +191,12 @@ const sortTable = (state, grouped) => {
     const { key, reverse } = state
     removeSubregions()
 
-    for ( let gKey in grouped ) {
-        grouped[gKey].countries.sort(sortBy( key, reverse ))
+    for ( let subregion in grouped ) {
+        grouped[subregion].countries.sort(sortBy( key, reverse ))
     }
 
     generateSubregions(grouped, prepareFilter())
 }
-
 
 //// SETUP ////
 
@@ -252,7 +251,7 @@ const setup = async () => {
                 /// do htmlowego domu
                 item: null,
                 /// do domyślnego stanu posortowania
-                defaultKey : groups[subregion].length,
+                defaultKey : groups[subregion].countries.length,
             })
 
             return groups
@@ -289,9 +288,6 @@ const setup = async () => {
                     default:
                         break;
                 }
-            
-                console.log(key)
-                console.log(states[activeStep])
             })
         }
 
