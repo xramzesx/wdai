@@ -75,7 +75,8 @@ const clearHeaders = () => {
 const createSubregionHeader = (
     name, 
     totalPopulation = 0, 
-    totalArea = 0
+    totalArea = 0,
+    subregionContent
 ) => {
     const container = document.createElement('tr')
     const subregion = document.createElement('td')
@@ -97,8 +98,20 @@ const createSubregionHeader = (
     area.innerText = numberWithSpaces( totalArea )
     area.classList.add('number')
 
+    const toggleExpanse = hide => {
+        if ( hide ) {
+            container.classList.add('hide')
+        } else {
+            container.classList.remove('hide')
+        }    
+    }
+
+    toggleExpanse(subregionContent.hide)
+
     container.addEventListener('click', event => {
-        container.classList.toggle('hide')
+        subregionContent.hide = !subregionContent.hide
+        toggleExpanse(subregionContent.hide)
+
     })
 
     return container
@@ -130,7 +143,9 @@ const createCountryItem = (country, matched) => {
     return container
 }
 
-const createSubregionContainer = (name, countries, matched = new Set() ) => {
+const createSubregionContainer = (name, subregion, matched = new Set()) => {
+    const {countries} = subregion
+
     const container = document.createElement('tbody')
     container.classList.add('subregion')
 
@@ -143,7 +158,8 @@ const createSubregionContainer = (name, countries, matched = new Set() ) => {
         countries.reduce( (subsum, {area, index} ) => 
             matched.has(index)
             ? subsum + area
-            : subsum, 0)
+            : subsum, 0),
+        subregion
     )
 
     container.append(header)
@@ -166,8 +182,8 @@ const removeSubregions = () => {
 const generateSubregions = (grouped, matched) => {
     const table = document.querySelector('.container table')
 
-    for ( const [ subregion, countries ] of Object.entries(grouped) ) {
-        table.append( createSubregionContainer(subregion, countries, matched) )
+    for ( const [ subregion, subregionContent ] of Object.entries(grouped) ) {
+        table.append( createSubregionContainer( subregion, subregionContent, matched) )
     }
 }
 
@@ -176,7 +192,7 @@ const sortTable = (state, grouped) => {
     removeSubregions()
 
     for ( let gKey in grouped ) {
-        grouped[gKey].sort(sortBy( key, reverse ))
+        grouped[gKey].countries.sort(sortBy( key, reverse ))
     }
 
     generateSubregions(grouped, prepareFilter())
@@ -220,10 +236,13 @@ const setup = async () => {
             } = country
             
             if ( groups[subregion] === undefined ) {
-                groups[subregion] = []
+                groups[subregion] = {
+                    hide: false,
+                    countries: []
+                }
             }
             
-            groups[subregion].push({
+            groups[subregion].countries.push({
                 name,
                 capital,
                 population,
