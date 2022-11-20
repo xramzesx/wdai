@@ -1,21 +1,48 @@
 //// CONFIG ////
 
-const json_url = 'http://localhost:3000/cities'
+const json_urls = [ 
+    'http://localhost:3000/cities', 
+    'https://api.npoint.io/281772ffa0f13476865d'
+]
 const tasks = []
 
 const request = async () => {
+
+    let result = new Response()
+    let currentUrl = 0
+
+    //// BACKUP CONNECTIONS ////
+
+    do {
+        try {
+            result = await fetch(json_urls[currentUrl]) 
+        } catch (e) {
+            result = {}
+        }
+    } while (
+        !result.ok && 
+        currentUrl++ < json_urls.length
+    )
+
+
     try {
-        const result = await fetch(json_url)
         if ( !result.ok )
             throw new Error( `${result.status}: ${result.statusText}` )
-        const cities = await result.json()
+            let cities = await result.json()
 
+            if ( currentUrl > 0 )
+                cities = cities.cities
+    
         for ( const task of tasks )
-            task ( cities )
+            task ( cities ).catch( e => {
+                console.warn(e)    
+                errorMessage(e.toString())
+            })
 
     } catch (e) {
         errorMessage(e.toString())
     }
+
 }
 
 request()

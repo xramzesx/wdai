@@ -10,6 +10,39 @@
 </head>
 <body>
     <div class="container">
+        <div class="filters-container">
+            <h1>Countries</h1>
+            <div class="filters">
+                <div class="filter name-filter">
+                    <h4>Search name</h4>
+                    <input type="text" name="name" id="name-f">
+                </div>
+                <div class="filter capital-filter">
+                    <h4>Capital</h4>
+                    <input type="text" name="capital" id="capital-f">
+                </div>
+                <div class="filter population-filter">
+                    <h4>Population</h4>
+                    <input type="number" name="population-from" id="population-from" placeholder="from" min="0">
+                    <input type="number" name="population-to" id="population-to" placeholder="to" min="0">
+                </div>
+                <div class="filter area-filter">
+                    <h4>Area</h4>
+                    <input type="number" name="area-from" id="area-from" placeholder="from" min="0">
+                    <input type="number" name="area-to" id="area-to" placeholder="to" min="0">
+                </div>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th id="name">Name</th>
+                    <th id="capital">Capital</th>
+                    <th id="population">Population</th>
+                    <th id="area">Area</th>
+                </tr>
+            </thead>
+        </table>
         <div class="errorBox"></div>
     </div>
 </body>

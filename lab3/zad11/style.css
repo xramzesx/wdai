@@ -6,12 +6,50 @@
 
 body {
     min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .container {
     min-height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
 }
 
+.filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.filters-container > h1 {
+    text-align: center;
+}
+
+.filters input {
+    padding: .5rem;
+}
+
+.filter {
+    display: grid;
+    gap: 1rem;
+}
+
+.population-filter h4,
+.area-filter h4 {
+    grid-column: 1 / 3;
+}
+
+.filter input {
+    width: 100%;
+}
+
+.population-filter,
+.area-filter {
+    grid-column: 1 / 3;
+}
 
 .errorBox {
     position: fixed;
@@ -28,4 +66,103 @@ body {
 
 .show {
     transform: translate(0);
+}
+
+.container table {
+    width: 100%;
+    padding: 1rem;
+    border-spacing: 0rem;
+    max-width: 1024px;
+    position: relative;
+    table-layout: fixed;
+}
+
+.container table thead {
+    position: sticky;
+    top: 0;
+}
+
+.container table thead th {
+    background-color: rgb(255, 249, 238);
+    cursor: pointer;
+    user-select: none;
+}
+
+.container table thead th:hover {
+    background-color: rgb(253, 241, 220);
+}
+
+.container table thead th:active {
+    background-color: rgb(197, 188, 171);
+}
+
+.container tbody tr:nth-child(even) {
+    background-color: rgb(248, 241, 227);
+}
+
+.container table td,
+.container table th {
+    padding: 1rem;
+    min-width: 200px;
+}
+
+.subregion .subregion__item > *{
+    transition: 
+        transform .25s ease,
+        padding .25s ease,
+        font-size .25s ease
+    ;
+}
+
+.subregion:has( .hide ) .subregion__item > * {
+    /* height: 0; */
+    max-height: 0;
+    font-size: 0;
+    padding: 0;
+    margin: 0;
+    /* display: none; */
+}
+
+.subregion__header {
+    background-color: rgb(170, 153, 122);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    position: relative
+}
+
+.subregion__header > .header-cell {
+    padding-left: 2.5rem;
+}
+
+.subregion__header td::before {
+    content: "";
+    position: absolute;
+
+    /* background-color: white; */
+    width: 1rem;
+    height: 1rem;
+    left: 1rem;
+    top: 50%;
+    background: url('icon/chevron.svg');
+    background-position: center;
+
+    filter: brightness(0) invert(1);
+    transform: translateY(-50%) rotate(180deg);
+    transition: transform .25s ease;
+
+    border-radius: 2rem;
+    padding: .5rem;
+}
+
+.subregion__header.hide td::before {
+    transform: translateY(-50%) rotate(0);
+}
+
+.number {
+    text-align: right;
+}
+
+.subregion__item.hide {
+    display: none;
 }

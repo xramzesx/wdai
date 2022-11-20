@@ -159,6 +159,8 @@ function prepareInput ( input ) {
     let visible = false
 
     visibilityButton.addEventListener('click', event => {
+        visible = !visible
+
         if ( visible ) {
             input.type = 'text'
             icon.src = paths.eyeOpen
@@ -167,7 +169,6 @@ function prepareInput ( input ) {
             input.type = 'password'
             icon.src = paths.eyeClosed
         }
-        visible = !visible
     })
 } 
 
