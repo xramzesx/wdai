@@ -1,7 +1,7 @@
 //// DATA ////
 
 const defaultKey = "defaultKey"
-const defaults = new Set( [defaultKey, 'index']) 
+const defaults = new Set( [defaultKey, 'index', 'item']) 
 
 const json_url = 'https://restcountries.com/v3.1/all'
 const tableHeaders = [
@@ -11,10 +11,17 @@ const tableHeaders = [
     "area"
 ]
 
+const steps = {
+    default: 0,
+    ascending: 1,
+    descending: 2
+}
+
 //// CONTROLS ////
 
 let activeKey = defaultKey
 let activeStep = 0
+let countries = []
 
 //// UTILS ////
 
@@ -28,24 +35,42 @@ const errorMessage = message => {
     }
 }
 
-const filterResults = (countries, filters) => {
-
-}
-
 const sortBy = (field, reverse) => {
     reverse = !reverse ? 1 : -1
     
     const key = x => x[field]
 
-    return (a, b) => 
-        a = key(a), 
-        b = key(b), 
-        reverse * ( (a > b) - (b > a) )
+    return (a, b) => {
+        a = key(a) 
+        b = key(b) 
+        return reverse * ( (a > b) - (b > a) )
+    }
 } 
 
 const numberWithSpaces = number => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
+//// FILTERS ////
+
+const intersections = (setA, setB) => new Set(
+    [...setA].filter(setB.has(x))
+)
+
+const prepareFilter = () => {
+    const result = new Set([...Array(countries.length).keys()])
+
+    return result
+}
+
 //// DOM ELEMENTS ////
+
+const clearHeaders = () => {
+    const headers = document.querySelectorAll('.container table thead th')
+
+    for ( const header of headers ) {
+        header.classList.remove('sort-asc')
+        header.classList.remove('sort-desc')
+    }
+}
 
 const createSubregionHeader = (
     name, 
@@ -79,12 +104,11 @@ const createSubregionHeader = (
     return container
 }
 
-const createCountryItem = country => {
+const createCountryItem = (country, matched) => {
     const container = document.createElement('tr') 
     container.classList.add('subregion__item')
 
-    for ( let key in country ) {
-        if ( defaults.has( key ) ) continue
+    for ( const key of tableHeaders ) {
         const cell = document.createElement('td')
         
         if (typeof country[key] == 'number') {
@@ -96,22 +120,36 @@ const createCountryItem = country => {
         container.append(cell)
     }
 
+    country.item = container
+
+    if ( !matched.has(country.index) )
+        container.classList.add('hide')
+    else 
+        container.classList.remove('hide')
+
     return container
 }
 
-const createSubregionContainer = (name, countries) => {
+const createSubregionContainer = (name, countries, matched = new Set() ) => {
     const container = document.createElement('tbody')
     container.classList.add('subregion')
 
     const header = createSubregionHeader(
         name,
-        countries.reduce( (subsum, {population} ) => subsum + population, 0),
-        countries.reduce( (subsum, {area} ) => subsum + area, 0)
+        countries.reduce( (subsum, {population, index} ) => 
+            matched.has(index)
+            ? subsum + population
+            : subsum, 0),
+        countries.reduce( (subsum, {area, index} ) => 
+            matched.has(index)
+            ? subsum + area
+            : subsum, 0)
     )
+
     container.append(header)
 
     for ( const country of countries ) {
-        container.append( createCountryItem(country) )
+        container.append( createCountryItem(country, matched) )
     }
 
     return container
@@ -125,19 +163,24 @@ const removeSubregions = () => {
         subregion.remove()
 }
 
-const generateSubregions = grouped => {
+const generateSubregions = (grouped, matched) => {
     const table = document.querySelector('.container table')
 
     for ( const [ subregion, countries ] of Object.entries(grouped) ) {
-        table.append( createSubregionContainer(subregion, countries) )
+        table.append( createSubregionContainer(subregion, countries, matched) )
     }
 }
 
-const sortTable = state => {
+const sortTable = (state, grouped) => {
     const { key, reverse } = state
     removeSubregions()
-}
 
+    for ( let gKey in grouped ) {
+        grouped[gKey].sort(sortBy( key, reverse ))
+    }
+
+    generateSubregions(grouped, prepareFilter())
+}
 
 
 //// SETUP ////
@@ -145,7 +188,7 @@ const sortTable = state => {
 const setup = async () => {
     try {
         const response = await fetch(json_url)
-        const countries = await response.json()
+              countries = await response.json()
 
         if ( !response.ok )
             throw new Error( `${response.status}: ${response.statusText}` )
@@ -185,8 +228,11 @@ const setup = async () => {
                 capital,
                 population,
                 area,
+                /// index w tablicy preparedCountries
                 index,
+                /// do htmlowego domu
                 item: null,
+                /// do domyślnego stanu posortowania
                 defaultKey : groups[subregion].length,
             })
 
@@ -204,21 +250,35 @@ const setup = async () => {
             ]
             column.addEventListener('click', () => {
                 if ( activeKey !== key ) {
-                    // clearHeaders()
                     activeStep = 0
                 }
-
+                
                 activeStep = (activeStep + 1) % states.length
                 activeKey = states[activeStep].key
-
-                sortTable( states[activeStep] )
-
+                
+                sortTable( states[activeStep], grouped)
+                
+                clearHeaders()
+                
+                switch (activeStep) {
+                    case steps.ascending:
+                        column.classList.add('sort-asc')
+                        break;
+                    case steps.descending:
+                        column.classList.add('sort-desc')
+                        break
+                    default:
+                        break;
+                }
+            
                 console.log(key)
                 console.log(states[activeStep])
             })
         }
 
-        generateSubregions( grouped )
+        /// DEFAULT GENERATION ////
+
+        generateSubregions( grouped, prepareFilter() )
     } catch (e) {
         errorMessage(e.toString())
     }

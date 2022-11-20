@@ -86,6 +86,8 @@ body {
     background-color: rgb(255, 249, 238);
     cursor: pointer;
     user-select: none;
+    position: relative;
+    transition: background-color .25s ease;
 }
 
 .container table thead th:hover {
@@ -135,7 +137,9 @@ body {
     padding-left: 2.5rem;
 }
 
-.subregion__header td::before {
+.sort-asc::before,
+.sort-desc::before,
+.subregion__header td::before{
     content: "";
     position: absolute;
 
@@ -144,15 +148,28 @@ body {
     height: 1rem;
     left: 1rem;
     top: 50%;
+
     background: url('icon/chevron.svg');
     background-position: center;
-
-    filter: brightness(0) invert(1);
-    transform: translateY(-50%) rotate(180deg);
     transition: transform .25s ease;
 
-    border-radius: 2rem;
-    padding: .5rem;
+    filter: brightness(0);
+}
+
+.sort-asc::before {
+    transform: translateY( -50% );
+}
+.sort-desc::before {
+    transform: translateY( -50% ) rotateZ(180deg);
+}
+
+.sort-asc,
+.sort-desc {
+}
+
+.subregion__header td::before {
+    filter: brightness(0) invert(1);
+    transform: translateY(-50%) rotate(180deg);
 }
 
 .subregion__header.hide td::before {
