@@ -22,8 +22,80 @@ const steps = {
 let activeKey = defaultKey
 let activeStep = 0
 let countries = []
+let grouped = {}
+
+/// SETS ///
+
+const filters = {
+    general : {
+        set: new Set(),
+        validate : (country) => {
+            const pattern = 
+                document
+                    .querySelector("#general-f")
+                    .value
+                    .toLowerCase()
+            
+            if (!pattern) return true
+
+            for (let key in country)
+                if ( 
+                    country[key]
+                        .toString()
+                        .toLowerCase()
+                        .includes(pattern)
+                ) return true
+            return false
+        }
+    },
+    name : {
+        set: new Set(),
+        validate : ({name}) => {
+            const pattern = 
+                document
+                    .querySelector("#name-f")
+                    .value
+                    .toLowerCase()
+            if (!pattern) return true
+            
+            return name.toLowerCase().includes(pattern)
+        }
+    },
+    capital : {
+        set: new Set(),
+        validate : ({capital}) => {
+            const pattern = 
+                document
+                    .querySelector("#capital-f")
+                    .value
+                    .toLowerCase()
+            if (!pattern) return true
+            return capital.toLowerCase().includes(pattern)
+        }
+    },
+    population : {
+        set: new Set(),
+        validate : ({population}) => {
+            const from = +document.querySelector('#population-from').value || 0
+            const to = +document.querySelector('#population-to').value || Infinity
+            console.log(from, to)
+            return from <= population && population <= to}
+    },
+    area : {
+        set: new Set(),
+        validate : ({area}) => {
+            const from = +document.querySelector('#area-from').value || 0
+            const to = +document.querySelector('#area-to').value || Infinity
+            console.log(from, to)
+            
+            return from <= area && area <= to
+        }
+    },
+}
 
 //// UTILS ////
+
+const generateSet = () => new Set([...Array(countries.length).keys()])
 
 const errorMessage = message => {
     const errorBox = document.querySelector('.errorBox')
@@ -52,14 +124,33 @@ const numberWithSpaces = number => number.toString().replace(/\B(?=(\d{3})+(?!\d
 //// FILTERS ////
 
 const intersections = (setA, setB) => new Set(
-    [...setA].filter(setB.has(x))
+    [...setA].filter(x => setB.has(x))
 )
 
 const prepareFilter = () => {
-    const result = new Set([...Array(countries.length).keys()])
+    let result = new Set([...Array(countries.length).keys()])
+
+    for ( let key in filters ) {
+        result = intersections(result, filters[key].set)        
+    }
 
     return result
 }
+
+const triggerFilter = name => {
+    return () => {
+        const {validate} = filters[name]
+        filters[name].set = countries.reduce( (set, country, index) => {
+            if ( validate( country ) )
+                set.add(index)
+            return set
+        }, new Set())
+
+        removeSubregions()
+        generateSubregions(grouped, prepareFilter())
+    }
+}
+
 
 //// DOM ELEMENTS ////
 
@@ -167,6 +258,11 @@ const createSubregionContainer = (name, subregion, matched = new Set()) => {
     for ( const country of countries ) {
         container.append( createCountryItem(country, matched) )
     }
+      
+    if ( !countries.reduce( (containsMatches, {index}) => containsMatches || matched.has(index), false) )
+        container.classList.add('hide')
+    else
+        container.classList.remove('hide')
 
     return container
 }
@@ -210,7 +306,7 @@ const setup = async () => {
              
         //// DATA PREPARATION ////    
         
-        const preparedCountries = countries.map( country => {
+        countries = countries.map( country => {
             const { 
                 name : { common },
                 capital, 
@@ -229,7 +325,7 @@ const setup = async () => {
             }
         } )
 
-        const grouped = preparedCountries.reduce( (groups, country, index) => {            
+        grouped = countries.reduce( (groups, country, index) => {            
             const {
                 name, capital, population, area, subregion
             } = country
@@ -246,7 +342,7 @@ const setup = async () => {
                 capital,
                 population,
                 area,
-                /// index w tablicy preparedCountries
+                /// index w tablicy countries
                 index,
                 /// do htmlowego domu
                 item: null,
@@ -293,6 +389,9 @@ const setup = async () => {
 
         /// DEFAULT GENERATION ////
 
+        for (let key in filters)
+            filters[key].set = generateSet()
+
         generateSubregions( grouped, prepareFilter() )
     } catch (e) {
         errorMessage(e.toString())
@@ -301,3 +400,27 @@ const setup = async () => {
 
 setup()
 
+//// LISTENERS ////
+
+const generalInput = document.querySelector('#general-f')
+const nameInput = document.querySelector('#name-f')
+const capitalInput = document.querySelector('#capital-f')
+
+const populationFromInput = document.querySelector('#population-from')
+const populationToInput = document.querySelector('#population-to')
+
+const areaFromInput = document.querySelector('#area-from')
+const areaToInput = document.querySelector('#area-to')
+
+
+
+
+generalInput.addEventListener('input', triggerFilter('general'))
+nameInput.addEventListener('input', triggerFilter('name'))
+capitalInput.addEventListener('input', triggerFilter('capital'))
+
+populationFromInput.addEventListener('input', triggerFilter('population'))
+populationToInput.addEventListener('input', triggerFilter('population'))
+
+areaFromInput.addEventListener('input', triggerFilter('area'))
+areaToInput.addEventListener('input', triggerFilter('area'))
