@@ -1,0 +1,111 @@
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.container {
+    min-height: inherit;
+    position: relative;
+    background: url('images/board-bg.jpg');
+    background-position: center;
+    display: flex;
+}
+
+.points {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    color: white;
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+.game {
+    position: relative;
+    min-height: inherit;
+    width: 100%;
+    overflow: hidden;
+    cursor: crosshair;
+}
+
+.zombie {
+    --position-x: 0;
+    --position-y: 0;
+    --scale : 1;
+
+    position: absolute;
+
+    left: var(--position-x);
+    top: var(--position-y);
+
+    transform: scale( var(--scale) );
+}
+
+.overlay {
+    position: fixed;
+    top : 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    color: white;
+
+    background-color: #000a;
+
+    transform: translateY(-100vh) scale(0);
+    transition: 
+        transform .25s ease,
+        opacity .25s ease;
+    pointer-events: none;
+    
+}
+
+.show {
+    pointer-events: all;
+    transform: translate(0 ,0);
+}
+
+.overlay .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem
+}
+
+.overlay button {
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    background-color: transparent;
+    color: #fffa;
+    border: .25rem solid #fffa;
+    cursor: pointer;
+    transition: 
+        border .25s ease,
+        color .25s ease,
+        background-color .25s ease,
+        transform .25s ease;
+}
+
+.overlay button:hover {
+    color: black;
+    border: .25rem solid white;
+    background-color: white;
+}
+
+.overlay button:active {
+    color: black;
+    border: .25rem solid orange;
+    background-color: orange;
+    transform: scale(.9);
+}

@@ -205,7 +205,6 @@ const refreshPagination = () => {
     for ( let i = 0; i < matchedPagesLen; i++)
         buttons[i].classList.remove('hide')
     
-    console.log(buttons, activePage)
     if (buttons.length)
         buttons[activePage].classList.add('active')
     
@@ -228,7 +227,6 @@ const generatePagination = () => {
         else 
             activePage = Math.max( activePage + difference, 0)
         
-        console.log(activePage, activePage + difference, matchedPagesLen > activePage + difference)
         refreshTable()
     }
 
