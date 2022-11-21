@@ -56,17 +56,19 @@ section.business-cards > h1::before {
     background-color: transparent;
     border: none; 
     padding: 2rem;
-    min-height: 100%;
+    min-height: 20%;
     opacity: .75;
     font-size: 2rem;
     cursor: pointer;
+    border-radius: 0;
 
     transition:
         opacity .25s ease,
         transform .25s ease,
         background-color .25s ease,
         color .25s ease,
-        min-height .25s ease;
+        min-height .25s ease,
+        border-radius .25s ease;
 
     user-select: none;
 }
@@ -79,7 +81,8 @@ section.business-cards > h1::before {
     transform: scale(.7);
     background-color: black;
     color: white;
-    min-height: 40%;
+    min-height: 80%;
+    border-radius: 4rem;
 }
 
 .control.prev {
@@ -122,7 +125,8 @@ section.business-cards > h1::before {
     max-width: var(--max-width);
     border-radius: var(--max-width);
     border: .5rem solid white;
-    box-shadow: 0px 0px 93px -43px rgba(66, 68, 90, 1);
+    box-shadow: 0px 0px 75px -43px rgba(66, 68, 90, 1);
+    transition: box-shadow .25s ease;
 }
 
 .worker h2 {
@@ -159,6 +163,8 @@ section.business-cards > h1::before {
     user-select: none;
 }
 
+/* ANIMATIONS */
+
 .slide-in-left {
     --animation: slide-in-left;
 }
@@ -174,6 +180,8 @@ section.business-cards > h1::before {
 .slide-out-right {
     --animation: slide-out-right;
 }
+
+/* KEYFRAMES */
 
 @keyframes slide-in-left {
     0% {
@@ -215,3 +223,18 @@ section.business-cards > h1::before {
     }
 }
 
+
+
+@media (max-width: 800px) {
+    .worker .avatar {
+        box-shadow: 0px 0px 50px -43px rgba(66, 68, 90, 1);
+        
+    }
+    .control button {
+        min-height: 0;
+    }   
+
+    .control button:active {
+        min-height: 40%;
+    }
+}

@@ -3,6 +3,7 @@
 const defaultKey = "defaultKey"
 const defaults = new Set( [defaultKey, 'index', 'item']) 
 
+const maxRows = 50
 const json_url = 'https://restcountries.com/v3.1/all'
 const tableHeaders = [
     "name",
@@ -19,11 +20,12 @@ const steps = {
 
 //// CONTROLS ////
 
+let activePage = 0
 let activeKey = defaultKey
 let activeStep = 0
+
 let countries = []
 let grouped = {}
-
 /// SETS ///
 
 const filters = {
@@ -78,7 +80,9 @@ const filters = {
         validate : ({population}) => {
             const from = +document.querySelector('#population-from').value || 0
             const to = +document.querySelector('#population-to').value || Infinity
-            console.log(from, to)
+
+            document.querySelector('#population-to').setAttribute('min', from)
+
             return from <= population && population <= to}
     },
     area : {
@@ -86,7 +90,8 @@ const filters = {
         validate : ({area}) => {
             const from = +document.querySelector('#area-from').value || 0
             const to = +document.querySelector('#area-to').value || Infinity
-            console.log(from, to)
+
+            document.querySelector('#area-to').setAttribute('min', from)
             
             return from <= area && area <= to
         }
@@ -123,11 +128,33 @@ const numberWithSpaces = number => number.toString().replace(/\B(?=(\d{3})+(?!\d
 
 //// FILTERS ////
 
+const filterPage = page => {
+    const from = page * maxRows
+    const to = (page + 1) * maxRows - 1
+
+    let counter = 0
+
+    const result = new Set()
+    const matched = prepareFilters()
+
+    for ( const [ subregion, { countries } ] of Object.entries(grouped).sort()) {
+        for ( const country of countries ) {
+            if ( !matched.has(country.index) )
+                continue
+            if ( from <= counter && counter <= to )
+                result.add(country.index)
+            counter++
+        }
+    }
+
+    return result
+}
+
 const intersections = (setA, setB) => new Set(
     [...setA].filter(x => setB.has(x))
 )
 
-const prepareFilter = () => {
+const prepareFilters = () => {
     let result = new Set([...Array(countries.length).keys()])
 
     for ( let key in filters ) {
@@ -135,6 +162,10 @@ const prepareFilter = () => {
     }
 
     return result
+}
+
+const combineFilters = () => {
+    return intersections( prepareFilters(), filterPage(activePage))
 }
 
 const triggerFilter = name => {
@@ -146,11 +177,37 @@ const triggerFilter = name => {
             return set
         }, new Set())
 
-        removeSubregions()
-        generateSubregions(grouped, prepareFilter())
+        refreshTable()
     }
 }
 
+const generatePagination = () => {
+    const pagination = document.querySelector('.pagination')
+    pagination.innerText = ""
+    const matched = prepareFilters()
+    console.log('mmmm',matched)
+    const matchedLen = countries.filter((country,index) => matched.has(index) ).length / maxRows
+
+    for (let i = 0; i < matchedLen; i++ ) {
+        const button = document.createElement('button')
+        
+        button.innerText = i + 1
+
+        if ( activePage === i )
+            button.classList.add('active')
+            
+        button.addEventListener('click', () => {
+            activePage = i
+
+            for (const child of pagination.children)
+                child.classList.remove('active')
+
+            refreshTable()
+        })
+
+        pagination.append(button)
+    }
+}
 
 //// DOM ELEMENTS ////
 
@@ -267,7 +324,6 @@ const createSubregionContainer = (name, subregion, matched = new Set()) => {
     return container
 }
 
-
 const removeSubregions = () => {
     const subregions = document.querySelectorAll('.subregion')
 
@@ -283,6 +339,13 @@ const generateSubregions = (grouped, matched) => {
     }
 }
 
+const refreshTable = () => {
+    removeSubregions()
+    const matched = combineFilters()
+    generateSubregions(grouped, matched)
+    generatePagination()
+}
+
 const sortTable = (state, grouped) => {
     const { key, reverse } = state
     removeSubregions()
@@ -291,7 +354,7 @@ const sortTable = (state, grouped) => {
         grouped[subregion].countries.sort(sortBy( key, reverse ))
     }
 
-    generateSubregions(grouped, prepareFilter())
+    generateSubregions(grouped, combineFilters())
 }
 
 //// SETUP ////
@@ -392,7 +455,13 @@ const setup = async () => {
         for (let key in filters)
             filters[key].set = generateSet()
 
-        generateSubregions( grouped, prepareFilter() )
+        const matched = combineFilters()
+        generateSubregions( grouped, matched )
+
+        //// PAGINATION ////
+
+        generatePagination()
+
     } catch (e) {
         errorMessage(e.toString())
     }
@@ -411,9 +480,6 @@ const populationToInput = document.querySelector('#population-to')
 
 const areaFromInput = document.querySelector('#area-from')
 const areaToInput = document.querySelector('#area-to')
-
-
-
 
 generalInput.addEventListener('input', triggerFilter('general'))
 nameInput.addEventListener('input', triggerFilter('name'))
