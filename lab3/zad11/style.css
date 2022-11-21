@@ -17,7 +17,10 @@ body {
     --pagination-button-size : 2rem;
     --default-border-radius : 1rem;
     --default-shadow-filter: drop-shadow(0px .5rem 1rem #ddd);
+    --fg-hover-color: rgb(253, 241, 220);
+    --fg-focus-color: rgb(197, 188, 171);
 }
+
 .container {
     min-height: inherit;
     display: flex;
@@ -48,7 +51,7 @@ body {
 
 .filters {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 1rem;
     padding: 1rem;
 }
@@ -76,9 +79,12 @@ body {
 }
 
 .general-filter,
-.population-filter,
-.area-filter {
+.population-filter {
     grid-column: 1 / 3;
+}
+
+.area-filter {
+    grid-column: 3 / 5;
 }
 
 /* ERROR BOX */
@@ -109,6 +115,7 @@ body {
     justify-content: center;
     gap: 1rem;
     overflow-x: auto;
+    padding: 1rem;
 }
 
 .pagination button {
@@ -118,17 +125,39 @@ body {
     cursor: pointer;
     padding: .5rem;
     
+    font-weight: 700;
+
     background-color: #888;
     color: white;
     
     border-radius: .5rem;
     border: none;
     
-    transition: background-color .25s ease;
+    transition: 
+        background-color .25s ease,
+        color .25s ease;
+    box-shadow: var(--default-shadow);
+}
+
+.pagination button:hover {
+    background-color: #ddd;
+}
+
+.pagination button:active {
+    color: var(--fg-hover-color);
+    background-color: var(--fg-focus-color);
 }
 
 .active {
-    background-color: rgb(0, 255, 0) !important;
+    background-color: #000 !important;
+}
+
+.index-item.hide {
+    font-size: 0;
+    padding: 0;
+    min-width: 0;
+    height: 0;
+    display: none;
 }
 
 /* TABLE */
@@ -172,7 +201,7 @@ table tbody:last-child:before {
 }
 
 .container table thead th {
-    background-color: rgb(255, 249, 238);
+    background-color: #fff;
     cursor: pointer;
     user-select: none;
     position: relative;
@@ -182,11 +211,11 @@ table tbody:last-child:before {
 }
 
 .container table thead th:hover {
-    background-color: rgb(253, 241, 220);
+    background-color: var(--fg-hover-color);
 }
 
 .container table thead th:active {
-    background-color: rgb(197, 188, 171);
+    background-color: var(--fg-focus-color);
 }
 
 /* TABLE SECTIONS */
@@ -308,4 +337,31 @@ table tbody:last-child:before {
         transform: translateX(-50%) rotateZ(180deg);
     }
     
+    .filters-container {
+        width: 100%;
+    }
+
+    .filters {
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+    }
+
+    .general-filter,
+    .population-filter,
+    .area-filter {
+        grid-column: 1 / 3;
+    }
+}
+
+@media (max-width: 440px) {
+    
+    .filters {
+        grid-template-columns: 1fr;
+    }
+
+    .general-filter,
+    .population-filter,
+    .area-filter {
+        grid-column: 1 / 2;
+    }
 }

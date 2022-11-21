@@ -26,6 +26,7 @@ let activeStep = 0
 
 let countries = []
 let grouped = {}
+
 /// SETS ///
 
 const filters = {
@@ -100,6 +101,11 @@ const filters = {
 
 //// UTILS ////
 
+const getMatchedPagesLen = () => {
+    const matched = prepareFilters()
+    return Math.ceil(countries.filter((country,index) => matched.has(index) ).length / maxRows )
+}
+
 const generateSet = () => new Set([...Array(countries.length).keys()])
 
 const errorMessage = message => {
@@ -136,6 +142,10 @@ const filterPage = page => {
 
     const result = new Set()
     const matched = prepareFilters()
+    const matchedPagesLen = getMatchedPagesLen()
+
+    if (matchedPagesLen <= activePage)
+        activePage = Math.max(matchedPagesLen - 1, 0)
 
     for ( const [ subregion, { countries } ] of Object.entries(grouped).sort()) {
         for ( const country of countries ) {
@@ -181,17 +191,61 @@ const triggerFilter = name => {
     }
 }
 
+const refreshPagination = () => {
+    const buttons = document.querySelectorAll('.pagination .index-item')
+    
+    const matched = prepareFilters()
+    const matchedPagesLen = getMatchedPagesLen()
+
+    buttons.forEach(button => {
+        button.classList.add('hide')
+        button.classList.remove('active')
+    })
+
+    for ( let i = 0; i < matchedPagesLen; i++)
+        buttons[i].classList.remove('hide')
+    
+    console.log(buttons, activePage)
+    if (buttons.length)
+        buttons[activePage].classList.add('active')
+    
+
+}
+
 const generatePagination = () => {
     const pagination = document.querySelector('.pagination')
     pagination.innerText = ""
-    const matched = prepareFilters()
-    console.log('mmmm',matched)
-    const matchedLen = countries.filter((country,index) => matched.has(index) ).length / maxRows
 
-    for (let i = 0; i < matchedLen; i++ ) {
+    const matchedPagesLen = getMatchedPagesLen()
+
+    const changePage = difference => () => {
+        const matchedPagesLen = getMatchedPagesLen()
+        if ( matchedPagesLen <= activePage + difference )
+            activePage = Math.max( 
+                Math.min(matchedPagesLen - 1, activePage), 
+                0
+            )
+        else 
+            activePage = Math.max( activePage + difference, 0)
+        
+        console.log(activePage, activePage + difference, matchedPagesLen > activePage + difference)
+        refreshTable()
+    }
+
+    const nextButton = document.createElement('button')
+    nextButton.addEventListener('click', changePage(1))
+    nextButton.innerText = ">"
+    
+
+    const prevButton = document.createElement('button')
+    prevButton.addEventListener('click', changePage(-1))
+    prevButton.innerText = "<"
+    
+    for (let i = 0; i < matchedPagesLen; i++ ) {
         const button = document.createElement('button')
         
         button.innerText = i + 1
+        button.classList.add('index-item')
 
         if ( activePage === i )
             button.classList.add('active')
@@ -201,12 +255,14 @@ const generatePagination = () => {
 
             for (const child of pagination.children)
                 child.classList.remove('active')
-
             refreshTable()
         })
 
         pagination.append(button)
     }
+    pagination.append(nextButton)
+    pagination.prepend(prevButton)
+
 }
 
 //// DOM ELEMENTS ////
@@ -343,7 +399,7 @@ const refreshTable = () => {
     removeSubregions()
     const matched = combineFilters()
     generateSubregions(grouped, matched)
-    generatePagination()
+    refreshPagination()
 }
 
 const sortTable = (state, grouped) => {
