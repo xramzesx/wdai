@@ -1,0 +1,6 @@
+[
+    { "brand" : "Kia", "models" : [
+        {"model": "Sportage", "colors" : [ "red", "blue", "green" ]  }
+        
+    ]}
+]

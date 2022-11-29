@@ -1,0 +1,14 @@
+@use '../mixins';
+
+.container {
+    @include mixins.container-mixin;
+    
+    background-color: transparent;
+    gap: 1rem;
+    min-height: inherit;
+
+    & > * {
+        max-width: 1024px;
+        width: 100%;
+    }
+}

@@ -1,0 +1,12 @@
+<h1>Wybierz temat</h1>
+<div [ngClass]="{'card-container': true}">
+        
+    <app-card 
+        *ngFor="let article of articles; index as i" 
+        [title]="article.title"
+        [pitch]="article.pitch"
+        [index]="i"
+        (handleSelect)="handleClick($event)"
+    ></app-card>
+
+</div>

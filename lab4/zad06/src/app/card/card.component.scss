@@ -1,0 +1,66 @@
+@use '../../mixins';
+
+$buttonColor : rgb(250, 73, 102);
+:host {
+    @include mixins.container-mixin;
+    
+    justify-content: space-between;
+
+    //// MAIN STYLES ////
+    
+    border: .1rem solid lightgray;
+    padding: 1rem 2rem;
+    gap: 1rem;
+    
+    //// DIMENSIONS ////
+
+    min-width: 200px;
+    max-width: 300px;
+
+    min-height: 250px;
+
+    //// TRANSITIONS ////
+
+    transition: border .25s ease;
+
+    //// PSEUDOELEMENTS ////
+
+    &:hover {
+        border: .1rem solid gray;
+    }
+
+    p {
+        text-align: center;
+        // align-self: end;
+    }
+
+    //// ACTION BUTTON ////
+
+    button {
+        padding: 1rem;
+        border-radius: 1rem;
+        border: none;
+        cursor: pointer;
+
+        background-color: $buttonColor;
+        color: white;
+
+        transition: transform .25s ease, background-color .25s ease;
+
+        &:hover {
+            background-color: lighten($buttonColor,  10%)
+        }
+
+        &:active {
+            transform: scale(.9);
+        }
+    }
+}
+
+
+@media (max-width: 440px) {
+    :host {
+        max-width: 100%;
+        min-width: none;
+    }    
+}

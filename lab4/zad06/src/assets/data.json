@@ -1,0 +1,5 @@
+[
+    {"title" : "The Basics", "pitch" : "Core Angular basics you have to know", "content" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat rerum molestiae soluta consequuntur nam enim, adipisci eos voluptate quisquam, minus sunt provident natus iste veniam odio autem sapiente cumque quam!"},
+    {"title" : "Components", "pitch" : "Components are a core concept for building Angular UIs and apps", "content" : "Laborum quasi illum natus consequatur quisquam iste excepturi debitis corrupti harum suscipit saepe consectetur repellendus, dolor id modi minus provident odit qui facere aliquam labore. Molestias accusamus, officia, ex libero sapiente eum laudantium itaque fugiat quae obcaecati dolores ducimus odio reiciendis ipsum eius at animi numquam. Maiores dolore, minus corporis cum nulla nesciunt odio debitis cupiditate sunt dolores, sint dolor, sed maxime quis repellat soluta."},
+    {"title" : "Events", "pitch" : "Events are important in Angular", "content" : "Assumenda illo animi nesciunt hic nobis maxime iste officia tempore dignissimos commodi molestiae temporibus aperiam, doloremque provident atque similique deserunt omnis ducimus."}
+]

@@ -1,0 +1,21 @@
+@use '../../mixins';
+
+:host {
+    @include mixins.container-mixin;
+    
+    background-color: white;
+    
+    width: 100%;
+    gap: 1rem;
+
+    .pitch {
+        color: gray;
+        font-weight: 600;
+    }
+
+    .content {
+        text-indent: 2rem;
+        padding: 1rem;
+        text-align: justify;
+    }
+}

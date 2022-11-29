@@ -1,0 +1,14 @@
+@use '../../mixins';
+
+:host {
+    @include mixins.container-mixin;
+
+    background-color: white;
+
+    .card-container {
+        @include mixins.container-mixin;
+        flex-wrap: wrap;
+        flex-direction: row;
+        gap: 1rem;
+    }
+}
