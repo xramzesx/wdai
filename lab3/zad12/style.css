@@ -15,6 +15,8 @@ body {
     background: url('images/board-bg.jpg');
     background-position: center;
     display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
 }
 
 .points {
@@ -29,7 +31,8 @@ body {
 
 .game {
     position: relative;
-    min-height: inherit;
+    min-height: 50vh;
+    height: 70vh;
     width: 100%;
     overflow: hidden;
     cursor: crosshair;

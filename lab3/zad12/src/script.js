@@ -139,7 +139,6 @@ setInterval(() => {
 //// GAME UI ////
 
 const gameOver = () => {
-    console.log('game over')
     gameStatus = config.status.paused
 
     const overlay = document.querySelector('.overlay.gameover')
@@ -182,8 +181,6 @@ window.addEventListener('resize', event => {
 })
 
 document.addEventListener('click', event => {
-    console.log(event.target.classList.contains('zombie'))
-    
     if ( !event.target.classList.contains('zombie') && gameStatus === config.status.active) {
         missZombie()   
     }
