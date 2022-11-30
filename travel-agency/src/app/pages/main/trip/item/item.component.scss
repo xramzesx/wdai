@@ -1,0 +1,46 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    max-width: 260px;
+    
+    width: 100%;
+    border-radius: 1rem;
+    contain: paint;
+    align-items: center;
+    gap: .5rem;
+    padding: 1rem 0;
+    text-align: center;
+
+    button {
+        padding: .5rem 1rem;
+        border-radius: 1rem;
+        border: none;
+        cursor: pointer;
+
+        transition: transform .25s ease;
+        &:active {
+            transform: scale(.9);
+        }
+    }
+
+    img {
+        clip-path: circle(50%);
+        height: 200px;
+        width: 200px;
+        transition: 
+            clip-path .25s ease, 
+            border-radius .25s ease,
+            width .25s ease;
+        object-fit: cover;
+    }
+
+    &:hover {
+        img {
+            clip-path: circle(100%);
+            // border-radius: 1rem;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+            width: 100%;
+        }
+    }
+}

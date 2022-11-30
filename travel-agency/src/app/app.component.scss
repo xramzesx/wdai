@@ -1,0 +1,26 @@
+@use 'variables';
+
+:host {
+    min-height: inherit;
+    width: 100%;
+
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+
+    .container {
+        flex:1;
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100%;
+        
+
+        & > * {
+            max-width: variables.$maxWidth;
+            width: 100%;
+            flex:1;
+        }
+    }
+}
