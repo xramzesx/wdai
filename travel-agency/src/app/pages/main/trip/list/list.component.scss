@@ -1,10 +1,24 @@
+@use 'variables';
+
 :host {
     flex: 1;
     height: 100%;
     padding: 1rem;
 
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     justify-content: space-around;
+}
+
+@media (max-width: variables.$desktopWidth) {
+    :host {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: variables.$mobileWidth) {
+    :host {
+        grid-template-columns: repeat(1, 1fr);
+    }   
 }

@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { TripDate } from '@app/types';
-import Utils from '@app/utils';
+import { QuantityMaskPipe } from '@app/pipes/quantity.pipe';
+import { GlobalStateService } from '@app/services/global-state.service';
 
 @Component({
   selector: 'app-trip-item',
@@ -8,6 +9,16 @@ import Utils from '@app/utils';
   styleUrls: ['./item.component.scss']
 })
 export class ItemComponent {
+
+  constructor( 
+    private globalState: GlobalStateService,
+    private quantityPipe : QuantityMaskPipe 
+  ) {}
+
+  //// INPUTS ////
+
+  @Input() id: number = 0;
+
   @Input() name : string = "";
   @Input() country: string = ""
 
@@ -17,9 +28,50 @@ export class ItemComponent {
   
   @Input() description: string = "";
   @Input() image: string = "";
+  @Input() reservations = 0;
 
-  /// TODO: Dorobić pipe do currency
-  currency:string = "PLN"
+  //// HOST BINDS ////
+
+  @HostBinding('class.disabled')
+  @Input() disabled: boolean = false;
+
+  @HostBinding('class.cheapest')
+  @Input() cheapest: boolean = false;
+
+  @HostBinding('class.costliest')
+  @Input() costliest: boolean = false;
 
   selected: number = 0;
+
+  //// EVENT HANDLERS ////
+  
+  onAddUnit() {
+    console.log(this.selected)
+    if ( this.quantity > this.selected)
+      this.selected++
+  }
+
+  onRemoveUnit() {
+    if (this.selected > 0)
+      this.selected--
+  }
+
+  onAddToCart() {
+    this.globalState.addToCart({
+      id: this.id,
+      name : this.name,
+      quantity : this.selected,
+      price: this.price
+    })
+    this.selected = 0
+  }
+
+  //// QUANTITY HANDLER ////
+
+  getAvailableClassVariant () : string {
+    return this.quantityPipe.transform( 
+      this.quantity - this.selected - this.reservations, 
+      'className' 
+    );
+  }
 }

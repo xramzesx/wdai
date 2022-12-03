@@ -1,5 +1,7 @@
+@use 'variables';
+
 :host {
-    flex:1;
+    flex: 1;
     display: flex;
     height: 100%;
     padding: 1rem;
@@ -7,8 +9,13 @@
     gap: 1rem;
 
     & > * {
-        background-color: white;
         border-radius: 1rem;
     }
+}
 
+
+@media (max-width: variables.$tabletWidth ) {
+    :host {
+        flex-direction: column;
+    }
 }

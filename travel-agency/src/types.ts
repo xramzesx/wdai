@@ -4,6 +4,8 @@ export type Rates = {
 
 //// CART ////
 
+export type Cart = Map<number, CartItem>
+
 export type CartItem = {
   id : number;
   name: string;
@@ -11,6 +13,18 @@ export type CartItem = {
   price: number;
 }
 
+//// CURRENCY ////
+
+export type Currency = {
+  converter: number;
+  name: string;
+}
+
+export const currencies : Currency[] = [
+  { converter: 1, name : "PLN" },
+  { converter: 4.44, name : "USD" },
+  { converter: 4.68, name : "EUR" },
+]
 
 //// TRIP LIST ////
 

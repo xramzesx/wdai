@@ -17,10 +17,13 @@ const template = {
         'Integer molestie, est nec fringilla tristique, quam justo mattis nunc, vel hendrerit leo urna aliquet nisl.',
         'Nam ut est et neque dapibus interdum molestie interdum ligula. Vivamus maximus, ipsum quis maximus dictum, magna mi sagittis sem.',
         'Et luctus nulla nulla ultrices dui. Suspendisse aliquam lorem at ante aliquam viverra. Nunc scelerisque mi in lectus porta lobortis.',
-        'Nunc efficitur, metus a varius efficitur, orci metus varius elit, sit amet tempor est lorem sed massa. Etiam molestie, arcu ac imperdiet aliquam, velit justo venenatis mauris.',
-        'Donec viverra neque eget dolor rhoncus, a elementum lorem porta. Ut placerat massa ut iaculis lacinia. Ut eleifend lacinia lacus vel pulvinar. Nam vulputate turpis placerat dolor bibendum pulvinar. Ut non ipsum eros',
-        'Phasellus blandit porta dolor, pellentesque molestie enim tempor eget. Aenean tempus euismod erat eget blandit. Cras lobortis feugiat quam a aliquet. Integer non feugiat turpis',
-        'Duis ultrices, justo non fringilla porttitor, metus metus iaculis mauris, non elementum eros elit eu eros. Sed tempus blandit odio, eget congue elit facilisis eget. Sed fermentum ex in lectus dignissim euismod',
+        'Nunc efficitur, metus a varius efficitur, orci metus varius elit, sit amet tempor est lorem sed massa.',
+        'Donec viverra neque eget dolor rhoncus, a elementum lorem porta. Ut placerat massa ut iaculis lacinia.',
+        'Phasellus blandit porta dolor, pellentesque molestie enim tempor eget. Aenean tempus euismod erat eget blandit.',
+        'Duis ultrices, justo non fringilla porttitor, metus metus iaculis mauris, non elementum eros elit eu eros.',
+        'Sed tempus blandit odio, eget congue elit facilisis eget. Sed fermentum ex in lectus dignissim euismod',
+        'Cras lobortis feugiat quam a aliquet. Integer non feugiat turpis. Nam vulputate turpis placerat dolor bibendum pulvinar. Ut non ipsum eros',
+        'Etiam molestie, arcu ac imperdiet aliquam, velit justo venenatis mauris. Ut eleifend lacinia lacus vel pulvinar.'
     ],
     imageId: [203, 200, 201, 213, 210, 211, 223, 220, 221, 233, 230, 231, 243, 240, 241, 253, 250, 251, 263, 267, 268, 273, 270, 271],
     image : [

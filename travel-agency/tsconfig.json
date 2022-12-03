@@ -26,7 +26,8 @@
     "paths": {
       "@app/types" : [ "src/types.ts" ],
       "@app/utils" : [ "src/utils.ts" ],
-      "@app/services/*" : [ "src/app/services/*" ]
+      "@app/services/*" : [ "src/app/services/*" ],
+      "@app/pipes/*" : [ "src/app/pipes/*" ]
     }
   },
   "angularCompilerOptions": {

@@ -1,4 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'variables';
+
+@font-face {
+    font-family: Wahyu and Sani;
+    src: url(assets/fonts/Wahyu-and-Sani-Genera-SemiBold.ttf);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Wahyu and Sani;
+    src: url(assets/fonts/Wahyu-and-Sani-Genera-Alt-Light.ttf);
+    font-weight: normal;
+}
 
 *, *::after, *::before {
     margin: 0;
@@ -8,6 +21,10 @@
 
 body {
     min-height: 100vh;
-    background-color: bisque;
+    background-color: variables.$bgColor;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: Wahyu and Sani, Arial, Helvetica, sans-serif;
 }

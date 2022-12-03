@@ -1,5 +1,44 @@
+@use 'variables';
+
 :host {
+    position: sticky;
+    top: 0;
+    z-index: 100;
     background-color: white;
-    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     
+    nav {
+        padding: 1rem 2rem;
+        max-width: variables.$maxWidth;
+        width: 100%;
+
+        display: flex;
+        gap: 1rem;
+
+        .content {
+            flex: 1;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            gap: 1rem;
+
+            .cart {
+                min-width: 7rem;
+                height: 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                gap: .5rem;
+                padding: .5rem;
+                & > * {
+                    display: block;
+                }
+            }
+        }
+
+    }
 }

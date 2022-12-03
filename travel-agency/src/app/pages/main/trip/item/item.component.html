@@ -1,9 +1,32 @@
-<img [src]="image" [alt]="name">
-<h2>{{name}}</h2>
-<h3>{{country}}</h3>
-<p>{{description}}</p>
-<div>Available: {{quantity}}</div>
-<div>{{price}} {{currency}}</div>
-<div>{{date.start | date}} - {{date.end | date}}</div>
+<div [ngClass]="{'reservations':true, 'hide': reservations == 0, 'green': reservations >= 10, 'red' : reservations < 10}">{{reservations}}</div>
 
-<button>Add to cart</button>
+<div [ngClass]="{'image': true}">
+    <img [src]="image" [alt]="name">
+</div>
+
+<div class="title">
+    <h2 [ngClass]="{'name': true}">{{name | uppercase}}</h2>
+    <h3 [ngClass]="{'country': true}">{{country | uppercase}}</h3>
+</div>
+
+<div [ngClass]="{'content': true}">    
+    <div [ngClass]="{'date': true}">{{date.start | date}} - {{date.end | date}}</div>
+    <div [ngClass]="{'description': true}">
+        <p>
+            {{description}}
+        </p>
+    </div>
+
+    <div [ngClass]="{'price': true}">{{ price | currency : true | async }}</div>
+    <div [ngClass]="['quantity']">
+        <div [ngClass]="[getAvailableClassVariant(),'quantity__available' ]"> {{quantity - selected - reservations | quantity}} </div>
+        <div [ngClass]="{'selected': true}">
+            <button (click)="onRemoveUnit()" [ngClass]="{'hide': selected == 0}">-</button>
+            <div [ngClass]="{'selected__quantity': true}"> {{selected}} </div>
+            <button (click)="onAddUnit()" [ngClass]="{'hide': quantity <= selected + reservations}">+</button>
+        </div>
+    </div>
+    <div [ngClass]="{'cart': true}">
+        <button (click)="onAddToCart()">Add to cart</button>
+    </div>
+</div>

@@ -1,15 +1,170 @@
+@use 'variables';
+@use 'mixins';
+
 :host {
+    //// MAIN CONTAINER STYLE ////
+
+    flex: 1;
+
     display: flex;
     flex-direction: column;
-    max-width: 260px;
-    
+
     width: 100%;
-    border-radius: 1rem;
+    min-width: 260px;
+    max-width: 520px;
+    position: relative;
+    z-index: 2;
+    
     contain: paint;
+    border-radius: 1rem;
+
     align-items: center;
     gap: .5rem;
-    padding: 1rem 0;
     text-align: center;
+
+    filter: drop-shadow(0 0 0.25rem #0000);
+    background-color: white;
+
+    outline: 0 solid white;
+
+    //// TRANSITIONS ////
+
+    transition: 
+        outline .25s ease,
+        background-color .25s ease,
+        filter .25s ease;
+
+    .image, .title, .content {
+        transition: 
+            filter .25s ease,
+            opacity .25s ease;
+    }
+
+    //// CHILDREN STYLES ////
+
+    .reservations {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        min-width: 2rem;
+        height: 2rem;
+
+        padding: .6rem;
+        border-radius: 1rem;
+        background-color: white;
+        z-index: 1;
+        
+        font-family: variables.$specialFontFamily;
+        font-weight: bold;
+
+        @include mixins.default-drop-shadow;
+
+        transition: 
+            background-color .25s ease,
+            transform .25s ease,
+            opacity .25s ease;
+    }
+
+    .title {
+        height: 5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0 .5rem;
+    }
+
+    .content {
+        padding: 1rem;
+        padding-top: 0;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+
+        .country {
+            padding-bottom: .5rem;
+        }
+
+        .description {
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+            font-style: italic;
+            
+            p {
+                padding: .5rem;
+            }
+        }
+
+        & > div, & > p {
+            padding: .5rem 0;
+        }
+
+        .price {
+            font-family: variables.$specialFontFamily;
+            font-weight: bold;
+        }
+
+        .quantity {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            border-left: none;
+            border-right: none;
+            padding: .5rem 0;
+            
+            & > * {
+                background-color: #eee;
+                border-radius: 1rem;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            &__available {
+                padding: 0 1rem;
+                font-family: variables.$specialFontFamily;
+                font-weight: bold;
+                transition: background-color .25s ease, color .25s ease;
+                font-size: .9rem;
+            }
+        }
+
+        .selected {
+            display: flex;
+            &__quantity {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 2rem;
+            }
+        }
+
+        .quantity, .cart {
+            @include mixins.default-drop-shadow;
+            font-family: variables.$specialFontFamily;
+            font-weight: bold;
+        }
+
+        .cart {
+            display: flex;
+            width: 100%;
+
+            & > * {
+                flex: 1
+            }
+        }
+    }
+
+    //// COMMONT BUTTON STYLES ////
 
     button {
         padding: .5rem 1rem;
@@ -17,30 +172,141 @@
         border: none;
         cursor: pointer;
 
+        font-family: variables.$specialFontFamily;
+        font-weight: bold;
+        text-transform: uppercase;
+        
         transition: transform .25s ease;
         &:active {
             transform: scale(.9);
         }
     }
 
+    //// IMAGE ////
+
+    .image {
+        padding: 1rem;
+        padding-bottom: 0;
+        @include mixins.default-drop-shadow;
+    }
+
     img {
-        clip-path: circle(50%);
+        clip-path: circle(calc(50% - 1rem));
         height: 200px;
         width: 200px;
         transition: 
             clip-path .25s ease, 
             border-radius .25s ease,
-            width .25s ease;
+            width .25s ease,
+            background-color .25s ease;
         object-fit: cover;
+        border-radius: 1rem;
+    }
+
+    //// RIPPLE BACKGROUND ////
+
+    &::before {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background-color: whitesmoke;
+        z-index: -1;
+
+        clip-path: ellipse(100% calc( 150px + 4rem) at 50% 100px);
+        transition: clip-path .5s ease, background-color .25s ease;
     }
 
     &:hover {
+        @include mixins.default-drop-shadow-strong;
+
         img {
-            clip-path: circle(100%);
-            // border-radius: 1rem;
+            clip-path: circle(100%) !important;
             border-top-left-radius: 1rem;
             border-top-right-radius: 1rem;
             width: 100%;
+        }
+
+        &::before{
+            clip-path: ellipse(100% 100% at 50% 100px);
+        }
+
+        .reservations {
+            transform: translate(-.5rem, .5rem);
+        }
+    }
+}
+
+/// FLAGS ////
+
+.available {
+    background-color: green !important;
+    color: white;
+}
+
+.last-tickets {
+    background-color: yellow !important;
+}
+
+.hide {
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
+.red {
+    background-color: variables.$bgRed !important;
+    color: white;
+}
+
+.green {
+    background-color: variables.$bgGreen !important;
+}
+
+//// HOST BINDINGS ////
+
+:host(.disabled) {
+    background-color: #fffa;
+
+
+    .image, .title, .content {
+        filter: grayscale(100);
+        opacity: .75;
+    }
+
+    &::before {
+        background-color: rgba(245, 245, 245, 0.432);
+    }
+    pointer-events: none;
+    user-select: none;
+}
+
+:host(.costliest) {
+    outline: .25rem solid variables.$bgGreen;
+    
+    &::before {
+        background-color: variables.$bgGreen;
+    }
+}
+
+:host(.cheapest) {
+    outline: .25rem solid variables.$bgRed;
+    &::before {
+        background-color: variables.$bgRed;
+    }
+}
+
+
+@media (max-width: variables.$mobileWidth) {
+    :host {
+        .image img {
+            clip-path: circle(calc(30% - 1rem));
+            width: 100%;
+            height: auto;
+        }
+
+        &::before {
+            clip-path: ellipse(100% 40% at 50% 100px);
+
         }
     }
 }
