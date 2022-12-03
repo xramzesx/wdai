@@ -1,0 +1,44 @@
+@use 'variables';
+@use 'mixins';
+
+:host {
+    min-width: 7rem;
+    height: 2rem;
+    
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    
+    gap: .5rem;
+    padding: .5rem;
+    border-radius: 1rem;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+
+    font-family: variables.$specialFontFamily;
+    font-weight: bold;
+    
+    @include mixins.default-drop-shadow;
+    transition: 
+        filter .1s ease, 
+        border .25s ease,
+        background-color .25s ease;
+
+    &:hover {
+        @include mixins.default-drop-shadow-strong;
+        background-color: #eee;
+    }
+
+    .total {
+        flex: 1;
+    }
+
+    img {
+        filter:brightness(0);
+    }
+
+    & > * {
+        display: block;
+    }
+}

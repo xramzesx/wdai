@@ -25,19 +25,6 @@
             justify-content: flex-end;
 
             gap: 1rem;
-
-            .cart {
-                min-width: 7rem;
-                height: 2rem;
-                display: flex;
-                align-items: center;
-                justify-content: flex-end;
-                gap: .5rem;
-                padding: .5rem;
-                & > * {
-                    display: block;
-                }
-            }
         }
 
     }

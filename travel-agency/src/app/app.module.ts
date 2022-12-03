@@ -11,6 +11,8 @@ import { ItemComponent } from './pages/main/trip/item/item.component';
 import { FilterComponent } from './pages/main/filter/filter.component';
 import { QuantityMaskPipe } from './pipes/quantity.pipe';
 import { CurrencyPipe } from './pipes/currency.pipe';
+import { CartButtonComponent } from './header/cart/button/button.component';
+import { CartFloatingComponent } from './header/cart/floating/floating.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { CurrencyPipe } from './pipes/currency.pipe';
     ItemComponent,
     FilterComponent,
     QuantityMaskPipe,
-    CurrencyPipe
+    CurrencyPipe,
+    CartButtonComponent,
+    CartFloatingComponent
   ],
   imports: [
     BrowserModule,
