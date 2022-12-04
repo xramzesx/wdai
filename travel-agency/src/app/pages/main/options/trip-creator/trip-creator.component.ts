@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { GlobalStateService } from '@app/services/global-state.service';
 import { HttpService } from '@app/services/http.service';
+import { TripItem } from '@app/types';
 import Utils from '@app/utils';
 import { ValidateDateDirective } from 'src/app/directives/validate-date.directive';
 
@@ -25,7 +26,6 @@ export class TripCreatorComponent implements OnInit{
     this.modelForm = this.formBuilder.group({
       name: ['', [
         Validators.required, 
-        Validators.minLength(5),
         Validators.maxLength(20)
       ]],
       country: ['', Validators.required],
@@ -59,10 +59,40 @@ export class TripCreatorComponent implements OnInit{
     })
   }
 
+  //// EVENT LISTENERS ////
+
+  onSubmit() {
+    if ( this.modelForm.valid ) {
+      const { 
+        name, 
+        country,
+        description, 
+        image, 
+        price, 
+        quantity, 
+        startDate : start, 
+        endDate : end
+      } = this.modelForm.value
+
+      this.globalState.addTrip( {  
+        id : 0,
+        name,
+        country,
+        description,
+        image,
+        price : +price,
+        quantity : +quantity,
+        date : { start, end }
+      })
+      
+      this.modelForm.reset()
+    }
+  }
+
   onControlValueChanged() {
     const form = this.modelForm
 
-    console.log(form)
+    // console.log(form)
   }
 
   parseDate(date: Date) : string {
@@ -72,8 +102,6 @@ export class TripCreatorComponent implements OnInit{
   //// GETTERS /////
 
   get startDate() {
-    console.log('startdate',this.modelForm.get('startDate')?.value)
-
     return this.modelForm.get('startDate')?.value || this.today
   }
 

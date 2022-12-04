@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Cart, CartItem, currencies, Currency, TripItem } from '@app/types';
 import { HttpService } from './http.service';
 import { Subject } from 'rxjs';
+import Utils from '@app/utils';
 
 
 @Injectable({
@@ -59,8 +60,19 @@ export class GlobalStateService {
   }
 
   addTrip ( trip: TripItem ) {
-    /// TODO: Http request to remove trip
+    /// TODO: Http request to add trip
 
+    const tripItem : TripItem = { 
+      ...trip, 
+      id : Utils.getUniqueRandom(
+        0, 
+        100, 
+        this.trips.map( ({id}) => id )
+    )}
+    
+    console.log('item',tripItem)
+    this.trips.push(tripItem)
+    this.tripsChange.next( this.trips )
   }
 
 

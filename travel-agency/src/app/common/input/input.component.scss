@@ -41,3 +41,25 @@
         color: red;
     }
 }
+
+:host:has(.ng-touched.ng-valid) {
+    label {
+        color: variables.$bgColor;
+    }
+
+    input, textarea, select {
+        border-color: variables.$bgColor;
+        color: variables.$bgColor;
+    }
+}
+
+:host:has(.ng-touched.ng-valid:focus) {
+    label {
+        color: #000;
+    }
+
+    input, textarea, select {
+        border-color: #000;
+        color: #000;
+    }
+}

@@ -1,6 +1,6 @@
 <h2>Add trip</h2>
 
-<form [formGroup]="modelForm">
+<form [formGroup]="modelForm" (ngSubmit)="onSubmit()" >
     <app-input 
         [formGroup]="modelForm" 
         controlName="name"
@@ -21,6 +21,7 @@
         controlName="description"
         label="Description"
         type="textarea"
+        max="130"
     ></app-input>
     
     <!-- IMAGE -->
@@ -39,6 +40,7 @@
         controlName="price"
         label="Price (PLN)" 
         type="number"
+        min="0"
     ></app-input>
 
     <app-input 
@@ -46,6 +48,7 @@
         controlName="quantity"
         label="Quantity" 
         type="number"
+        min="0"
     ></app-input>
 
     <!-- DATE -->
