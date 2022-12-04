@@ -17,8 +17,6 @@ import { FilterComponent } from './pages/main/options/filter/filter.component';
 import { TripCreatorComponent } from './pages/main/options/trip-creator/trip-creator.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputComponent } from './common/input/input.component';
-import { SelectComponent } from './common/select/select.component';
-import { TextareaComponent } from './common/textarea/textarea.component';
 import { ValidateDateDirective } from './directives/validate-date.directive';
 
 @NgModule({
@@ -36,8 +34,6 @@ import { ValidateDateDirective } from './directives/validate-date.directive';
     FilterComponent,
     TripCreatorComponent,
     InputComponent,
-    SelectComponent,
-    TextareaComponent,
     ValidateDateDirective,
   ],
   imports: [
