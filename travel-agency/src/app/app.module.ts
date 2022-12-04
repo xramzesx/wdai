@@ -8,11 +8,18 @@ import { HeaderComponent } from './header/header.component';
 import { MainComponent } from './pages/main/main.component';
 import { ListComponent } from './pages/main/trip/list/list.component';
 import { ItemComponent } from './pages/main/trip/item/item.component';
-import { FilterComponent } from './pages/main/filter/filter.component';
 import { QuantityMaskPipe } from './pipes/quantity.pipe';
 import { CurrencyPipe } from './pipes/currency.pipe';
 import { CartButtonComponent } from './header/cart/button/button.component';
 import { CartFloatingComponent } from './header/cart/floating/floating.component';
+import { OptionsComponent } from './pages/main/options/options.component';
+import { FilterComponent } from './pages/main/options/filter/filter.component';
+import { TripCreatorComponent } from './pages/main/options/trip-creator/trip-creator.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { InputComponent } from './common/input/input.component';
+import { SelectComponent } from './common/select/select.component';
+import { TextareaComponent } from './common/textarea/textarea.component';
+import { ValidateDateDirective } from './directives/validate-date.directive';
 
 @NgModule({
   declarations: [
@@ -21,16 +28,23 @@ import { CartFloatingComponent } from './header/cart/floating/floating.component
     MainComponent,
     ListComponent,
     ItemComponent,
-    FilterComponent,
     QuantityMaskPipe,
     CurrencyPipe,
     CartButtonComponent,
-    CartFloatingComponent
+    CartFloatingComponent,
+    OptionsComponent,
+    FilterComponent,
+    TripCreatorComponent,
+    InputComponent,
+    SelectComponent,
+    TextareaComponent,
+    ValidateDateDirective,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [QuantityMaskPipe],
   bootstrap: [AppComponent]

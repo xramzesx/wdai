@@ -1,0 +1,43 @@
+@use 'variables';
+
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+
+    label {
+        font-family: variables.$specialFontFamily;
+        font-weight: bold;
+        font-size: .75rem;
+        user-select: none;
+
+        transition: color .25s ease;
+    }
+
+    input, textarea, select {
+        padding: .5rem;
+        border-radius: .25rem;
+        border-style: solid;
+        transition: 
+            color .25s ease,
+            border-color .25s ease;
+    }
+
+    textarea {
+        resize: vertical;
+        max-height: 100px;
+    }
+
+}
+
+
+:host:has(.ng-touched.ng-invalid) {
+    label {
+        color: red;
+    }
+
+    input, textarea, select {
+        border-color: red;
+        color: red;
+    }
+}

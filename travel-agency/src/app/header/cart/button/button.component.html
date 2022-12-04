@@ -1,2 +1,3 @@
 <div [ngClass]="{'total': true}">{{total | currency : false | async }}</div>
 <img src="assets/icons/cart.svg" alt="cart">
+<div [ngClass]="{'counter': true, 'hide': counter == 0}">{{ counter }}</div>

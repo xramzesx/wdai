@@ -18,12 +18,11 @@ export class ListComponent implements OnInit{
   costliestId: number = 0
 
   constructor( 
-    private httpService: HttpService, 
     private globalState: GlobalStateService 
   ) {}
 
   ngOnInit(): void {
-    this.httpService.getTrips().subscribe( data => {
+    this.globalState.tripsChange.subscribe( data => {
       this.trips = data
       this.refresh()  
     })
@@ -42,20 +41,21 @@ export class ListComponent implements OnInit{
   }
 
   getSearched( comparator : Reducer ) {
-    return this.trips
-    .filter(({
+    
+    const filtered = this.trips.filter(({
       id, 
       quantity 
     } ) => 
       quantity - this.getReservations(id) > 0
     )
-    .reduce(( 
+
+    return filtered.length ? filtered.reduce(( 
       lastResult: TripItem, 
       trip: TripItem 
     ) => comparator( lastResult, trip ) 
       ? lastResult 
       : trip 
-    )
+    ) : {id: 0}
   }
 
   getCheapestID () {

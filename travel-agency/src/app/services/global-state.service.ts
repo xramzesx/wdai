@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cart, CartItem, currencies, Currency } from '@app/types';
+import { Cart, CartItem, currencies, Currency, TripItem } from '@app/types';
 import { HttpService } from './http.service';
 import { Subject } from 'rxjs';
 
@@ -11,6 +11,7 @@ export class GlobalStateService {
 
   // This service contains all global state //
 
+  //// CURRENCY PIPES ////
   
   currency : Currency = currencies[0];
   currencyChange : Subject<Currency> = new Subject<Currency>()
@@ -19,6 +20,7 @@ export class GlobalStateService {
     this.currencyChange.next( currencies[index] )
   } 
 
+  //// INJECTIONS ////
   
   constructor(private httpService: HttpService) { 
     this.currencyChange.subscribe( 
@@ -26,18 +28,48 @@ export class GlobalStateService {
         this.currency = value 
       } 
     )
+    
+    this.tripsChange.subscribe( (trips: TripItem[]) => {
+      this.trips = trips
+    })
 
     this.cartChange.subscribe(
       (value: Cart) => {
         this.cart = value
       }
     )
+
+    //// HTTP REQUESTS ////
+
+    this.httpService.getTrips().subscribe( (trips: TripItem[]) => {
+      this.tripsChange.next(trips)
+    })
   }
+
+
+  //// TRIPS ////
+
+  trips: TripItem[] = []
+  tripsChange : Subject<TripItem[]> = new Subject<TripItem[]>()
+
+  removeTrip ( id:number ) {
+    /// TODO: Http request to remove trip
+    console.log(id)
+    this.tripsChange.next( this.trips.filter( trip => trip.id != id ))
+  }
+
+  addTrip ( trip: TripItem ) {
+    /// TODO: Http request to remove trip
+
+  }
+
+
+
+  //// CART ////
 
   cart : Map<number, CartItem> = new Map()
   cartChange : Subject< Cart > = 
     new Subject< Cart >()
-
 
   addToCart (item : CartItem) : void {
     if ( item.quantity == 0 ) return;
@@ -50,8 +82,6 @@ export class GlobalStateService {
     }
 
     this.cartChange.next(this.cart)
-
-    console.log(this.cart)
   }
 
   removeFromCart (item: CartItem) : void {

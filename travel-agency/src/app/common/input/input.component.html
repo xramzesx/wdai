@@ -1,0 +1,34 @@
+<label [for]="controlName">
+    {{label}}
+</label>
+
+<!-- INPUT TYPES TEMPLATES -->
+
+<ng-template [ngIf]="getType() == 'textarea'">
+    <textarea 
+        [name]="controlName"
+        [formControlName]="controlName"
+        [placeholder]="placeholder"
+    >
+    </textarea>
+</ng-template>
+
+<ng-template [ngIf]="getType() == 'select'">
+    <select 
+        [name]="controlName"
+        [formControlName]="controlName"
+    >
+        <option *ngFor="let option of options" [value]="option">{{option}}</option>
+    </select>
+</ng-template>
+
+<ng-template [ngIf]="getType() == 'default'">
+    <input 
+        [name]="controlName"
+        [type]="type" 
+        [formControlName]="controlName" 
+        [placeholder]="placeholder" 
+        [min]="min"
+        [max]="max"
+    >
+</ng-template>

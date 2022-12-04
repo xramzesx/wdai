@@ -1,4 +1,16 @@
-<div [ngClass]="{'reservations':true, 'hide': reservations == 0, 'green': reservations >= 10, 'red' : reservations < 10}">{{reservations}}</div>
+<button [ngClass]="{'remove': true}" (click)="onRemoveTrip()">
+    <img src="assets/icons/trash.svg" alt="-">
+</button>
+
+<div 
+    [ngClass]="{
+        'reservations':true, 
+        'hide': reservations == 0, 
+        'green': reservations >= 10, 
+        'red' : reservations < 10
+}">
+    {{reservations}}
+</div>
 
 <div [ngClass]="{'image': true}">
     <img [src]="image" [alt]="name">
@@ -19,11 +31,27 @@
 
     <div [ngClass]="{'price': true}">{{ price | currency : true | async }}</div>
     <div [ngClass]="['quantity']">
-        <div [ngClass]="[getAvailableClassVariant(),'quantity__available' ]"> {{quantity - selected - reservations | quantity}} </div>
+        <div [ngClass]="[ getAvailableClassVariant(),'quantity__available' ]"> 
+            {{quantity - selected - reservations | quantity}} 
+        </div>
         <div [ngClass]="{'selected': true}">
-            <button (click)="onRemoveUnit()" [ngClass]="{'hide': selected == 0}">-</button>
-            <div [ngClass]="{'selected__quantity': true}"> {{selected}} </div>
-            <button (click)="onAddUnit()" [ngClass]="{'hide': quantity <= selected + reservations}">+</button>
+            <button 
+                (click)="onRemoveUnit()" 
+                [ngClass]="{'hide': selected == 0}"
+            >
+                -
+            </button>
+            <div 
+                [ngClass]="{'selected__quantity': true}"
+            >
+                {{selected}}
+            </div>
+            <button 
+                (click)="onAddUnit()" 
+                [ngClass]="{'hide': quantity <= selected + reservations}"
+            >
+                +
+            </button>
         </div>
     </div>
     <div [ngClass]="{'cart': true}">

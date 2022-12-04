@@ -66,6 +66,10 @@ export class ItemComponent {
     this.selected = 0
   }
 
+  onRemoveTrip () {
+    this.globalState.removeTrip( this.id )
+  }
+
   //// QUANTITY HANDLER ////
 
   getAvailableClassVariant () : string {

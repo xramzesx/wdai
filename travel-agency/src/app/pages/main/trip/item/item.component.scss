@@ -42,9 +42,8 @@
 
     //// CHILDREN STYLES ////
 
-    .reservations {
+    .remove, .reservations {
         position: absolute;
-        right: 1rem;
         top: 1rem;
 
         display: flex;
@@ -53,16 +52,53 @@
 
         min-width: 2rem;
         height: 2rem;
+        z-index: 1;
 
         padding: .6rem;
         border-radius: 1rem;
         background-color: white;
-        z-index: 1;
-        
         font-family: variables.$specialFontFamily;
         font-weight: bold;
-
         @include mixins.default-drop-shadow;
+        
+    }
+
+    .remove {
+        left: 1rem;
+        display: flex;
+        
+        width: 2rem;
+        height: 2rem;
+        padding: 0;
+
+        clip-path: circle(0%);
+        transform-origin: center;
+
+        cursor: pointer;
+
+        img {
+            width: 75%;
+            height: auto;
+            filter: brightness(0);
+            pointer-events: none;
+        }
+        user-select: none;
+
+        transition:
+            transform .25s ease, 
+            clip-path .25s ease;
+
+        &:active {
+            transform: scale(.5);
+        }
+    }
+
+    .reservations {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+
+
 
         transition: 
             background-color .25s ease,
@@ -188,6 +224,10 @@
         padding: 1rem;
         padding-bottom: 0;
         @include mixins.default-drop-shadow;
+        
+        img {
+            pointer-events: none;
+        }
     }
 
     img {
@@ -234,6 +274,14 @@
         .reservations {
             transform: translate(-.5rem, .5rem);
         }
+        .remove {
+            clip-path: circle(100%);
+            transform: translate(.5rem, .5rem);
+            
+            &:active {
+                transform: translate(.5rem, .5rem) scale(.9);
+            }
+        }
     }
 }
 
@@ -276,8 +324,15 @@
     &::before {
         background-color: rgba(245, 245, 245, 0.432);
     }
-    pointer-events: none;
+    // pointer-events: none;
     user-select: none;
+}
+
+:host(.cheapest) {
+    outline: .25rem solid variables.$bgRed;
+    &::before {
+        background-color: variables.$bgRed;
+    }
 }
 
 :host(.costliest) {
@@ -285,13 +340,6 @@
     
     &::before {
         background-color: variables.$bgGreen;
-    }
-}
-
-:host(.cheapest) {
-    outline: .25rem solid variables.$bgRed;
-    &::before {
-        background-color: variables.$bgRed;
     }
 }
 

@@ -1,0 +1,18 @@
+:host {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        width: 100%;
+    }
+
+}

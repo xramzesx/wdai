@@ -9,14 +9,19 @@ import { Cart, CartItem } from '@app/types';
 })
 export class CartButtonComponent implements OnInit{
   total : number = 0
-  
+  counter : number = 0
+
   constructor( private globalState: GlobalStateService ) {}
 
   ngOnInit(): void {
     this.globalState.cartChange.subscribe( (cart: Cart) => {
-      this.total = Array.from(
+      const arr =  Array.from(
         cart.values()
-      ).reduce((
+      )
+      
+      this.counter = arr.length
+      
+      this.total = arr.reduce((
         accumulator: number, 
         { price, quantity } : CartItem
       ) => accumulator + quantity * price * 100, 0) / 100
