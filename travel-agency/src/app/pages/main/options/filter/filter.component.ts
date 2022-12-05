@@ -37,6 +37,10 @@ export class FilterComponent implements OnInit{
       maxPrice : [0],
     })
 
+    this.globalState.tripsChange.subscribe( v => {
+      this.updateFilter()
+    })
+
     this.modelForm.valueChanges.subscribe( v => {
       this.updateFilter()
       this.extendedFilters = { 
