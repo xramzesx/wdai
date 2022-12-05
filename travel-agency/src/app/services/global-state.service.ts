@@ -83,20 +83,24 @@ export class GlobalStateService {
   cartChange : Subject< Cart > = 
     new Subject< Cart >()
 
-  addToCart (item : CartItem) : void {
-    if ( item.quantity == 0 ) return;
+  modifyCart (item : CartItem) : void {
+    if ( item.quantity == 0 ) {
+      this.cart.delete(item.id)
+      this.cartChange.next(this.cart)
+      return;
+    }
     
     if ( this.cart.has(item.id) ){
-      const current : any = this.cart.get(item.id)
-      this.cart.set(item.id, { ...current, quantity : current.quantity + item.quantity })
-    } else {
-      this.cart.set(item.id, item)
-    }
-
+        const current : any = this.cart.get(item.id)
+        this.cart.set(item.id, { ...current, quantity : item.quantity })
+      } else {
+        this.cart.set(item.id, item)
+      }
+      
     this.cartChange.next(this.cart)
   }
 
   removeFromCart (item: CartItem) : void {
-
+    
   } 
 }

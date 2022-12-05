@@ -32,7 +32,7 @@
     <div [ngClass]="{'price': true}">{{ price | currency : true | async }}</div>
     <div [ngClass]="['quantity']">
         <div [ngClass]="[ getAvailableClassVariant(),'quantity__available' ]"> 
-            {{quantity - selected - reservations | quantity}} 
+            {{quantity - selected | quantity}} 
         </div>
         <div [ngClass]="{'selected': true}">
             <button 
@@ -48,13 +48,10 @@
             </div>
             <button 
                 (click)="onAddUnit()" 
-                [ngClass]="{'hide': quantity <= selected + reservations}"
+                [ngClass]="{'hide': quantity <= selected}"
             >
                 +
             </button>
         </div>
-    </div>
-    <div [ngClass]="{'cart': true}">
-        <button (click)="onAddToCart()">Add to cart</button>
     </div>
 </div>

@@ -23,7 +23,6 @@ export class QuantityMaskPipe implements PipeTransform {
     const tag : ClassVariantKey = args.length ? args[0] : 'content'
     
     
-    
     if ( value > 5 )
       return this.classVariants[0][tag]
     else if ( value > 0 )

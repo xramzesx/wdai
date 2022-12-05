@@ -46,24 +46,26 @@ export class ItemComponent {
   //// EVENT HANDLERS ////
   
   onAddUnit() {
-    console.log(this.selected)
-    if ( this.quantity > this.selected)
+    if ( this.quantity >= this.selected) {
       this.selected++
+    }
+    this.modifyCart()
   }
 
   onRemoveUnit() {
-    if (this.selected > 0)
+    if (this.selected > 0) {
       this.selected--
+    }
+    this.modifyCart()
   }
 
-  onAddToCart() {
-    this.globalState.addToCart({
+  modifyCart(){
+    this.globalState.modifyCart({
       id: this.id,
       name : this.name,
       quantity : this.selected,
       price: this.price
     })
-    this.selected = 0
   }
 
   onRemoveTrip () {
@@ -74,7 +76,7 @@ export class ItemComponent {
 
   getAvailableClassVariant () : string {
     return this.quantityPipe.transform( 
-      this.quantity - this.selected - this.reservations, 
+      this.quantity - this.selected, 
       'className' 
     );
   }
