@@ -1,5 +1,5 @@
 import { Component, Input, HostBinding } from '@angular/core';
-import { TripDate } from '@app/types';
+import { Rate, TripDate } from '@app/types';
 import { QuantityMaskPipe } from '@app/pipes/quantity.pipe';
 import { GlobalStateService } from '@app/services/global-state.service';
 
@@ -29,6 +29,8 @@ export class ItemComponent {
   @Input() description: string = "";
   @Input() image: string = "";
   @Input() reservations = 0;
+
+  @Input() rates : Rate[] = [];
 
   //// HOST BINDS ////
 

@@ -1,0 +1,20 @@
+@use 'mixins';
+
+:host {
+    width: 1rem;
+    height: 1rem;
+
+    background-color: white;
+    position: relative;
+    padding: 1rem;
+    
+    @include mixins.clip-star;
+    
+    .bar {
+        position: absolute;
+        top:0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}

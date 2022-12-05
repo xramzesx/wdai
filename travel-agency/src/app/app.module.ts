@@ -18,6 +18,10 @@ import { TripCreatorComponent } from './pages/main/options/trip-creator/trip-cre
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputComponent } from './common/input/input.component';
 import { ValidateDateDirective } from './directives/validate-date.directive';
+import { RatesComponent } from './common/rates/rates.component';
+import { ElementComponent } from './common/rates/element/element.component';
+import { FilterPipe } from './pipes/filter.pipe';
+import { CheckboxComponent } from './common/checkbox/checkbox.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +39,10 @@ import { ValidateDateDirective } from './directives/validate-date.directive';
     TripCreatorComponent,
     InputComponent,
     ValidateDateDirective,
+    RatesComponent,
+    ElementComponent,
+    FilterPipe,
+    CheckboxComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +50,7 @@ import { ValidateDateDirective } from './directives/validate-date.directive';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [QuantityMaskPipe],
+  providers: [QuantityMaskPipe, FilterPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

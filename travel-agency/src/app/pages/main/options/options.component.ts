@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-options',
@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./options.component.scss']
 })
 export class OptionsComponent {
+  @Output() filters : EventEmitter<any> = new EventEmitter()
 
+  handleFilters( filters : any ) {
+    this.filters.emit(filters)
+  }
 }

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { GlobalStateService } from '@app/services/global-state.service';
 import { HttpService } from '@app/services/http.service';
-import { TripItem } from '@app/types';
 import Utils from '@app/utils';
 import { ValidateDateDirective } from 'src/app/directives/validate-date.directive';
 
@@ -95,10 +94,6 @@ export class TripCreatorComponent implements OnInit{
     // console.log(form)
   }
 
-  parseDate(date: Date) : string {
-    return date ? date.toISOString().split('T')[0] : ''
-  }
-
   //// GETTERS /////
 
   get startDate() {
@@ -110,6 +105,10 @@ export class TripCreatorComponent implements OnInit{
   }
 
   get today () {
-    return this.parseDate(new Date())
+    return Utils.parseDate(new Date())
+  }
+
+  get currency() {
+    return this.globalState.currency.name
   }
 }

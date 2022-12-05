@@ -1,2 +1,2 @@
-<app-options></app-options>
-<app-trip-list></app-trip-list>
+<app-options (filters)="handleFilters($event)"></app-options>
+<app-trip-list [filters]="filters"></app-trip-list>

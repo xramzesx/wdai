@@ -1,0 +1,11 @@
+
+<label>
+    <input 
+        [formGroupName]="controlName" 
+        [name]="controlName"
+        type="checkbox"
+        (change)="onChange($event)"
+        [value]="value"
+    >
+    {{label}}
+</label>

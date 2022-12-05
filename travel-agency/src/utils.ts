@@ -1,3 +1,4 @@
+import { Rate } from '@app/types';
 
 const months = [
     "styczeń",
@@ -43,7 +44,26 @@ export default class Utils {
                 ] 
             : 0
     }
+
+    static  unique( arr: any[] ) : any[] {
+        return Array.from( new Set( arr ))
+    }    
+
+    static parseDate(date: Date) : string {
+        return date ? date.toISOString().split('T')[0] : ''
+    }
+
+    static getRate( rates: Rate[] ) : number {
+        return rates.length == 0
+            ? 0
+            : Math.round(rates.reduce( (acc, {rate}) => acc + rate, 0 ) / rates.length )
+    }
+
+    static cmpDate( first:string, second:string ) : number {
+        const firstDate = new Date(first)
+        const secondDate = new Date(second)
+
+        return firstDate.getTime() - secondDate.getTime()
+    }
 }
 
-
-console.log(Utils.getUniqueRandom(10, 20, [11, 13, 14, 16]))

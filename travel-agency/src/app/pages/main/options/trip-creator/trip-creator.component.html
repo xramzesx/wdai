@@ -38,7 +38,7 @@
     <app-input 
         [formGroup]="modelForm" 
         controlName="price"
-        label="Price (PLN)" 
+        [label]="'Price (' + currency + ')'" 
         type="number"
         min="0"
     ></app-input>
@@ -68,6 +68,7 @@
         type="date"
         [min]="startDate"
     ></app-input>
+
     <input [disabled]="!modelForm.valid" type="submit" value="Create">
 </form>
 

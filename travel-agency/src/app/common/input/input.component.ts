@@ -1,10 +1,8 @@
 import { 
   Component, 
-  Input, 
-  ComponentFactoryResolver, 
-  Optional, 
-  ViewContainerRef,
-  AfterViewInit 
+  EventEmitter, 
+  Input,
+  Output
 } from '@angular/core';
 import { 
   ControlContainer,
@@ -25,11 +23,19 @@ export class InputComponent {
   @Input() type : string = "text"
   @Input() label: string = ""
   
-  @Input() placeholder: string = ""
+  @Input() placeholder: string | number = ""
   @Input() options : string[] = []
 
   @Input() min : any = ''
   @Input() max : any = ''
+
+  @Input() value : any = ''
+
+  @Output() onInput : EventEmitter<any> = new EventEmitter()
+
+  handleInput( event : Event ) {
+    this.onInput.emit(event)
+  }
 
   getType() {
     switch ( this.type ) {

@@ -21,6 +21,10 @@ export class GlobalStateService {
     this.currencyChange.next( currencies[index] )
   } 
 
+  convertToCurrency( value : number ) {
+    return Math.round( value / this.currency.converter * 100 ) / 100
+  }
+
   //// INJECTIONS ////
   
   constructor(private httpService: HttpService) { 
@@ -63,18 +67,17 @@ export class GlobalStateService {
     /// TODO: Http request to add trip
 
     const tripItem : TripItem = { 
-      ...trip, 
+      ...trip,
+      price : Math.round( trip.price * this.currency.converter * 100) / 100,
       id : Utils.getUniqueRandom(
         0, 
         100, 
         this.trips.map( ({id}) => id )
     )}
     
-    console.log('item',tripItem)
     this.trips.push(tripItem)
     this.tripsChange.next( this.trips )
   }
-
 
 
   //// CART ////
@@ -99,8 +102,4 @@ export class GlobalStateService {
       
     this.cartChange.next(this.cart)
   }
-
-  removeFromCart (item: CartItem) : void {
-    
-  } 
 }

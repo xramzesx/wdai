@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FilterPipe } from '@app/pipes/filter.pipe';
 import { GlobalStateService } from '@app/services/global-state.service';
 import { HttpService } from '@app/services/http.service';
 import { Cart, CartItem, TripItem } from '@app/types';
@@ -11,14 +12,15 @@ type Reducer = (a: TripItem, b: TripItem) => Boolean
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit{
+  @Input() filters: any = {};
+  
   trips: TripItem[] = []  
   cart: Cart = new Map()
 
-  cheapestId : number = 0
-  costliestId: number = 0
 
   constructor( 
-    private globalState: GlobalStateService 
+    private globalState: GlobalStateService,
+    private filterPipe: FilterPipe 
   ) {}
 
   ngOnInit(): void {
@@ -34,15 +36,16 @@ export class ListComponent implements OnInit{
     })
   }
 
-
   refresh() : void {
-    this.cheapestId = this.getCheapestID()
-    this.costliestId = this.getCostliestID()
+    // this.cheapestId = this.getCheapestID()
+    // this.costliestId = this.getCostliestID()
   }
 
   getSearched( comparator : Reducer ) {
     
-    const filtered = this.trips.filter(({
+    const prefiltered = this.filterPipe.transform( this.trips, this.filters )
+    
+    const filtered = prefiltered.filter(({
       id, 
       quantity 
     } ) => 
@@ -73,5 +76,13 @@ export class ListComponent implements OnInit{
   getReservations( id: number ) {
     const { quantity } = this.cart.get(id) ?? { quantity: 0 }
     return quantity 
+  }
+
+  get cheapestId () {
+    return this.getCheapestID()
+  }
+
+  get costliestId() {
+    return this.getCostliestID()
   }
 }

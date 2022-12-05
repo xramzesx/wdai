@@ -1,0 +1,17 @@
+@use 'mixins';
+
+:host {
+    display: flex;
+    flex-direction: column;
+
+    gap: .5rem;
+
+    .rates {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+
+        @include mixins.default-drop-shadow;
+    }
+}

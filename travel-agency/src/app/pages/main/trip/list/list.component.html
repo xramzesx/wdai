@@ -1,5 +1,5 @@
 <app-trip-item 
-    *ngFor="let trip of trips"
+    *ngFor="let trip of (trips | filter : filters )"
     
     [id]="trip.id"
     [name]="trip.name"
@@ -10,7 +10,7 @@
     [description]="trip.description"
     [image]="trip.image"
     [reservations]="getReservations(trip.id)"
-
+    [rates]="trip.rates || []"
     [disabled]="trip.quantity - getReservations(trip.id) == 0"
     [costliest]="trip.id == costliestId"
     [cheapest]="trip.id == cheapestId"

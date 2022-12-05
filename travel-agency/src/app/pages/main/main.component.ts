@@ -11,6 +11,12 @@ import { HttpService } from '@app/services/http.service';
 export class MainComponent implements OnInit{
   constructor( private httpService: HttpService ) {}
 
+  filters : any = {}
+  
+  handleFilters( filters:any ) {
+    this.filters = filters
+  }
+
   trips: TripItem[] = []
 
   ngOnInit(): void {

@@ -10,9 +10,9 @@ export class CurrencyPipe implements PipeTransform {
 
   constructor( private globalState: GlobalStateService ) {}
 
-  transform(value: number, showName : boolean ): BehaviorSubject<string> {
+  transform(value: number, showName : boolean = false): BehaviorSubject<string> {
     
-    const {converter, name } = this.globalState.currency;
+    const { converter, name } = this.globalState.currency;
 
     let currencySubject: BehaviorSubject<string> = 
       new BehaviorSubject<string>(`${

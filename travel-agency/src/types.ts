@@ -1,5 +1,6 @@
-export type Rates = {
-
+export type Rate = {
+  id : number;
+  rate : number;
 }
 
 //// CART ////
@@ -44,4 +45,6 @@ export type TripItem = {
   
   description: string;
   image: string;
+
+  rates?: Rate[]
 }

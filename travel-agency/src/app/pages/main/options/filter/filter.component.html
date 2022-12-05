@@ -1,1 +1,75 @@
-<p>filter works!</p>
+<form [formGroup]="modelForm">
+    <h3>Countries</h3>
+    
+    <app-checkbox 
+        *ngFor="let country of countries"
+        [formGroup]="modelForm" 
+        controlName="countries"
+        [label]="country"
+        [value]="country"
+        (handleChange)="onCountriesCheckboxChange($event)"
+    ></app-checkbox>
+
+    <!-- RATES -->
+
+    <h3>Rates</h3>
+
+    <app-checkbox 
+        *ngFor="let rate of rates"
+        [formGroup]="modelForm" 
+        controlName="rates"
+        [label]="rate"
+        [value]="rate"
+        (handleChange)="onRatesCheckboxChange($event)"
+    ></app-checkbox>
+
+    <!-- DATE -->
+
+    <h3>Date</h3>
+
+    <app-input 
+        [formGroup]="modelForm" 
+        controlName="startDate"
+        label="Start"
+        type="date"
+        [min]="today"
+        [max]="maxDate"
+    ></app-input>
+
+    <app-input 
+        [formGroup]="modelForm" 
+        controlName="endDate"
+        label="End"
+        type="date"
+        [min]="today"
+        [max]="maxDate"
+    ></app-input>
+
+    <!-- PRICE  -->
+
+
+    <h3>Price</h3>
+
+    <app-input 
+        [formGroup]="modelForm" 
+        controlName="minPrice"
+        label="From"
+        type="number"
+        [min]="minPrice"
+        [max]="maxPrice"
+        [value]="minPrice"
+        [placeholder]="minPrice"
+    ></app-input>
+
+    <app-input 
+        [formGroup]="modelForm" 
+        controlName="maxPrice"
+        label="To"
+        type="number"
+        [min]="minPrice"
+        [max]="maxPrice"
+        [value]="maxPrice"
+        [placeholder]="maxPrice"
+    ></app-input>
+
+</form>

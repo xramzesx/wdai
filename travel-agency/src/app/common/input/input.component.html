@@ -10,6 +10,8 @@
         [formControlName]="controlName"
         [placeholder]="placeholder"
         [maxLength]="max"
+        [value]="value"
+        (input)="handleInput($event)"
     >
     </textarea>
 </ng-template>
@@ -18,6 +20,8 @@
     <select 
         [name]="controlName"
         [formControlName]="controlName"
+        [value]="value"
+        (input)="handleInput($event)"
     >
         <option *ngFor="let option of options" [value]="option">{{option}}</option>
     </select>
@@ -31,5 +35,7 @@
         [placeholder]="placeholder" 
         [min]="min"
         [max]="max"
+        [value]="value"
+        (input)="handleInput($event)"
     >
 </ng-template>

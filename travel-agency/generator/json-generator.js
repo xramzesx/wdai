@@ -35,7 +35,12 @@ const template = {
         'https://picsum.photos/id/210/600/300',
         'https://picsum.photos/id/221/600/300'
 
-    ]       
+    ],
+    rate : {
+        max : 5,
+        from : 0,
+        to : 250,
+    }
 }
 
 console.log(template)
@@ -47,6 +52,39 @@ const ID_OFFSET = 100
 const getRandom = (start, end) => Math.floor( Math.random() * (end - start + 1) + start) 
 const getRandomProp = arr => arr[ getRandom(0, arr.length - 1) ]
 const getRandomDate = (start, end) => new Date( Math.floor(getRandom( start.getTime(), end.getTime()) / DAY ) * DAY )
+
+const getUniqueRandom = ( min, max, usedValues) => {
+    const used = new Set(usedValues)
+    const unused = [...Array(
+        max - min + 1
+    ).keys()]
+    .map( n => n + min )
+    .filter( n => !used.has(n))
+
+    return unused.length 
+        ? unused[ 
+            Math.floor( 
+                getRandom(
+                    0, 
+                    unused.length - 1
+                )) 
+            ] 
+        : -1
+}
+
+const getRandomRates = (maxRates) => {
+    const rates = []
+
+    for ( let i = 0; i < maxRates; i++) {
+        rates.push({
+            id : getUniqueRandom(2, template.rate.to, rates.map(({id}) => id)),
+            rate: getRandom(1, template.rate.max )
+        })
+    }
+    
+    return rates
+}
+
 
 
 const generateItem = () => {
@@ -65,7 +103,8 @@ const generateItem = () => {
         quantity: getRandom(template.quantity.from, template.quantity.to),
 
         description: getRandomProp(template.description),
-        image: `https://picsum.photos/id/${getRandomProp(template.imageId)}/600/300`
+        image: `https://picsum.photos/id/${getRandomProp(template.imageId)}/600/300`,
+        rates : getRandomRates( getRandom( template.rate.from, template.rate.to ))
     }
 }
 
@@ -80,3 +119,6 @@ console.log(result)
 console.log(JSON.stringify(result, null, 5))
 
 fs.writeFileSync('./trips.json', JSON.stringify(result, null, 5))
+
+
+console.log(getRandomRates(20))
