@@ -79,7 +79,9 @@ export class GlobalStateService {
         0, 
         100, 
         this.trips.map( ({id}) => id )
-    )}
+      ),
+      rates: []
+    }
     
     this.trips.push(tripItem)
     this.tripsChange.next( this.trips )
@@ -90,18 +92,19 @@ export class GlobalStateService {
 
     const trip = this.trips.find( ({id}) => tripId == id )
     const rateItem = trip?.rates?.find( ({id}) => id == this.userId )
+    console.log(trip)
 
     if ( rateItem === undefined ) {
       trip?.rates?.push({id : this.userId, rate})
       return
     } 
   
+
     if ( rateItem.rate == rate ) {
       Utils.removeItem( trip?.rates || [], rateItem )
     } else {
       rateItem.rate = rate;
     }
-  
   }
 
   getUserRate( tripId : number ) {
