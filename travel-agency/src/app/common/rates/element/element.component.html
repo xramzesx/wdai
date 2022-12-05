@@ -1,1 +1,7 @@
-<div [ngClass]="['bar']"></div>
+<div 
+    [ngClass]="{
+        'bar' : true,
+        'contain' : contain,
+        'current' : current 
+    }"
+></div>

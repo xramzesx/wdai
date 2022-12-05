@@ -1,6 +1,11 @@
 <div [ngClass]="['rates']">
     <app-rate-element 
         *ngFor="let star of getStars(); let i=index"
+        [index]="star.index"
+        [contain]="star.contain"
+        [current]="star.current"
+        [id]="id"
+        (handleClick)="onClick($event)"
     ></app-rate-element>
 </div>
-<div> {{avg}} / {{max}} ({{rates.length || 0}})</div>
+<div> {{avg | number : "1.1-1"}} / {{max | number : "1.1-1"}} ({{rates.length || 0}})</div>

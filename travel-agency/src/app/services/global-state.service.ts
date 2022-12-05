@@ -9,6 +9,8 @@ import Utils from '@app/utils';
   providedIn: 'root'
 })
 export class GlobalStateService {
+  /// temporary userId ///
+  userId : number = 0
 
   // This service contains all global state //
 
@@ -83,7 +85,30 @@ export class GlobalStateService {
     this.tripsChange.next( this.trips )
   }
 
+  modifyRate( tripId : number, rate: number ) {
+    /// TODO: Backend operations for this 
 
+    const trip = this.trips.find( ({id}) => tripId == id )
+    const rateItem = trip?.rates?.find( ({id}) => id == this.userId )
+
+    if ( rateItem === undefined ) {
+      trip?.rates?.push({id : this.userId, rate})
+      return
+    } 
+  
+    if ( rateItem.rate == rate ) {
+      Utils.removeItem( trip?.rates || [], rateItem )
+    } else {
+      rateItem.rate = rate;
+    }
+  
+  }
+
+  getUserRate( tripId : number ) {
+    const trip = this.trips.find( ({id}) => tripId == id )
+    const rateItem = trip?.rates?.find( ({id}) => id == this.userId )
+    return rateItem ? rateItem.rate : 0
+  }
   //// CART ////
 
   hideCart : boolean = true

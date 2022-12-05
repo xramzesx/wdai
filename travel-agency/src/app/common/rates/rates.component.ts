@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { GlobalStateService } from '@app/services/global-state.service';
 import { Rate } from '@app/types'
 import Utils from '@app/utils';
 
@@ -11,22 +12,27 @@ export class RatesComponent {
   @Input() rates: Rate[] = [];
   
   @Input() max : number = 5
-
   @Input() id : number = 0
 
+  constructor(
+    private globalState: GlobalStateService
+  ) {}
+
+  
+  onClick( index: number ) {
+    this.globalState.modifyRate( this.id , index + 1 )
+  }
+
   getStars() : any[] {
-    const result : any[] = []
-    
+    const result : any[] = [...Array(this.max).keys()]    
+    const rate = Utils.getRate(this.rates)
+    const current = this.current
 
-
-    for (let i = 1; i <= this.max; i++ ) {
-      result.push({
-        rate : i,
-        // value: 
-      })
-    }
-
-    return result
+    return result.map( index => ({ 
+      index, 
+      contain : index < rate,
+      current : index < current 
+    }))
   }
 
   get avg () {
@@ -41,5 +47,9 @@ export class RatesComponent {
 
   get rate () {
     return Utils.getRate(this.rates)
+  }
+
+  get current() {
+    return this.globalState.getUserRate( this.id )
   }
 }

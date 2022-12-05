@@ -1,6 +1,9 @@
+@use 'variables';
 @use 'mixins';
 
 :host {
+    cursor: pointer;
+
     width: 1rem;
     height: 1rem;
 
@@ -16,5 +19,13 @@
         left: 0;
         right: 0;
         bottom: 0;
+    }
+
+    .contain {
+        background-color: darken(gold, 20%);
+    }
+
+    .current {
+        background-color: darken(variables.$bgGreen, 30%);
     }
 }
