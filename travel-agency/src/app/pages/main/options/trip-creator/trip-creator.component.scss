@@ -50,3 +50,20 @@
     }
 
 }
+
+@media (max-width: variables.$tabletWidth) {
+    :host {
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            justify-content: center;
+            align-items: center;
+            & > * {
+                max-width: 400px;
+                width: 100%;
+            }
+        }
+    }
+}

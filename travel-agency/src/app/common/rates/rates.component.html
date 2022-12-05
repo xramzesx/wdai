@@ -8,4 +8,4 @@
         (handleClick)="onClick($event)"
     ></app-rate-element>
 </div>
-<div> {{avg | number : "1.1-1"}} / {{max | number : "1.1-1"}} ({{rates.length || 0}})</div>
+<div [ngClass]="['summary']" > {{avg | number : "1.1-1"}} / {{max | number : "1.1-1"}} ({{rates.length || 0}})</div>
