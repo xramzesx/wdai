@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { GlobalStateService } from '@app/services/global-state.service';
 import { Cart, CartItem } from '@app/types';
 
@@ -12,6 +12,11 @@ export class CartButtonComponent implements OnInit{
   counter : number = 0
 
   constructor( private globalState: GlobalStateService ) {}
+
+  @HostListener('click')
+  handleClick () {
+    this.globalState.toggleCart()
+  }
 
   ngOnInit(): void {
     this.globalState.cartChange.subscribe( (cart: Cart) => {

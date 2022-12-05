@@ -1,0 +1,106 @@
+@use 'variables';
+@use 'mixins';
+
+$borderLight: .1rem solid #aaa;
+$borderBold: .1rem solid #000;
+
+:host {
+    position: absolute;
+    top: 100%;
+    right: 2rem;
+    left: 55%;
+
+    // max-width: 500px;
+
+    background-color: white;
+    padding: 1rem;
+    contain: paint;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem ;
+
+    transition: 
+        transform .25s ease,
+        left .25s ease,
+        right .25s ease,
+        max-width .25s ease;
+
+    z-index: -1;
+    clip-path: polygon(-10% 0, 110% 0, 110% 110%, -10% 110%);
+
+    @include mixins.default-drop-shadow;
+
+    overflow-y: auto;
+    max-height: 50vh;
+
+    table {
+        contain: paint;
+        border-radius: .25rem;
+        border-collapse: collapse;
+        table-layout: fixed;
+        width: 100%;
+
+        tr:hover {
+            th, td {
+                background-color: whitesmoke;
+            }
+        }
+
+
+        th, td {
+            padding: .25rem;
+            text-align: center;
+
+            transition: padding .25s ease;
+        }
+
+        .total {
+            text-align: right;
+            padding-right: .5rem;
+            border-left: $borderLight;
+        }
+
+        tbody td {
+            border-bottom: $borderLight;
+        }
+
+        thead th {
+            border-bottom: $borderBold;
+        }
+        tfoot th {
+            border-top: $borderBold !important;
+            padding: .5rem;
+        }
+    }
+}
+
+:host:has(.hide) {
+    transform: translateY(-100vh);
+}
+
+@media (max-width: variables.$tabletWidth) {
+    :host {
+        max-width: 100%;
+        left: 25%;
+    }
+}
+
+@media (max-width: variables.$mobileWidth) {
+    :host {
+        max-width: calc(100% - 2rem);
+        max-height: inherit;
+
+        overflow-x: hidden;
+        
+        right: 1rem;
+        left: 1rem;
+        table {
+            width: calc(100vw - 5rem);
+            table-layout:auto;
+            width: 100%;
+
+            tr, th {
+                padding: 0;
+            }
+        }
+    }
+}

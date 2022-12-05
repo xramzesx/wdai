@@ -13,9 +13,11 @@
         padding: 1rem 2rem;
         max-width: variables.$maxWidth;
         width: 100%;
-
+        position: relative;
+        z-index: 1;
         display: flex;
         gap: 1rem;
+        background-color: white;
 
         .content {
             flex: 1;

@@ -43,6 +43,10 @@ export class GlobalStateService {
         this.cart = value
       }
     )
+    
+    this.hideCartChange.subscribe( (hideCart : boolean) => {
+      this.hideCart = hideCart
+    } )
 
     //// HTTP REQUESTS ////
 
@@ -81,6 +85,14 @@ export class GlobalStateService {
 
 
   //// CART ////
+
+  hideCart : boolean = true
+  hideCartChange: Subject<boolean> = new Subject<boolean>()
+
+  toggleCart(){
+    console.log('elo', this.hideCart)
+    this.hideCartChange.next(!this.hideCart)
+  }
 
   cart : Map<number, CartItem> = new Map()
   cartChange : Subject< Cart > = 
