@@ -22,6 +22,7 @@ import { RatesComponent } from './common/rates/rates.component';
 import { ElementComponent } from './common/rates/element/element.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { CheckboxComponent } from './common/checkbox/checkbox.component';
+import { DecimalPipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,11 @@ import { CheckboxComponent } from './common/checkbox/checkbox.component';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [QuantityMaskPipe, FilterPipe],
+  providers: [
+    QuantityMaskPipe, 
+    FilterPipe,
+    DecimalPipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

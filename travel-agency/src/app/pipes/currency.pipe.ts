@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { GlobalStateService } from '@app/services/global-state.service';
 import { Currency } from '@app/types';
@@ -8,7 +9,14 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class CurrencyPipe implements PipeTransform {
 
-  constructor( private globalState: GlobalStateService ) {}
+  constructor( 
+    private globalState: GlobalStateService, 
+    private decimalPipe : DecimalPipe 
+  ) {}
+
+  getPreparedValue( value : number, converter : number ) {
+    return this.decimalPipe.transform( Math.ceil( value / converter * 100) / 100, "1.2-2")
+  }
 
   transform(value: number, showName : boolean = false): BehaviorSubject<string> {
     
@@ -16,7 +24,7 @@ export class CurrencyPipe implements PipeTransform {
 
     let currencySubject: BehaviorSubject<string> = 
       new BehaviorSubject<string>(`${
-        Math.ceil( value / converter * 100) / 100
+        this.getPreparedValue(value, converter)
       } ${
         ( showName ? name : "" )
       }`);
@@ -27,7 +35,7 @@ export class CurrencyPipe implements PipeTransform {
         const { converter, name } = currency
         
         currencySubject.next( `${
-          Math.ceil( value / converter * 100) / 100
+          this.getPreparedValue(value, converter)
         } ${
           ( showName ? name : "" )
         }`)
