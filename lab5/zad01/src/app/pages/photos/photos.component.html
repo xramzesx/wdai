@@ -1,0 +1,9 @@
+<app-indicator *ngIf="photos.length == 0"></app-indicator>
+
+<app-photo-item 
+    *ngFor="let photo of photos"
+    [title]="photo.title"
+    [src]="photo.thumbnailUrl"
+    [albumId]="photo.albumId"
+    [photoId]="photo.id"
+></app-photo-item>

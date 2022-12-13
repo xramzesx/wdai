@@ -1,0 +1,40 @@
+<div ngClass="form-container">
+    <form [formGroup]="modelForm" (ngSubmit)="onSubmit()">
+        <label for="userId">UserId</label>
+        <input 
+            type="number" 
+            name="userId" 
+            formControlName="userId" 
+            min="0"
+        >
+        
+        <label for="title">Title</label>
+        <input 
+            type="text" 
+            name="title" 
+            formControlName="title"
+        >
+        
+        <label for="body">Body</label>
+        <textarea 
+            name="body" 
+            cols="30" 
+            rows="10" 
+            formControlName="body"
+        ></textarea>
+        
+        <input type="submit" value="create" [disabled]="modelForm.invalid">
+    </form>
+</div>
+
+
+<div ngClass="list">
+    <app-indicator *ngIf="posts.length == 0"></app-indicator>
+    <app-post-item 
+        *ngFor="let post of posts"
+        [userId]="post.userId"
+        [title]="post.title"
+        [body]="post.body"
+        [id]="post.id"
+    ></app-post-item>
+</div>
