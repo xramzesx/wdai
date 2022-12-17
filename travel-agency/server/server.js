@@ -5,14 +5,18 @@ const { MONGO_USER, MONGO_PASSWORD, DB_NAME } = process.env
 
 const collections = {
     trips: 'trips',
-    countries: 'countries'
+    countries: 'countries',
+    users : 'users'
 }
 
 //// EXPRESSS ////
 
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const port = 3000
+
+app.use(cors())
 
 //// MONGO ////
 
@@ -28,11 +32,14 @@ const client = new MongoClient(
     }
 )
 
+
 //// UTILS /////
 
 const asyncWrapper = (callback) => (req, res, next) => {
     callback(req, res, next).catch(next)
 }
+
+const mapId = item => ({ ...item, _id : undefined, id: item._id  })
 
 
 //// ROUTES ////
@@ -64,11 +71,11 @@ app.get('/trips', asyncWrapper( async (req, res) => {
     const result = await collection
         .find({})
         .map( 
-            item => ({ 
+            item => (mapId({ 
                 ...item, 
                 image : item.images[0], 
                 images : undefined 
-        }))
+        })))
         .toArray()
     
     client.close()
@@ -77,7 +84,7 @@ app.get('/trips', asyncWrapper( async (req, res) => {
 }))
 
 app.post('/trips', asyncWrapper ( async (req, res) => {
-
+    
     res.send('siema')
 }))
 
@@ -85,7 +92,7 @@ app.get('/trips/:id', asyncWrapper( async (req, res) => {
     await client.connect()
     const db = client.db(DB_NAME)
     const collection = db.collection(collections.trips)
-    console.log(new ObjectId(req.params.id))
+
     const result = (await collection.findOne( { _id : new ObjectId(req.params.id) } ))
 
     client.close()
@@ -93,7 +100,7 @@ app.get('/trips/:id', asyncWrapper( async (req, res) => {
     if ( result === null ) {
         res.status(404).json({name : "Not found" })
     } else {
-        res.json(result)
+        res.json(mapId(result))
     }
 }))
 
@@ -113,7 +120,6 @@ app.delete('/trips/:id', asyncWrapper( async (req, res) => {
 }))
 
 /// RATES ///
-
 
 app.get('/', async (req, res) => {
     res.send('Hello world')
