@@ -26,6 +26,8 @@
     "paths": {
       "@app/types" : [ "src/types.ts" ],
       "@app/utils" : [ "src/utils.ts" ],
+      "@app/api/paths" : [ "src/api.ts" ],
+      "@app/env" : [ "src/environment.ts" ],
       "@app/services/*" : [ "src/app/services/*" ],
       "@app/pipes/*" : [ "src/app/pipes/*" ]
     }
