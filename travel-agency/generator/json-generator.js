@@ -103,7 +103,11 @@ const generateItem = () => {
         quantity: getRandom(template.quantity.from, template.quantity.to),
 
         description: getRandomProp(template.description),
-        image: `https://picsum.photos/id/${getRandomProp(template.imageId)}/600/300`,
+        image: [
+            `https://picsum.photos/id/${getRandomProp(template.imageId)}/600/300`,
+            `https://picsum.photos/id/${getRandomProp(template.imageId)}/600/300`,
+            `https://picsum.photos/id/${getRandomProp(template.imageId)}/600/300`
+        ],
         rates : getRandomRates( getRandom( template.rate.from, template.rate.to ))
     }
 }
@@ -118,7 +122,7 @@ console.log(result)
 
 console.log(JSON.stringify(result, null, 5))
 
-fs.writeFileSync('./trips.json', JSON.stringify(result, null, 5))
+fs.writeFileSync('./trips-db.json', JSON.stringify(result, null, 5))
 
 
 console.log(getRandomRates(20))
