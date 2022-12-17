@@ -1,0 +1,100 @@
+<h2>Add trip</h2>
+
+<form [formGroup]="modelForm" (ngSubmit)="onSubmit()" >
+    <app-input 
+        [formGroup]="modelForm" 
+        ngClass="name"
+        controlName="name"
+        label="Name"
+        placeholder="Baśniowa..." 
+    ></app-input>
+    
+    <app-input 
+        [formGroup]="modelForm" 
+        ngClass="country"
+        controlName="country"
+        label="Country"
+        type="select"
+        [options]="countries"
+    ></app-input>
+
+    <app-input 
+        [formGroup]="modelForm" 
+        ngClass="description"
+        controlName="description"
+        label="Description"
+        type="textarea"
+        max="130"
+        [rows]="10"
+    ></app-input>
+    
+    <!-- IMAGE -->
+    
+    <app-input 
+        [formGroup]="modelForm" 
+        ngClass="image-main"
+        controlName="image"
+        label="Image"
+        placeholder="https://"
+    ></app-input>
+        
+    <app-input 
+        [formGroup]="modelForm" 
+        ngClass="image-detail-1"
+        controlName="image"
+        label="Image"
+        placeholder="https://"
+    ></app-input>
+        
+    <app-input 
+        [formGroup]="modelForm" 
+        ngClass="image-detail-2"
+        controlName="image"
+        label="Image"
+        placeholder="https://"
+    ></app-input>
+
+    <!-- NUMBERS -->
+
+    <app-input 
+        [formGroup]="modelForm" 
+        ngClass="price"
+        controlName="price"
+        [label]="'Price (' + currency + ')'" 
+        type="number"
+        min="0"
+    ></app-input>
+
+    <app-input 
+        [formGroup]="modelForm" 
+        ngClass="quantity"
+        controlName="quantity"
+        label="Quantity" 
+        type="number"
+        min="0"
+    ></app-input>
+
+    <!-- DATE -->
+
+    <app-input 
+        [formGroup]="modelForm" 
+        ngClass="start-date"
+        controlName="startDate"
+        label="Start date"
+        type="date"
+        [min]="today"
+    ></app-input>
+
+    <app-input 
+        [formGroup]="modelForm" 
+        ngClass="end-date"
+        controlName="endDate"
+        label="End date"
+        type="date"
+        [min]="startDate"
+    ></app-input>
+
+    <input [disabled]="!modelForm.valid" type="submit" value="Create">
+</form>
+
+

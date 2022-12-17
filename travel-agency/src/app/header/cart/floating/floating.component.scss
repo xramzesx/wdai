@@ -22,10 +22,9 @@ $borderBold: .1rem solid #000;
         right .25s ease,
         max-width .25s ease;
 
-    z-index: -1;
-    clip-path: polygon(-10% 0, 110% 0, 110% 110%, -10% 110%);
+    z-index: 0;
 
-    @include mixins.default-drop-shadow;
+    @include mixins.floating-nav-modal;
 
     overflow-y: auto;
     max-height: 50vh;

@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { FloatingComponentsService } from '@app/services/floating-components.service';
 import { GlobalStateService } from '@app/services/global-state.service';
 import { Cart, CartItem } from '@app/types';
 
@@ -11,11 +12,14 @@ export class CartButtonComponent implements OnInit{
   total : number = 0
   counter : number = 0
 
-  constructor( private globalState: GlobalStateService ) {}
+  constructor( 
+    private globalState: GlobalStateService,
+    private floatingComponents : FloatingComponentsService 
+  ) {}
 
   @HostListener('click')
   handleClick () {
-    this.globalState.toggleCart()
+    this.floatingComponents.toggleCart()
   }
 
   ngOnInit(): void {

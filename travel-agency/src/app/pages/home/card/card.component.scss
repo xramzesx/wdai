@@ -1,0 +1,81 @@
+@use 'mixins';
+@use 'variables';
+
+:host {
+    width: 100%;
+    min-height: variables.$windowHeight ;
+    background-attachment: fixed;
+
+    background: url('/assets/img/background-01.jpg');
+    background-position: center;
+    background-size: cover;
+    
+    background-color: #ccc;
+    background-blend-mode: multiply;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    .container {
+        @include mixins.default-drop-shadow-strong;
+        text-align: center;
+        height: 100%;
+
+        
+
+        color: white;
+
+        position: relative;
+        z-index: 1;
+        padding: 1rem;
+
+        &::before {
+            z-index: -1;
+            content: "";
+            top: -2rem;
+            left: 0;
+            right: 0;
+            bottom: -1rem;
+            position: absolute;
+            user-select: none;
+            // background-color: #fff8;
+            background-color: rgba(255, 255, 255, .5);
+            transform: skewY(-5deg);    
+            // -webkit-backdrop-filter: blur(10px);
+            // backdrop-filter: blur(1px);
+        
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            @include mixins.default-drop-shadow-strong;
+        }
+
+        p {
+            // padding: 1rem;
+            padding-left: .5rem;
+            background-color: #333a;
+            display: inline-block;
+            border-radius: .5rem;
+
+            transition: background-color .25s ease;
+
+            &:hover {
+                background-color: #333f;
+            }
+        }
+
+        a {
+            background-color: white;
+            padding: .5rem;
+            border-radius: .5rem;
+            text-decoration: none;
+            display: inline-block;
+            color: black;
+        }
+    }
+
+}

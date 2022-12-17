@@ -1,0 +1,10 @@
+@use 'variables';
+
+:host {
+    min-height: variables.$windowHeight ;
+    padding: 1rem;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}

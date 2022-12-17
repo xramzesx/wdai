@@ -11,9 +11,14 @@ $borderColor: yellow;
 $maxWidth: 1200px;
 $specialFontFamily: Wahyu and Sani, Arial, Helvetica, sans-serif;
 
+//// PROPER SIZE ////
+
+$windowHeight : calc( 100vh - 4rem);
 
 /// MEDIA ///
 
+$desktopWiderWidth: 1600px;
 $desktopWidth: 1160px;
 $tabletWidth: 950px;
+$tabletMidPointWidth: 720px;
 $mobileWidth: 620px;

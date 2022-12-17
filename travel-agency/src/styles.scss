@@ -23,6 +23,9 @@ body {
     min-height: 100vh;
     background-color: variables.$bgColor;
     font-family: Arial, Helvetica, sans-serif;
+    background-image: url('/assets/img/pattern2.png');
+    background-repeat: repeat;
+    background-blend-mode:screen;
 }
 
 h1, h2, h3, h4 {

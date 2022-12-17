@@ -1,4 +1,5 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
+import { FloatingComponentsService } from '@app/services/floating-components.service';
 import { GlobalStateService } from '@app/services/global-state.service';
 import { Cart, CartItem } from '@app/types';
 
@@ -9,7 +10,8 @@ import { Cart, CartItem } from '@app/types';
 })
 export class CartFloatingComponent implements OnInit{
   constructor(
-    private globalState: GlobalStateService
+    private globalState: GlobalStateService,
+    private floatingComponents : FloatingComponentsService
   ) { }
 
   ngOnInit(): void {
@@ -20,7 +22,7 @@ export class CartFloatingComponent implements OnInit{
   }
 
   get hide () :boolean {
-    return this.globalState.hideCart
+    return this.floatingComponents.hideCart
   }
 
   get totalValue () {

@@ -13,8 +13,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        min-height: 100%;
-        
+        min-height: variables.$windowHeight;
 
         & > * {
             max-width: variables.$maxWidth;
@@ -24,3 +23,6 @@
     }
 }
 
+router-outlet {
+    display: none;
+}

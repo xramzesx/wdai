@@ -1,16 +1,14 @@
 <nav>
+    <!-- FLOATING ELEMENTS -->
+    <app-cart-floating></app-cart-floating>
+    <app-menu></app-menu>
+    <!-- HAMBURGER MENU ICON -->
+    <app-hamburger></app-hamburger>
+
+    <!-- MAIN NAV MENU -->
     <h1>TravelTours</h1>
-    <div [ngClass]="['content']">
-        <select (change)="onCurrencyChange($event)" name="currency" [value]="getCurrentCurrency()">
-            <option 
-                *ngFor="let currency of getCurrencies(), let i=index" 
-                [value]="i" 
-            >
-                {{currency.name}}
-            </option>
-        </select>
+    <div ngClass="content">
 
         <button app-cart-button></button>
     </div>
-    <app-cart-floating></app-cart-floating>
 </nav>

@@ -1,0 +1,16 @@
+@use 'variables';
+
+:host {
+    display: flex;
+    justify-content: center;
+    // align-items: center;
+    width: 100%;
+
+    min-height: variables.$windowHeight;
+
+    .container {
+        padding: 1rem;
+        width: 100%;
+        max-width: variables.$maxWidth ;
+    }
+}

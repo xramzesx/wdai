@@ -46,10 +46,6 @@ export class GlobalStateService {
       }
     )
     
-    this.hideCartChange.subscribe( (hideCart : boolean) => {
-      this.hideCart = hideCart
-    } )
-
     //// HTTP REQUESTS ////
 
     this.httpService.getTrips().subscribe( (trips: TripItem[]) => {
@@ -112,15 +108,10 @@ export class GlobalStateService {
     const rateItem = trip?.rates?.find( ({id}) => id == this.userId )
     return rateItem ? rateItem.rate : 0
   }
-  //// CART ////
 
-  hideCart : boolean = true
-  hideCartChange: Subject<boolean> = new Subject<boolean>()
 
-  toggleCart(){
-    console.log('elo', this.hideCart)
-    this.hideCartChange.next(!this.hideCart)
-  }
+  //// CART LOGIC ////
+
 
   cart : Map<number, CartItem> = new Map()
   cartChange : Subject< Cart > = 

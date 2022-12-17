@@ -29,6 +29,8 @@ export class InputComponent {
   @Input() min : any = ''
   @Input() max : any = ''
 
+  @Input() rows : number = 1
+
   @Input() value : any = ''
 
   @Output() onInput : EventEmitter<any> = new EventEmitter()
