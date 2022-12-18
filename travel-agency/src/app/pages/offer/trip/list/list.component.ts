@@ -70,13 +70,13 @@ export class ListComponent implements OnInit{
     )?.id
   }
 
-  getCostliestID () : number {
+  getCostliestID () {
     return this.getSearched( 
       (a: TripItem, b: TripItem) => a.price > b.price 
     )?.id
   }
 
-  getReservations( id: number ) {
+  getReservations( id: string ) {
     const { quantity } = this.cart.get(id) ?? { quantity: 0 }
     return quantity 
   }

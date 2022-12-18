@@ -32,7 +32,17 @@ export class TripCreatorComponent implements OnInit{
         Validators.required, 
         Validators.maxLength(130)
       ]],
-      image : ['',[ 
+      imageMain : ['',[ 
+        Validators.required, 
+        Validators.pattern(
+          Utils.httpUrlRegex
+      )]],
+      imageSecond : ['',[ 
+        Validators.required, 
+        Validators.pattern(
+          Utils.httpUrlRegex
+      )]],
+      imageThird : ['',[ 
         Validators.required, 
         Validators.pattern(
           Utils.httpUrlRegex
@@ -66,7 +76,9 @@ export class TripCreatorComponent implements OnInit{
         name, 
         country,
         description, 
-        image, 
+        imageMain,
+        imageSecond,
+        imageThird, 
         price, 
         quantity, 
         startDate : start, 
@@ -74,17 +86,17 @@ export class TripCreatorComponent implements OnInit{
       } = this.modelForm.value
 
       this.globalState.addTrip( {  
-        id : 0,
+        id : '',
         name,
         country,
         description,
-        image,
+        images : [ imageMain, imageSecond, imageThird ],
         price : +price,
         quantity : +quantity,
         date : { start, end }
       })
       
-      this.modelForm.reset()
+      // this.modelForm.reset()
     }
   }
 

@@ -12,7 +12,7 @@ export class RatesComponent {
   @Input() rates: Rate[] = [];
   
   @Input() max : number = 5
-  @Input() id : number = 0
+  @Input() id : string = ''
 
   constructor(
     private globalState: GlobalStateService

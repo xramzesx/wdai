@@ -17,7 +17,7 @@ export class ItemComponent {
 
   //// INPUTS ////
 
-  @Input() id: number = 0;
+  @Input() id: string = '';
 
   @Input() name : string = "";
   @Input() country: string = ""

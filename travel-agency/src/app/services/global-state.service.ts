@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cart, CartItem, currencies, Currency, TripItem } from '@app/types';
+import { Cart, CartItem, CompleteTripItem, currencies, Currency, TripItem } from '@app/types';
 import { HttpService } from './http.service';
 import { Subject } from 'rxjs';
 import Utils from '@app/utils';
@@ -59,31 +59,23 @@ export class GlobalStateService {
   trips: TripItem[] = []
   tripsChange : Subject<TripItem[]> = new Subject<TripItem[]>()
 
-  removeTrip ( id:number ) {
+  removeTrip ( id: string ) {
     /// TODO: Http request to remove trip
-    console.log(id)
-    this.tripsChange.next( this.trips.filter( trip => trip.id != id ))
-  }
-
-  addTrip ( trip: TripItem ) {
-    /// TODO: Http request to add trip
-
-    const tripItem : TripItem = { 
-      ...trip,
-      price : Math.round( trip.price * this.currency.converter * 100) / 100,
-      id : Utils.getUniqueRandom(
-        0, 
-        100, 
-        this.trips.map( ({id}) => id )
-      ),
-      rates: []
-    }
     
-    this.trips.push(tripItem)
-    this.tripsChange.next( this.trips )
+    this.httpService.deleteTrip( id ).subscribe( () => {
+      this.tripsChange.next( this.trips.filter( trip => trip.id != id ))      
+    })
+
   }
 
-  modifyRate( tripId : number, rate: number ) {
+  addTrip ( trip: CompleteTripItem ) {
+    this.httpService.addTrip(trip).subscribe( tripItem => {
+      this.trips.push(tripItem)
+      this.tripsChange.next( this.trips )
+    })    
+  }
+
+  modifyRate( tripId : string, rate: number ) {
     /// TODO: Backend operations for this 
 
     const trip = this.trips.find( ({id}) => tripId == id )
@@ -103,7 +95,7 @@ export class GlobalStateService {
     }
   }
 
-  getUserRate( tripId : number ) {
+  getUserRate( tripId : string ) {
     const trip = this.trips.find( ({id}) => tripId == id )
     const rateItem = trip?.rates?.find( ({id}) => id == this.userId )
     return rateItem ? rateItem.rate : 0
@@ -113,7 +105,7 @@ export class GlobalStateService {
   //// CART LOGIC ////
 
 
-  cart : Map<number, CartItem> = new Map()
+  cart : Cart = new Map()
   cartChange : Subject< Cart > = 
     new Subject< Cart >()
 

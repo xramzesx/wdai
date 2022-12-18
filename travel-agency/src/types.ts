@@ -5,10 +5,10 @@ export type Rate = {
 
 //// CART ////
 
-export type Cart = Map<number, CartItem>
+export type Cart = Map<string, CartItem>
 
 export type CartItem = {
-  id : number;
+  id : string;
   name: string;
   quantity: number;
   price: number;
@@ -35,7 +35,7 @@ export type TripDate = {
 }
 
 export type TripItem = {
-  id : number;
+  id : string;
   name: string;
   country: string;
   
@@ -45,6 +45,19 @@ export type TripItem = {
   
   description: string;
   image: string;
-
+  
   rates?: Rate[]
+}
+
+export type CompleteTripItem = {
+  id: string;
+  name: string;
+  country : string;
+
+  date: TripDate;
+  price : number;
+  quantity : number
+
+  description: string;
+  images : string[];
 }
