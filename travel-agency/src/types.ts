@@ -61,4 +61,6 @@ export type CompleteTripItem = {
 
   description: string;
   images : string[];
+  
+  rates? : Rate[]
 }
