@@ -1,5 +1,13 @@
 <app-card></app-card>
 
 <app-about></app-about>
+<google-map 
+    ngClass="map"
+    height="400px"
+    width="100%"
+    [center]="location"
+>
+    <map-marker [position]="location"></map-marker>
+</google-map>
 
 <app-contact></app-contact>

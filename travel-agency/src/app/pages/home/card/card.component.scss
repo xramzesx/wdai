@@ -2,6 +2,8 @@
 @use 'variables';
 
 :host {
+    @include mixins.default-drop-shadow-strong;
+
     width: 100%;
     min-height: variables.$windowHeight ;
     background-attachment: fixed;

@@ -7,14 +7,15 @@
     width: 100%;
     padding: 1rem;
     .container {
-        padding: 1rem;
+        padding: 3rem 1rem;
         width: 100%;
         max-width: variables.$maxWidth;
+        text-align: center;
 
         .description {
-            text-align: center;
             font-size: 1.5rem;
-            min-height: 200px;
+            // min-height: 200px;
+            padding: 2rem;
             display: flex;
             flex-direction: column;
             gap: 1rem;
