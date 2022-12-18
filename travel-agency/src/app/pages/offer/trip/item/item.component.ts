@@ -2,6 +2,7 @@ import { Component, Input, HostBinding } from '@angular/core';
 import { Rate, TripDate } from '@app/types';
 import { QuantityMaskPipe } from '@app/pipes/quantity.pipe';
 import { GlobalStateService } from '@app/services/global-state.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-trip-item',
@@ -12,7 +13,8 @@ export class ItemComponent {
 
   constructor( 
     private globalState: GlobalStateService,
-    private quantityPipe : QuantityMaskPipe 
+    private quantityPipe : QuantityMaskPipe,
+    private router: Router
   ) {}
 
   //// INPUTS ////
@@ -72,6 +74,10 @@ export class ItemComponent {
 
   onRemoveTrip () {
     this.globalState.removeTrip( this.id )
+  }
+
+  routeToDetails() {
+    this.router.navigate([`/offer/${this.id}`])
   }
 
   //// QUANTITY HANDLER ////

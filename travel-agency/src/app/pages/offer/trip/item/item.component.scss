@@ -244,6 +244,7 @@
     //// IMAGE ////
 
     .image {
+        cursor: pointer;
         padding: 1rem;
         padding-bottom: 0;
         @include mixins.default-drop-shadow;
