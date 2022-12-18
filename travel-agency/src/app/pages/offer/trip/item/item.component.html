@@ -1,4 +1,4 @@
-<button [ngClass]="{'remove': true}" (click)="onRemoveTrip()">
+<button ngClass="remove" (click)="onRemoveTrip()">
     <img src="assets/icons/trash.svg" alt="-">
 </button>
 
@@ -12,29 +12,29 @@
     {{reservations}}
 </div>
 
-<div [ngClass]="{'image': true}">
+<div ngClass="image">
     <img [src]="image" [alt]="name">
 </div>
 
 <div class="title">
-    <h2 [ngClass]="{'name': true}">{{name | uppercase}}</h2>
-    <h3 [ngClass]="{'country': true}">{{country | uppercase}}</h3>
+    <h2 ngClass="name">{{name | uppercase}}</h2>
+    <h3 ngClass="country">{{country | uppercase}}</h3>
 </div>
 
-<div [ngClass]="{'content': true}">    
-    <div [ngClass]="{'date': true}">{{date.start | date}} - {{date.end | date}}</div>
-    <div [ngClass]="{'description': true}">
+<div ngClass="content">    
+    <div ngClass="date">{{date.start | date}} - {{date.end | date}}</div>
+    <div ngClass="description">
         <p>
             {{description}}
         </p>
     </div>
 
-    <div [ngClass]="{'price': true}">{{ price | currency : true | async }}</div>
-    <div [ngClass]="['quantity']">
+    <div ngClass="price">{{ price | currency : true | async }}</div>
+    <div ngClass="quantity">
         <div [ngClass]="[ getAvailableClassVariant(),'quantity__available' ]"> 
             {{quantity - selected | quantity}} 
         </div>
-        <div [ngClass]="{'selected': true}">
+        <div ngClass="selected">
             <button 
                 (click)="onRemoveUnit()" 
                 [ngClass]="{'hide': selected == 0}"
@@ -42,7 +42,7 @@
                 -
             </button>
             <div 
-                [ngClass]="{'selected__quantity': true}"
+                ngClass="selected__quantity"
             >
                 {{selected}}
             </div>
