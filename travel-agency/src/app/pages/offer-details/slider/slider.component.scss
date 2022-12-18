@@ -2,7 +2,7 @@
 @use 'mixins';
 
 :host {
-    @include mixins.default-drop-shadow;
+    @include mixins.default-drop-shadow-strong;
 
     position: relative;
 
@@ -22,10 +22,11 @@
         top: 0;
         left: 0;
         right: 0;
-        left: 0;
+        bottom: 0;
         
-        height: 400px;
-        // max-width: ;
+        min-height: 400px;
+        height: 100%;
+
         object-fit: cover;
         width: 100%;
 
@@ -60,14 +61,24 @@
             transition: 
                 opacity .25s ease, 
                 transform .25s ease,
-                height .1s ease;
+                height .1s ease,
+                border-top-left-radius .125s ease,
+                border-top-right-radius .125s ease;
 
             &.active, &:hover {
                 opacity: 1;
             }
 
             &:active {
+                border-top-left-radius: 1rem;
+                border-top-right-radius: 1rem;
                 height: 3rem;
+                transition: 
+                    opacity .25s ease, 
+                    transform .25s ease,
+                    height .1s ease,
+                    border-top-left-radius .25s ease,
+                    border-top-right-radius .25s ease;
             }
 
             &:first-child {
