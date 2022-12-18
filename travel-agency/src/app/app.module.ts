@@ -35,6 +35,7 @@ import { CardComponent } from './pages/home/card/card.component';
 import { CurrencySelectComponent } from './header/currency-select/currency-select.component';
 import { OfferDetailsComponent } from './pages/offer-details/offer-details.component';
 import { AboutComponent } from './pages/home/about/about.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { AboutComponent } from './pages/home/about/about.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    GoogleMapsModule
   ],
   providers: [
     QuantityMaskPipe, 
