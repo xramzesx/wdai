@@ -1,0 +1,13 @@
+<img 
+    *ngFor="let image of images; let i=index"
+    [ngClass]="{'hide': currentIndex != i }" 
+    [src]="image" 
+    alt="image"
+>
+
+<button ngClass="prev" (click)="onPrev()">&lt;</button>
+<button ngClass="next" (click)="onNext()">&gt;</button>
+
+<div ngClass="indexes">
+    <button *ngFor="let image of images; let i=index" [ngClass]="{'active': currentIndex == i}" (click)="setCurrent(i)">{{i}}</button>
+</div>

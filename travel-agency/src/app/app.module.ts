@@ -36,6 +36,7 @@ import { CurrencySelectComponent } from './header/currency-select/currency-selec
 import { OfferDetailsComponent } from './pages/offer-details/offer-details.component';
 import { AboutComponent } from './pages/home/about/about.component';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { SliderComponent } from './pages/offer-details/slider/slider.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
     CurrencySelectComponent,
     OfferDetailsComponent,
     AboutComponent,
+    SliderComponent,
   ],
   imports: [
     BrowserModule,
