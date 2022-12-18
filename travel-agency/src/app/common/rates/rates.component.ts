@@ -13,6 +13,7 @@ export class RatesComponent {
   
   @Input() max : number = 5
   @Input() id : string = ''
+  @Input() disabled:boolean = false
 
   constructor(
     private globalState: GlobalStateService
@@ -20,7 +21,8 @@ export class RatesComponent {
 
   
   onClick( index: number ) {
-    this.globalState.modifyRate( this.id , index + 1 )
+    if ( !this.disabled )
+      this.globalState.modifyRate( this.id , index + 1 )
   }
 
   getStars() : any[] {

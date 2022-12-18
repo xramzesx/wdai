@@ -1,10 +1,11 @@
-<div [ngClass]="['rates']">
+<div [ngClass]="{'rates' : true, 'disabled' : disabled}">
     <app-rate-element 
         *ngFor="let star of getStars(); let i=index"
         [index]="star.index"
         [contain]="star.contain"
         [current]="star.current"
         [id]="id"
+        [disabled]="disabled"
         (handleClick)="onClick($event)"
     ></app-rate-element>
 </div>

@@ -8,7 +8,8 @@ import { Component, EventEmitter, HostListener, Input, Output } from '@angular/c
 export class ElementComponent {
   @Input() contain : boolean = true
   @Input() current : boolean = false
-
+  @Input() disabled : boolean = false;
+  
   @Input() index : number = 0
 
   @Output() handleClick : EventEmitter<number> = new EventEmitter()

@@ -30,4 +30,8 @@
     .current {
         background-color: darken(variables.$bgGreen, 30%);
     }
+
+    &:has(.disabled) {
+        cursor: initial !important;
+    }
 }
