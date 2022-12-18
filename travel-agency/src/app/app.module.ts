@@ -33,6 +33,8 @@ import { ContactComponent } from './pages/home/contact/contact.component';
 import { MapComponent } from './pages/home/map/map.component';
 import { CardComponent } from './pages/home/card/card.component';
 import { CurrencySelectComponent } from './header/currency-select/currency-select.component';
+import { OfferDetailsComponent } from './pages/offer-details/offer-details.component';
+import { AboutComponent } from './pages/home/about/about.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { CurrencySelectComponent } from './header/currency-select/currency-selec
     MapComponent,
     CardComponent,
     CurrencySelectComponent,
+    OfferDetailsComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,

@@ -82,4 +82,10 @@ export class ItemComponent {
       'className' 
     );
   }
+
+  //// GETTERS ////
+
+  get path() {
+    return `/offer/${this.id}`
+  }
 }

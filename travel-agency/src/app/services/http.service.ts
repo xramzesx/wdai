@@ -49,6 +49,14 @@ export class HttpService {
     )
   }
 
+  //// TRIP DETAILS ////
+
+  getTripDetails( id : string ) {
+    return this.httpClient.get<CompleteTripItem>( this.preparePath(ApiPaths.trips, id))
+  }
+
+  //// COUNTRIES ////
+
   getCountries() {
     return this.httpClient.get<string[]>(this.preparePath( ApiPaths.countries ))
   }

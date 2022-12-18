@@ -122,6 +122,7 @@
         flex-direction: column;
         flex: 1;
 
+        width: 100%;
         .country {
             padding-bottom: .5rem;
         }
@@ -220,6 +221,26 @@
         }
     }
 
+    .more-details {
+        background-color: variables.$bgGreen;
+        padding: 1rem;
+        margin-top: 1rem;
+        border-radius: .5rem;
+        text-decoration: none;
+        color: black;
+        border: .25rem solid variables.$bgGreen; 
+        transition: 
+            background-color .25s ease, 
+            border-color .25s ease, 
+            opacity .1s ease;
+
+        opacity: .9;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
     //// IMAGE ////
 
     .image {
@@ -272,6 +293,11 @@
 
     &:hover {
         @include mixins.default-drop-shadow-strong;
+
+        .more-details {
+            background-color: #fffc;
+            border-color: #fff;
+        }
 
         img {
             clip-path: circle(100%) !important;
@@ -354,7 +380,6 @@
 
 :host(.costliest) {
     outline: .25rem solid variables.$bgGreen;
-    
     &::before {
         background-color: variables.$bgGreen;
     }
