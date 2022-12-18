@@ -84,19 +84,16 @@ app.get('/trips', async (req, res) => {
 })
 
 app.post('/trips', async (req, res) => {
-    console.log(req.body)
-    console.log(req.headers['content-type'])
     const db = client.db(DB_NAME)
     const collection = db.collection(collections.trips)
     const { name, country, description, images, price, quantity, date } = req.body
 
-
     const parsed = {
-        name, country, description, images, price, quantity, date
+        name, country, description, images, price, quantity, date, rates : []
     }
 
     const { insertedId } = await collection.insertOne( parsed )
-    
+    console.log(insertedId)
     const result = await collection.findOne({_id : insertedId })
 
     // console.log(req)
