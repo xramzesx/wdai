@@ -12,11 +12,16 @@ const collections = {
 //// EXPRESSS ////
 
 const express = require('express')
+const bodyParser = require('body-parser')
 const cors = require('cors')
 const app = express()
 const port = 3000
 
 app.use(cors())
+app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({
+//     extended: true
+// }));
 
 //// MONGO ////
 
@@ -35,19 +40,18 @@ const client = new MongoClient(
 
 //// UTILS /////
 
-const asyncWrapper = (callback) => (req, res, next) => {
-    callback(req, res, next).catch(next)
-}
-
 const mapId = item => ({ ...item, _id : undefined, id: item._id  })
 
-
 //// ROUTES ////
+
+app.all('/*', (req, res, next) => {
+    console.log(req.url, new Date())
+    next()
+})
 
 /// COUNTRIES ///
 
 app.get('/countries', async ( req, res ) => {
-    await client.connect()
     const db = client.db(DB_NAME)
     const collection = db.collection(collections.countries)
 
@@ -57,14 +61,12 @@ app.get('/countries', async ( req, res ) => {
             ({country}) => country
         ).toArray()
 
-    client.close()
     res.json(result)
 })
 
 /// TRIPS ///
 
-app.get('/trips', asyncWrapper( async (req, res) => {
-    await client.connect()
+app.get('/trips', async (req, res) => {
     const db = client.db(DB_NAME)
     const collection = db.collection(collections.trips)
 
@@ -78,46 +80,53 @@ app.get('/trips', asyncWrapper( async (req, res) => {
         })))
         .toArray()
     
-    client.close()
-    
     res.json(result)
-}))
+})
 
-app.post('/trips', asyncWrapper ( async (req, res) => {
+app.post('/trips', async (req, res) => {
+    console.log(req.body)
+    console.log(req.headers['content-type'])
+    const db = client.db(DB_NAME)
+    const collection = db.collection(collections.trips)
+    const { name, country, description, images, price, quantity, date } = req.body
+
+
+    const parsed = {
+        name, country, description, images, price, quantity, date
+    }
+
+    const { insertedId } = await collection.insertOne( parsed )
     
-    res.send('siema')
-}))
+    const result = await collection.findOne({_id : insertedId })
 
-app.get('/trips/:id', asyncWrapper( async (req, res) => {
-    await client.connect()
+    // console.log(req)
+
+    res.send(mapId(result))
+})
+
+app.get('/trips/:id', async (req, res) => {
     const db = client.db(DB_NAME)
     const collection = db.collection(collections.trips)
 
     const result = (await collection.findOne( { _id : new ObjectId(req.params.id) } ))
-
-    client.close()
 
     if ( result === null ) {
         res.status(404).json({name : "Not found" })
     } else {
         res.json(mapId(result))
     }
-}))
+})
 
-app.delete('/trips/:id', asyncWrapper( async (req, res) => {
-    await client.connect()
+app.delete('/trips/:id', async (req, res) => {
     const db = client.db(DB_NAME)
     const collection = db.collection(collections.trips)
 
     const id = new ObjectId(req.params.id)
     
     const result = await collection.deleteOne( {_id : id} )
-
-    client.close()
-
+    
     res.json(result)
-
-}))
+})
 
 /// RATES ///
 
@@ -125,6 +134,16 @@ app.get('/', async (req, res) => {
     res.send('Hello world')
 })
 
-app.listen( port, () => {
-    console.log(`server started @ http://localhost:${port}`)
+const setupServer = async () => {
+    // single database connection for all requests
+    await client.connect()
+
+    app.listen( port, () => {
+        console.log(`server started @ http://localhost:${port}`)
+    })    
+}
+
+setupServer().catch( e => {
+    console.error("An error occur: ", e)
+    console.log('Server stopped')
 })
