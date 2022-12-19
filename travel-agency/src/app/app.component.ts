@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FloatingComponentsService } from './services/floating-components.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'travel-agency';
+
+  constructor( 
+    private floatingComponents: FloatingComponentsService
+  ) {}
+
+  hideFloat() {
+    this.floatingComponents.hideAll()
+  }
 }
