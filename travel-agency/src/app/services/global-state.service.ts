@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cart, CartItem, CompleteTripItem, currencies, Currency, TripItem } from '@app/types';
+import { Cart, CartItem, CompleteTripItem, currencies, Currency, Rate, TripItem } from '@app/types';
 import { HttpService } from './http.service';
 import { Subject } from 'rxjs';
 import Utils from '@app/utils';

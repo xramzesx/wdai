@@ -1,0 +1,22 @@
+<div 
+    ngClass="rate"
+    *ngFor="let rate of rates"
+>
+    <div ngClass="header">
+        <h3>
+            {{rate.nick || 'Anonymous'}}
+        </h3>
+        <app-rates
+            [disabled]="true"
+            [minimal]="true"
+            [rates]="packRate(rate)"
+            [small]="true"
+        ></app-rates>
+    </div>
+
+    <div ngClass="comment" *ngIf="rate.comment">
+        <p>{{ rate.comment }}</p>
+    </div>
+
+    <div ngClass="date">{{rate.orderDate | date }}</div>
+</div>

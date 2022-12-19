@@ -6,9 +6,10 @@ import { Component, EventEmitter, HostListener, Input, Output } from '@angular/c
   styleUrls: ['./element.component.scss']
 })
 export class ElementComponent {
-  @Input() contain : boolean = true
-  @Input() current : boolean = false
+  @Input() contain  : boolean = true
+  @Input() current  : boolean = false
   @Input() disabled : boolean = false;
+  @Input() small    : boolean = false;
   
   @Input() index : number = 0
 

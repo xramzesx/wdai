@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GlobalStateService } from '@app/services/global-state.service';
 import { Rate } from '@app/types'
 import Utils from '@app/utils';
@@ -13,7 +13,13 @@ export class RatesComponent {
   
   @Input() max : number = 5
   @Input() id : string = ''
-  @Input() disabled:boolean = false
+
+  @Input() minimal   : boolean = false
+  @Input() disabled  : boolean = false
+  @Input() controled : boolean = false
+  @Input() small     : boolean = false
+  
+  @Output() handleClick : EventEmitter<number> = new EventEmitter()
 
   constructor(
     private globalState: GlobalStateService
@@ -21,8 +27,9 @@ export class RatesComponent {
 
   
   onClick( index: number ) {
-    if ( !this.disabled )
+    if ( !this.disabled && !this.controled)
       this.globalState.modifyRate( this.id , index + 1 )
+    this.handleClick.emit(index + 1)
   }
 
   getStars() : any[] {

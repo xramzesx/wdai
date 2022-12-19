@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiPaths } from '@app/api/paths';
-import { CompleteTripItem, TripItem } from '@app/types';
+import { CompleteTripItem, Rate, TripItem } from '@app/types';
 import { environment } from 'src/environments';
 
 const options = {
@@ -53,6 +53,16 @@ export class HttpService {
 
   getTripDetails( id : string ) {
     return this.httpClient.get<CompleteTripItem>( this.preparePath(ApiPaths.trips, id))
+  }
+
+  //// RATES ////
+
+  addRate( id: string, rate: Rate ) {
+    return this.httpClient.post<any>( 
+      this.preparePath( ApiPaths.rates, id ), 
+      JSON.stringify(rate), 
+      options.jsons 
+    )  
   }
 
   //// COUNTRIES ////

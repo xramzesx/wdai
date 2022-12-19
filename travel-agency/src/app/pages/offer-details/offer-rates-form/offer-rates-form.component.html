@@ -1,0 +1,49 @@
+<form [formGroup]="modelForm" (ngSubmit)="handleSubmit()">
+    <app-input
+        [formGroup]="modelForm"
+        ngClass="nick"
+        controlName="nick"
+        label="Nick *"
+        maxLength="50"
+    >
+    </app-input>
+    <app-input
+        [formGroup]="modelForm"
+        ngClass="name"
+        controlName="name"
+        label="Name *"
+        [value]="name"
+    >
+    </app-input>
+    <app-input
+        [formGroup]="modelForm"
+        ngClass="comment"
+        controlName="comment"
+        label="Comment *"
+        type="textarea"
+        max="500"
+        [rows]="11"
+    >
+    </app-input>
+    <app-input
+        [formGroup]="modelForm"
+        ngClass="order-date"
+        controlName="orderDate"
+        label="Order date"
+        type="date"
+    >
+    </app-input>
+    <app-rates
+        ngClass="rate"
+        [controled]="true"
+        [minimal]="true"
+        [rates]="rates"
+        (handleClick)="handleRate($event)"
+    >
+    </app-rates>
+    <input [disabled]="!isValid" type="submit" value="Send">
+</form>
+
+<div ngClass="errors" *ngIf="errors.length != 0">
+    <div  ngClass="error" *ngFor="let error of errors">{{error}}</div>
+</div>

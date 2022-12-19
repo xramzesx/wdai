@@ -28,6 +28,7 @@ export class InputComponent {
 
   @Input() min : any = ''
   @Input() max : any = ''
+  @Input() maxLength : any = ''
 
   @Input() rows : number = 1
 

@@ -1,0 +1,39 @@
+@use 'mixins';
+
+:host {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+
+    .rate {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        grid-template-columns: 1fr auto;
+    }
+
+    .comment {
+        @include mixins.default-drop-shadow;
+        flex: 1;
+        justify-content: center;
+        align-items: center;
+        font-style: italic;
+        
+        text-align: center;
+        background-color: whitesmoke;
+        border-radius: .5rem;
+        p {
+            padding: .5rem;
+        }
+    }
+}

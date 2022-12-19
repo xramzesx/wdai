@@ -6,7 +6,11 @@
         [current]="star.current"
         [id]="id"
         [disabled]="disabled"
+        [small]="small"
         (handleClick)="onClick($event)"
     ></app-rate-element>
 </div>
-<div [ngClass]="['summary']" > {{avg | number : "1.1-1"}} / {{max | number : "1.1-1"}} ({{rates.length || 0}})</div>
+<div ngClass="summary" *ngIf="!minimal"> 
+    {{avg | number : "1.1-1"}} / {{max | number : "1.1-1"}} 
+    ({{rates.length || 0}})
+</div>

@@ -1,3 +1,57 @@
-<h1>{{name}}</h1>
-<p>{{description}}</p>
-<a routerLink="/offer">Back to offer list</a>
+<div ngClass="container">
+    <div class="content">
+        <app-slider ngClass="slider" [images]="images"></app-slider>
+        <div class="details">
+            <a routerLink="/offer" ngClass="go-back"> &lt; Back to the offer list</a>
+            <h1>{{name}}</h1>
+            <h2>{{country}}</h2>
+            <div ngClass="date">{{ date.start | date }} - {{ date.end | date }}</div>
+            <div ngClass="description">
+                <p>
+                    {{description}}
+                </p>
+            </div>
+            <div ngClass="price">{{ price | currency : true | async }}</div>
+
+            <div ngClass="quantity">
+                <div [ngClass]="[ getAvailableClassVariant(),'quantity__available' ]"> 
+                    {{quantity - selected | quantity}} 
+                </div>
+                <div ngClass="selected">
+                    <button 
+                        (click)="onRemoveUnit()" 
+                        [ngClass]="{'hide': selected == 0}"
+                    >
+                        -
+                    </button>
+                    <div 
+                        ngClass="selected__quantity"
+                    >
+                        {{selected}}
+                    </div>
+                    <button 
+                        (click)="onAddUnit()" 
+                        [ngClass]="{'hide': quantity <= selected}"
+                    >
+                        +
+                    </button>
+                </div>
+            </div>
+            <app-rates         
+                [rates]="rates" 
+                [id]="id"
+                [disabled]="true"
+            ></app-rates>
+        </div>
+    </div>
+
+    <app-offer-rates-form
+        [id]="id"
+        [name]="name"
+        (onSubmit)="handleSubmit($event)"
+    >
+    </app-offer-rates-form>
+    <app-offer-rates
+        [rates]="rates"
+    ></app-offer-rates>
+</div>

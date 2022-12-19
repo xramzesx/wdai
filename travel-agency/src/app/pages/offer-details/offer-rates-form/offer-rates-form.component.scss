@@ -1,0 +1,56 @@
+@use 'variables';
+@use 'mixins';
+
+:host {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    form {
+        display: grid;
+        grid-template-columns: 2fr 3fr;
+        gap: 1rem;
+        .comment {
+            grid-row: 1/4;
+            grid-column: 2/3;
+        }
+        .rate {
+            text-align: center;
+        }
+    }
+
+    .errors {
+        @include mixins.default-drop-shadow;
+        background-color: red;
+        color: white;
+        padding: 1rem;
+        border-radius: .5rem;
+
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        justify-content: center;
+        .error {
+            &::before {
+                content: '⚪  ';
+                font-size: .75rem;
+                height: 100%;
+            }
+        }
+        list-style-type: disc;
+    }
+}
+
+@media (max-width: variables.$mobileWidth) {
+    :host {
+        form {
+            grid-template-columns: 1fr;
+            .comment {
+                grid-row: initial;
+                grid-column: initial;
+            }
+        }
+    }
+}
