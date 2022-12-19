@@ -19,6 +19,21 @@ export type CartItem = {
   price: number;
 }
 
+//// ORDERS ////
+
+export type OrderItem = {
+  userId : string,
+  tripId : string,
+  quantity : number,
+  trip? : TripItem
+}
+
+export enum OrderStatus {
+  Waiting = 'Waiting',
+  Active = 'Active',
+  Archive = 'Archive'
+}
+
 //// CURRENCY ////
 
 export type Currency = {

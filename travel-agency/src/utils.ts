@@ -1,4 +1,4 @@
-import { Rate } from '@app/types';
+import { OrderStatus, Rate } from '@app/types';
 
 const months = [
     "styczeń",
@@ -72,6 +72,14 @@ export default class Utils {
           arr.splice(index, 1);
         }
         return arr;
+    }
+
+    static getStatus( startDate : Date, endDate : Date ) : OrderStatus {
+        if ( new Date(startDate).getTime() > (new Date()).getTime() )
+            return OrderStatus.Waiting
+        if ( new Date(endDate).getTime() < (new Date()).getTime() )
+            return OrderStatus.Archive
+        return OrderStatus.Active   
     }
 }
 

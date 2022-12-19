@@ -39,6 +39,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { SliderComponent } from './pages/offer-details/slider/slider.component';
 import { OfferRatesComponent } from './pages/offer-details/offer-rates/offer-rates.component';
 import { OfferRatesFormComponent } from './pages/offer-details/offer-rates-form/offer-rates-form.component';
+import { ButtonComponent } from './header/user/button/button.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { OfferRatesFormComponent } from './pages/offer-details/offer-rates-form/
     SliderComponent,
     OfferRatesComponent,
     OfferRatesFormComponent,
+    ButtonComponent,
   ],
   imports: [
     BrowserModule,
