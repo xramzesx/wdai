@@ -87,6 +87,8 @@ export class OfferRatesFormComponent implements OnInit{
       orderDate : orderDate == '' ? undefined : new Date(orderDate),
     }
 
+    this.modelForm.reset()
+
     this.httpService.addRate(this.id, result).subscribe( (response : any) => {
       console.log(response)
 

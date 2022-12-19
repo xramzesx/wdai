@@ -9,5 +9,5 @@
 <button ngClass="next" (click)="onNext()">&gt;</button>
 
 <div ngClass="indexes">
-    <button *ngFor="let image of images; let i=index" [ngClass]="{'active': currentIndex == i}" (click)="setCurrent(i)">{{i}}</button>
+    <button *ngFor="let image of images; let i=index" [ngClass]="{'active': currentIndex == i}" (click)="setCurrent(i)">{{i + 1}}</button>
 </div>

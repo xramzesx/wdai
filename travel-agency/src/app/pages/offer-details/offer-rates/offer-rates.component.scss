@@ -12,7 +12,12 @@
     .rate {
         display: flex;
         flex-direction: column;
-        gap: .5rem
+        gap: .5rem;
+    }
+
+    .empty {
+        text-align: center;
+        font-style: italic;
     }
 
     .header {
