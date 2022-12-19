@@ -127,6 +127,51 @@ app.delete('/trips/:id', async (req, res) => {
 
 /// RATES ///
 
+app.post('/trips/rates/:id', async (req, res) => {
+    const db = client.db(DB_NAME)
+    const collection = db.collection(collections.trips)
+    const { 
+        id : userId, 
+        nick, 
+        name, 
+        comment, 
+        rate, 
+        orderDate 
+    } = req.body
+
+    const response = {
+        errors : [],
+        rate : null
+    }
+
+    const parsed = {
+        id: userId, nick, name, comment, rate, orderDate
+    }
+    console.log(parsed)
+
+    const required = [ 'nick', 'name', 'comment', 'rate' ]
+
+    for (const key of required ) {
+        if (parsed[key] == undefined)
+            response.errors.push(`'${key}' is required`)
+    }
+
+    if ( comment && comment.length < 50 )
+        response.errors.push(`'comment': require minimum length : 50`)
+
+
+    if ( comment && comment.length > 500 )
+        response.errors.push(`'comment': require maximum length : 500`)
+
+    if ( response.errors.length === 0 ) {
+        const tripId = new ObjectId(req.params.id)
+        const result = await collection.updateOne( { _id : tripId }, {$push : { rates : parsed }} )
+        console.log(result)
+        response.rate = parsed
+    }    
+    res.json(response)
+})
+
 app.get('/', async (req, res) => {
     res.send('Hello world')
 })
