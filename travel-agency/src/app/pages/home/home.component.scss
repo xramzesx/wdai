@@ -4,5 +4,6 @@
     width: 100%;
     .map {
         @include mixins.default-drop-shadow;
+        background-color: white;
     }
 }
