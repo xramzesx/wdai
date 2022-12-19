@@ -1,0 +1,70 @@
+@use 'variables';
+@use 'mixins';
+
+:host {
+    // background-color: white;
+    width: 100%;
+    max-width: variables.$maxWidth;
+    padding: 2rem;
+    .container {
+        padding: 1rem;
+        background-color: white;
+        border-radius: 1rem;
+
+        @include mixins.default-drop-shadow;
+
+        .message {
+            text-align: center;
+            padding: 1rem;
+            font-style: italic;
+        }
+
+        .order {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            h1 {
+                flex: 1;
+                // align-self: flex-start;
+                padding: 1rem;
+                
+            }
+            
+            & > div {
+                width: 100%;
+                max-width: 600px;
+                display: flex;
+                justify-content: space-between;
+
+                .label, .value {
+                    padding: .5rem 1rem;
+                    flex: 1;
+                }
+
+                .label {
+                    font-weight: 600;
+                    text-align: right;
+                }
+
+            }
+            
+            a {
+                padding: .5rem;
+                text-decoration: none;
+                border: .1rem solid #aaa;
+                border-radius: .5rem;
+
+                transition: 
+                    background-color .25s ease, 
+                    color .25s ease, 
+                    filter .25s ease;
+
+                &:hover {
+                    background-color: #aaa5;
+                    color: black;
+                }
+            }
+        }
+    }
+}

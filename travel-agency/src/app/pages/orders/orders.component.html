@@ -1,1 +1,87 @@
-<p>orders works!</p>
+<div ngClass="container">
+    <select (change)="onStatusChange($event)">
+        <option *ngFor="let status of statuses" [value]="status">{{status}}</option>
+    </select>
+
+    <div *ngIf="orders.length == 0" ngClass="message">
+        No results
+    </div>
+
+    <div 
+        ngClass="order"
+        *ngFor="let order of orders" 
+    >
+        <h1>{{ order.trip?.name }}</h1>
+
+        <!-- INFO -->
+
+        <div ngClass="location">
+            <div class="label">
+                Location
+            </div>
+            <div class="value">
+                {{ order.trip?.country }}
+            </div>
+        </div>
+
+        <!-- DATE -->
+
+        <div ngClass="start-date">
+            <div class="label">
+                Start date
+            </div>
+            <div class="value">
+                {{ getDate(order,'start') | date }}
+            </div>
+        </div>
+
+        <div ngClass="start-date">
+            <div class="label">
+                End date
+            </div>
+            <div class="value">
+                {{ getDate(order,'end') | date }}
+            </div>
+        </div>
+
+        <!-- STATUS -->
+
+        <div ngClass="status">
+            <div class="label">
+                Status
+            </div>
+            <div class="value">
+                {{ getStatus(order) }}
+            </div>
+        </div>
+
+        <!-- COST -->
+
+        <div ngClass="price">
+            <div class="label">
+                Unit price
+            </div>
+            <div class="value">
+                {{ getPrice(order) | currency : true | async }}
+            </div>
+        </div>
+        <div ngClass="quantity">
+            <div class="label">
+                Quantity / tickets
+            </div>
+            <div class="value">
+                {{ order.quantity }}
+            </div>
+        </div>
+        <div ngClass="total">
+            <div class="label">
+                Total cost
+            </div>
+            <div class="value">
+                {{ getTotal(order) | currency : true | async }}
+            </div>
+        </div>
+        <a [routerLink]="getPath(order)">Go to trip page</a>
+    </div>
+
+</div>
