@@ -14,4 +14,8 @@ export class MenuComponent {
   get hide () {
     return this.floatingComponents.hideMenu
   }
+
+  hideFloat() {
+    this.floatingComponents.hideAll()
+  }
 }

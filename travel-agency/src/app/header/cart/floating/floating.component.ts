@@ -28,4 +28,8 @@ export class CartFloatingComponent implements OnInit{
   get totalValue () {
     return this.items.reduce( (acc, {price, quantity}) => acc + price * quantity * 100, 0) / 100
   }
+
+  hideFloat() {
+    this.floatingComponents.hideAll()
+  }
 }

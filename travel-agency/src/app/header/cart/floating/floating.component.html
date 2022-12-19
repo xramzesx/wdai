@@ -1,13 +1,14 @@
 <table [ngClass]="{'hide': hide}">
     <thead>
         <tr>
-            <th>name</th>
-            <th>quantity</th>
-            <th>price</th>
-            <th>value</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Value</th>
         </tr>
     </thead>
     <tbody>
+        <tr *ngIf="items.length == 0"> <td colspan="4"> Empty</td> </tr>
         <tr *ngFor="let item of items">
             <td>{{item.name}}</td>
             <td>{{item.quantity}}</td>
@@ -17,7 +18,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="2" ngClass="link"><a routerLink="/cart"> Go to cart</a></th>
+            <th colspan="2" ngClass="link"><a routerLink="/cart" (click)="hideFloat()"> Go to cart</a></th>
             <th ngClass="total-label">Total</th>
             <th ngClass="total">{{totalValue | currency : true | async}}</th>
         </tr>

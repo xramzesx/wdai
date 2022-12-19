@@ -24,6 +24,9 @@
         background-color: white;
         overflow: visible;
 
+        .logo-short {
+            display: none;
+        }
 
         .content {
             position: relative;
@@ -37,5 +40,19 @@
             gap: 1rem;
         }
 
+    }
+}
+
+@media (max-width : variables.$mobileWidth) {
+    :host {
+        nav {
+            .logo {
+                // content: "elo";
+                display: none;
+            }
+            .logo-short {
+                display: block;
+            }
+        }
     }
 }

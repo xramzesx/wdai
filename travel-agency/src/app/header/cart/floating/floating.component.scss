@@ -53,7 +53,7 @@ $borderBold: .1rem solid #000;
         .total {
             text-align: right;
             padding-right: .5rem;
-            border-left: $borderLight;
+            border-left: variables.$borderLight;
         }
         .link {
             a {
@@ -71,17 +71,16 @@ $borderBold: .1rem solid #000;
             }
         }
         tbody td {
-            border-bottom: $borderLight;
+            border-bottom: variables.$borderLight;
         }
 
         thead th {
-            border-bottom: $borderBold;
+            border-bottom: variables.$borderBold;
         }
         tfoot th {
-            border-top: $borderBold !important;
+            border-top: variables.$borderBold !important;
             padding: .5rem;
         }
-
     }
 }
 
