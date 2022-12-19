@@ -6,7 +6,8 @@ const { MONGO_USER, MONGO_PASSWORD, DB_NAME } = process.env
 const collections = {
     trips: 'trips',
     countries: 'countries',
-    users : 'users'
+    users : 'users',
+    orders : 'orders'
 }
 
 //// EXPRESSS ////
@@ -70,16 +71,29 @@ app.get('/trips', async (req, res) => {
     const db = client.db(DB_NAME)
     const collection = db.collection(collections.trips)
 
+    const getReservedSeats = async id => {
+        const orders = db.collection(collections.orders)
+        
+        return (await(await orders
+            .find({ tripId : id.toString()}))
+            .toArray())
+            .reduce((acc, {quantity}) => acc + quantity, 0)
+    }
+
     const result = await collection
         .find({})
         .map( 
             item => (mapId({ 
                 ...item, 
                 image : item.images[0], 
-                images : undefined 
+                images : undefined,
         })))
         .toArray()
     
+    for ( const item of result ) {
+        item.quantity = item.quantity - await getReservedSeats(item.id)
+    }
+        
     res.json(result)
 })
 
@@ -147,7 +161,6 @@ app.post('/trips/rates/:id', async (req, res) => {
     const parsed = {
         id: userId, nick, name, comment, rate, orderDate
     }
-    console.log(parsed)
 
     const required = [ 'nick', 'name', 'comment', 'rate' ]
 
@@ -166,10 +179,60 @@ app.post('/trips/rates/:id', async (req, res) => {
     if ( response.errors.length === 0 ) {
         const tripId = new ObjectId(req.params.id)
         const result = await collection.updateOne( { _id : tripId }, {$push : { rates : parsed }} )
-        console.log(result)
         response.rate = parsed
     }    
     res.json(response)
+})
+
+
+//// ORDERS ////
+
+app.get( '/orders/:id', async (req, res) => {
+    const db = client.db(DB_NAME)
+    const collection = db.collection(collections.orders)
+    
+    const result = await (await collection.find({ userId : req.params.id }).toArray()).map(mapId)
+
+    for ( const order of result )
+        order.trip = await db.collection(collections.trips).findOne({_id : new ObjectId(order.tripId)})
+     
+
+    res.json(result)
+})
+
+
+app.post( '/orders', async (req, res) => {
+    const db = client.db(DB_NAME)
+    const collection = db.collection(collections.orders)
+    
+    const { userId, tripId, quantity } = req.body
+    
+    const parsed = {
+        userId :  userId,
+        tripId : tripId,
+        quantity
+    }
+    
+    let result = await collection.findOne( { 
+        userId : parsed.userId, 
+        tripId: parsed.tripId 
+    })
+
+    if ( !result ) {
+        const { insertedId } = await collection.insertOne( parsed )
+        result = await collection.findOne( { _id : insertedId } )
+    } else {
+        updateResult = await collection.updateOne( { _id : result._id }, { $inc : { quantity }} )
+        result = await collection.findOne( { 
+            userId : parsed.userId, 
+            tripId: parsed.tripId 
+        })  
+    }
+
+    const trip = await db.collection(collections.trips).findOne({_id : new ObjectId(result.tripId)})
+    result.trip = trip
+
+    res.json(mapId(result))
 })
 
 app.get('/', async (req, res) => {
