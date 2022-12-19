@@ -1,7 +1,6 @@
 <table [ngClass]="{'hide': hide}">
     <thead>
         <tr>
-            <th>id</th>
             <th>name</th>
             <th>quantity</th>
             <th>price</th>
@@ -10,7 +9,6 @@
     </thead>
     <tbody>
         <tr *ngFor="let item of items">
-            <td>{{item.id}}</td>
             <td>{{item.name}}</td>
             <td>{{item.quantity}}</td>
             <td>{{item.price | currency : false | async}}</td>
@@ -19,8 +17,9 @@
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="3">Total</th>
-            <th colspan="2" [ngClass]="{'total': true}">{{totalValue | currency : true | async}}</th>
+            <th colspan="2" ngClass="link"><a routerLink="/cart"> Go to cart</a></th>
+            <th ngClass="total-label">Total</th>
+            <th ngClass="total">{{totalValue | currency : true | async}}</th>
         </tr>
     </tfoot>
 </table>

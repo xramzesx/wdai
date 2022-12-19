@@ -55,7 +55,21 @@ $borderBold: .1rem solid #000;
             padding-right: .5rem;
             border-left: $borderLight;
         }
+        .link {
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: center;                
+                width: 100%;
+                height: 100%;
+                text-decoration: none;
+            }
 
+
+            &:hover {
+                background-color: variables.$bgGreen !important;
+            }
+        }
         tbody td {
             border-bottom: $borderLight;
         }
@@ -67,6 +81,7 @@ $borderBold: .1rem solid #000;
             border-top: $borderBold !important;
             padding: .5rem;
         }
+
     }
 }
 

@@ -96,7 +96,7 @@ export class TripCreatorComponent implements OnInit{
         date : { start, end }
       })
       
-      // this.modelForm.reset()
+      this.modelForm.reset()
     }
   }
 
