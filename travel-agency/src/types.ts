@@ -1,7 +1,11 @@
 export type Rate = {
   id : number;
   rate : number;
+  
   comment?: string;
+  nick?: string;
+  orderDate?: Date;
+  name? : string;
 }
 
 //// CART ////
