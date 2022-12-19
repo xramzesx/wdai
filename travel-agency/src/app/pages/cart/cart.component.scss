@@ -1,0 +1,74 @@
+@use 'variables';
+@use 'mixins';
+
+:host {
+    width: 100%;
+    
+    @include mixins.default-drop-shadow;
+
+    max-width: variables.$maxWidth;
+    padding: 2rem;
+    overflow-x: auto;
+    .container {
+        border-radius: 1rem;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr auto;
+
+        padding: 1rem;
+        background-color: white;
+        text-align: center;
+
+        .header-cell {
+            font-weight: 600;
+            border-bottom: .1rem solid black;
+            padding: .5rem 0;
+        }
+
+        .item-cell {
+            padding: .5rem 0;
+            border-bottom: .1rem solid black;
+        }
+
+        .empty-cell {
+            grid-column: 1/6;
+            padding: 1rem;
+            border-bottom: .1rem solid black;
+        }
+
+        .footer-cell {
+            font-weight: 600;
+            padding: .5rem 0;
+        }
+
+        .footer-label {
+            grid-column: 1/4;
+        }
+
+        button {
+            background-color: white;
+            border: none;
+
+            cursor: pointer;
+            
+            transition: 
+                background-color .25s ease, 
+                transform .25s ease;
+
+            &:hover {
+                background-color: #aaa;
+            }
+
+            &:active {
+                transform: scale(.9);
+            }
+
+            border-bottom: .1s solid black !important;
+        }
+
+        .footer-value {
+            grid-column: 4/6;
+        }
+        
+    }
+}

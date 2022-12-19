@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Cart, CartItem, CompleteTripItem, currencies, Currency, Rate, TripItem } from '@app/types';
+import { Cart, CartItem, CompleteTripItem, currencies, Currency, OrderItem, Rate, TripItem } from '@app/types';
 import { HttpService } from './http.service';
-import { Subject } from 'rxjs';
+import { Subject, switchMap } from 'rxjs';
 import Utils from '@app/utils';
 
 
@@ -45,11 +45,20 @@ export class GlobalStateService {
         this.cart = value
       }
     )
+  
+    this.ordersChange.subscribe( (orders : OrderItem[]) =>{
+      this.orders = orders
+      console.log(orders)
+    })
     
     //// HTTP REQUESTS ////
 
     this.httpService.getTrips().subscribe( (trips: TripItem[]) => {
       this.tripsChange.next(trips)
+    })
+
+    this.httpService.getOrders().subscribe( (orders : OrderItem[] ) => {
+      this.ordersChange.next(orders)
     })
   }
 
@@ -59,13 +68,10 @@ export class GlobalStateService {
   trips: TripItem[] = []
   tripsChange : Subject<TripItem[]> = new Subject<TripItem[]>()
 
-  removeTrip ( id: string ) {
-    /// TODO: Http request to remove trip
-    
+  removeTrip ( id: string ) {    
     this.httpService.deleteTrip( id ).subscribe( () => {
       this.tripsChange.next( this.trips.filter( trip => trip.id != id ))      
     })
-
   }
 
   addTrip ( trip: CompleteTripItem ) {
@@ -76,8 +82,6 @@ export class GlobalStateService {
   }
 
   modifyRate( tripId : string, rate: number ) {
-    /// TODO: Backend operations for this 
-
     const trip = this.trips.find( ({id}) => tripId == id )
     const rateItem = trip?.rates?.find( ({id}) => id == this.userId )
     console.log(trip)
@@ -86,7 +90,6 @@ export class GlobalStateService {
       trip?.rates?.push({id : this.userId, rate})
       return
     } 
-  
 
     if ( rateItem.rate == rate ) {
       Utils.removeItem( trip?.rates || [], rateItem )
@@ -103,7 +106,6 @@ export class GlobalStateService {
 
 
   //// CART LOGIC ////
-
 
   cart : Cart = new Map()
   cartChange : Subject< Cart > = 
@@ -125,4 +127,25 @@ export class GlobalStateService {
       
     this.cartChange.next(this.cart)
   }
+
+  //// ORDERS ////
+
+  orders : OrderItem[] = []
+  ordersChange : Subject < OrderItem[] > = 
+    new Subject< OrderItem[] >()
+
+  addOrder( item : CartItem ) {
+    this.httpService.addOrder(item).pipe( switchMap ((order: OrderItem) => {
+      this.orders.push(order)
+      this.ordersChange.next( this.orders )
+      this.cart.delete( order.tripId )
+      this.cartChange.next( this.cart )
+
+      return this.httpService.getTrips()
+    })).subscribe( (trips : TripItem[]) => {
+      this.trips = trips
+      this.tripsChange.next(this.trips)
+    })
+  }
+
 }

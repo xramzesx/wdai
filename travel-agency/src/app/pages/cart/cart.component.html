@@ -1,1 +1,25 @@
-<p>cart works!</p>
+<div ngClass="container">
+
+    <div ngClass="header-cell">Name</div>
+    <div ngClass="header-cell">Quantity</div>
+    <div ngClass="header-cell">Price</div>
+    <div ngClass="header-cell">Value</div>
+    <div ngClass="header-cell">Actions</div>
+
+    <ng-container *ngIf="items.length == 0">
+        <div ngClass="empty-cell">Empty</div>
+    </ng-container>
+    
+
+    <ng-container *ngFor="let item of items">
+        <a [routerLink]="getPath(item)" ngClass="item-cell">{{item.name}}</a>
+        <a [routerLink]="getPath(item)" ngClass="item-cell">{{item.quantity}}</a>
+        <a [routerLink]="getPath(item)" ngClass="item-cell">{{item.price | currency : false | async }}</a>
+        <a [routerLink]="getPath(item)" ngClass="item-cell">{{item.price * item.quantity | currency : false | async}}</a>
+        <button (click)="orderTrip(item)"> Order </button>        
+    </ng-container>
+    
+    <div ngClass="footer-cell footer-label">Total</div>
+    <div ngClass="footer-cell footer-value">{{totalValue | currency : true | async}}</div>
+
+</div>

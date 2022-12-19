@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiPaths } from '@app/api/paths';
-import { CompleteTripItem, Rate, TripItem } from '@app/types';
+import { CartItem, CompleteTripItem, OrderItem, Rate, TripItem } from '@app/types';
 import { environment } from 'src/environments';
 
 const options = {
@@ -14,6 +14,7 @@ const options = {
 })
 export class HttpService {
   trips = []
+  userId : string = '0'
 
   preparePath( path : string, id? : string | number ) {
     return `${
@@ -60,9 +61,33 @@ export class HttpService {
   addRate( id: string, rate: Rate ) {
     return this.httpClient.post<any>( 
       this.preparePath( ApiPaths.rates, id ), 
-      JSON.stringify(rate), 
+      JSON.stringify( rate ), 
       options.jsons 
     )  
+  }
+
+  //// ORDERS ////
+
+  addOrder(item : CartItem) {
+    //// user id będziemy brali w nast labaach z autoryzacji 
+    
+    const order : OrderItem = {
+      userId : this.userId,
+      tripId : item.id,
+      quantity : item.quantity
+    }
+
+    return this.httpClient.post<OrderItem>( 
+      this.preparePath( ApiPaths.orders ), 
+      JSON.stringify(order), 
+      options.jsons 
+    )
+  }
+
+  getOrders() {
+    return this.httpClient.get<OrderItem[]>(
+      this.preparePath(ApiPaths.orders, this.userId )
+    )
   }
 
   //// COUNTRIES ////
