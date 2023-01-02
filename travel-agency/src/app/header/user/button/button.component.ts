@@ -21,7 +21,8 @@ export class ButtonComponent implements OnInit {
 
   @HostListener('click')
   onClick() {
-    this.router.navigate([`/orders`])
+    // this.router.navigate([`/orders`])
+    this.router.navigate([`/auth`])
     
   }
 

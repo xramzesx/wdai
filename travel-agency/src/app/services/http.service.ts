@@ -1,11 +1,23 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiPaths } from '@app/api/paths';
-import { CartItem, CompleteTripItem, OrderItem, Rate, TripItem } from '@app/types';
+import { 
+  CartItem, 
+  CompleteTripItem, 
+  LoginProps, 
+  OrderItem, 
+  Rate, 
+  RegisterProps, 
+  Tokens, 
+  TripItem 
+} from '@app/types';
 import { environment } from 'src/environments';
+import { AuthService } from './auth.service';
+import { TokenService } from './token.service';
 
 const options = {
-  jsons : {headers: {'Content-Type': 'application/json'} }
+  jsons : { headers: {'Content-Type': 'application/json'} },
+  auth : { headers: {'Content-Type': 'application/json'},  withCredentials: true }
 }
 
 
@@ -28,7 +40,39 @@ export class HttpService {
     }`
   }
 
-  constructor(private httpClient: HttpClient) {}
+  prepareOptions( currentOptions : any ) {
+    const result : any = {}
+
+    for (let key in currentOptions ) {
+
+      result[key] = currentOptions[key]
+
+      if ( key === 'headers' ) {
+        result[key] = {
+          ...result[key], 
+            'Authorization' : `Bearer ${
+              this.tokenService.accessToken
+            }, Basic ${
+              this.tokenService.refreshToken
+            }`
+          }
+        }
+
+      console.log(key, currentOptions[key])
+      console.log(key, result[key])
+
+    }
+
+    return result
+  }
+
+  accessToken : string = ''
+  refreshToken : string = ''
+
+  constructor(
+    private httpClient: HttpClient,
+    private tokenService : TokenService
+  ) {}
   
   //// TRIPS ////
 
@@ -94,5 +138,25 @@ export class HttpService {
 
   getCountries() {
     return this.httpClient.get<string[]>(this.preparePath( ApiPaths.countries ))
+  }
+
+  //// AUTH ////
+
+  login( props : LoginProps ) {
+    console.log(props)
+    console.log('prepared',this.prepareOptions(options.auth))
+    return this.httpClient.post<any>( 
+      this.preparePath( ApiPaths.login ), 
+      JSON.stringify(props), 
+      options.auth 
+    )
+  }
+
+  register( props : RegisterProps ) {
+    return this.httpClient.post<Tokens>(
+      this.preparePath( ApiPaths.register ), 
+      JSON.stringify( props ), 
+      options.auth 
+    )
   }
 }

@@ -3,5 +3,8 @@ export enum ApiPaths {
     countries = '/countries',
     users = '/users',
     rates = '/trips/rates',
-    orders = '/orders'
+    orders = '/orders',
+    login = '/login',
+    register = '/register',
+    refreshToken = '/refresh'
 }

@@ -1,0 +1,26 @@
+<h1>Login</h1>
+
+<form [formGroup]="modelForm" (ngSubmit)="onSubmit()">
+    <app-input 
+        [formGroup]="modelForm" 
+        ngClass="email"
+        controlName="email"
+        label="Email"
+        placeholder="your@mail.com"
+        type="email" 
+    ></app-input>
+
+    <app-input 
+        [formGroup]="modelForm" 
+        ngClass="password"
+        controlName="password"
+        label="Password"
+        type="password" 
+    ></app-input>
+
+    <input 
+        [disabled]="!modelForm.valid" 
+        type="submit" 
+        value="Login"
+    >
+</form>

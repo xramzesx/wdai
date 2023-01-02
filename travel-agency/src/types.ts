@@ -83,3 +83,23 @@ export type CompleteTripItem = {
   
   rates? : Rate[]
 }
+
+
+//// AUTH ////
+
+export type LoginProps = {
+  email: string;
+  password: string;
+}
+
+export type RegisterProps = {
+  email : string;
+  nick : string;
+  birthDate : string;
+  password: string;
+}
+
+export type Tokens = {
+  accessToken : string;
+  refreshToken : string;
+}

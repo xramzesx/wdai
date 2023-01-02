@@ -1,0 +1,30 @@
+@use 'variables';
+@use 'mixins';
+
+:host {
+    // background-color: white;
+    width: 100%;
+    max-width: variables.$maxWidth;
+    padding: 2rem;
+    .container {
+        padding: 1rem;
+        background-color: white;
+        border-radius: 1rem;
+
+        @include mixins.default-drop-shadow;
+
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+
+@media (max-width: variables.$mobileWidth) {
+    :host {
+        .container {
+            grid-template-columns: 1fr;
+        }
+    }
+}
