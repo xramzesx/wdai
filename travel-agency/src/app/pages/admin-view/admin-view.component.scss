@@ -14,6 +14,16 @@
             .user {
                 display: flex;
                 justify-content: space-between;
+                
+                button {
+                    background-color: red;
+                    color: white;
+                    font-weight: 600;
+                    padding: .5rem 1rem;
+                    border-radius: .25rem;
+                    border: none;
+                    cursor: pointer;
+                }
             }
         }
     }
