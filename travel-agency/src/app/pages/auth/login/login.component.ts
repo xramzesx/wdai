@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '@app/services/auth.service';
 import { GlobalStateService } from '@app/services/global-state.service';
 import { HttpService } from '@app/services/http.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,11 +13,13 @@ import { HttpService } from '@app/services/http.service';
 export class LoginComponent {
 
   modelForm! : FormGroup
+  error: string = ''
 
   constructor(
     private globalState : GlobalStateService,
     private authService : AuthService,
-    private formBuilder : FormBuilder
+    private formBuilder : FormBuilder,
+    private router : Router
   ) {}
 
   ngOnInit(): void {
@@ -27,11 +30,17 @@ export class LoginComponent {
   }
 
   onSubmit() : void {
+    this.error = ""
     this.authService.login( 
       this.modelForm.value,
       tokens => {
         console.log(tokens)
-      }  
+        this.router.navigate(['/orders'])
+      },
+      err => {
+        console.log(err)
+        this.error = err.error.error
+      }
     )
   }
 }

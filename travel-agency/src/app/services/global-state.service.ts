@@ -148,4 +148,16 @@ export class GlobalStateService {
     })
   }
 
+  refreshOrders( ) {
+    this.httpService.getOrders().subscribe( { 
+      next: (orders : OrderItem[] ) => {
+        console.log(orders)
+        this.ordersChange.next(orders)
+      },
+      error : (err) => {
+        if (err.status === 401)
+          this.ordersChange.next([])
+      }
+  })
+  }
 }

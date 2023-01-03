@@ -1,4 +1,4 @@
-<button ngClass="remove" (click)="onRemoveTrip()">
+<button ngClass="remove" (click)="onRemoveTrip()" *ngIf="isAdmin">
     <img src="assets/icons/trash.svg" alt="-">
 </button>
 
@@ -34,7 +34,7 @@
         <div [ngClass]="[ getAvailableClassVariant(),'quantity__available' ]"> 
             {{quantity - selected | quantity}} 
         </div>
-        <div ngClass="selected">
+        <div ngClass="selected" *ngIf="isNotAnon">
             <button 
                 (click)="onRemoveUnit()" 
                 [ngClass]="{'hide': selected == 0}"
@@ -59,5 +59,5 @@
         [id]="id"
         [disabled]="true"
     ></app-rates>
-    <a [routerLink]="path" ngClass="more-details"> More details</a>
+    <a [routerLink]="path" ngClass="more-details" *ngIf="isNotAnon"> More details</a>
 </div>

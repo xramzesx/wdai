@@ -15,8 +15,24 @@ export class AuthService {
     private httpService : HttpService,
     private globalState : GlobalStateService,
     private tokenService : TokenService
-  ) {}
+  ) {
+    this.refresh()
+  }
 
+
+  private defaultCallback : any = (
+    onSuccess: (tokens: Tokens) => void = ( a ) => {},
+    onErrors: (error : any) => void = ( a ) => {},  
+  )  => ({
+    next : (tokens: Tokens) => {
+      this.tokenService.setTokens(tokens)
+      this.globalState.refreshOrders()
+      onSuccess(tokens)
+    },
+    error : (err : any) => {
+      onErrors(err)
+    } 
+  })
 
   login ( 
     props : LoginProps, 
@@ -25,10 +41,7 @@ export class AuthService {
   ) {
     this.httpService
       .login(props)
-      .subscribe( (tokens: Tokens) => {
-        this.tokenService.setTokens(tokens)
-        onSuccess(tokens)
-      })
+      .subscribe(this.defaultCallback(onSuccess, onErrors))
   }
 
   register( 
@@ -36,13 +49,32 @@ export class AuthService {
     onSuccess: (tokens: Tokens) => void = ( a ) => {},
     onErrors: (error : any) => void = ( a ) => {},
   ) {
-    this.httpService.register(props).subscribe( (tokens: Tokens) => {
-      this.tokenService.setTokens(tokens)
-      onSuccess(tokens)
-    })
+    this.httpService
+      .register(props)
+      .subscribe( this.defaultCallback(onSuccess, onErrors) )
   }
 
-  refresh() {
+  refresh(
+    onSuccess: (tokens: Tokens) => void = ( a ) => {},
+    onErrors: (error : any) => void = ( a ) => {}
+  ) {
+    console.log(this.tokenService.accessToken, this.tokenService.refreshToken)
 
+    this.httpService
+      .refresh()
+      .subscribe( this.defaultCallback(
+        (tokens:Tokens) => {
+          console.log('refresh',tokens)
+          onSuccess(tokens)
+        }, (err : any) => {
+          console.log('refresh-err',err)
+          onErrors(err)
+        } 
+      ))
+  }
+
+  logout() {
+    this.tokenService.logout()
+    this.globalState.refreshOrders()
   }
 }

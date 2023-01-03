@@ -1,0 +1,9 @@
+<div ngClass="container">
+    <h1>Users</h1>
+    <div ngClass="users">
+        <div ngClass="user" *ngFor="let user of users">
+            <div> {{user.nick || "[empty]"}} </div>
+            <div> <button [ngClass]="{'class': true}">ban</button> </div>
+        </div>
+    </div>
+</div>

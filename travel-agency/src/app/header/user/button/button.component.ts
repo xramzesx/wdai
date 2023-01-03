@@ -3,6 +3,7 @@ import { GlobalStateService } from '@app/services/global-state.service';
 import { OrderItem, OrderStatus } from '@app/types';
 import Utils from '@app/utils';
 import { Router } from '@angular/router';
+import { FloatingComponentsService } from '@app/services/floating-components.service';
 
 
 @Component({
@@ -16,14 +17,13 @@ export class ButtonComponent implements OnInit {
 
   constructor(
     private globalState : GlobalStateService,
-    private router : Router
+    private router : Router,
+    private floatingComponents : FloatingComponentsService
   ) {}
 
   @HostListener('click')
   onClick() {
-    // this.router.navigate([`/orders`])
-    this.router.navigate([`/auth`])
-    
+    this.floatingComponents.toggleUserMenu()
   }
 
   ngOnInit(): void {

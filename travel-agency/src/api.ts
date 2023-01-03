@@ -5,6 +5,7 @@ export enum ApiPaths {
     rates = '/trips/rates',
     orders = '/orders',
     login = '/login',
+    logout = '/logout',
     register = '/register',
     refreshToken = '/refresh'
 }

@@ -1,7 +1,9 @@
 <div [ngClass]="{container: true, hide : hide}">
     <a (click)="hideFloat()" routerLink="/">Home</a>
     <a (click)="hideFloat()" routerLink="/offer">Offer</a>
-    <a (click)="hideFloat()" routerLink="/orders">Orders</a>
-    <a (click)="hideFloat()" routerLink="/new/trip">New trip</a>
+    <a (click)="hideFloat()" routerLink="/orders" *ngIf="isUser">Orders</a>
+    <a (click)="hideFloat()" routerLink="/new/trip" *ngIf="isAdmin || isManager">New trip</a>
+    <a (click)="hideFloat()" routerLink="/admin/view" *ngIf="isAdmin || isManager">Users</a>
+    <a (click)="hideFloat()" routerLink="/manage/trip" *ngIf="isManager">Manage</a>
     <app-currency-select></app-currency-select>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GlobalStateService } from '@app/services/global-state.service';
 import { OrderItem, OrderStatus, TripDate } from '@app/types';
 import Utils from '@app/utils';
@@ -8,7 +8,7 @@ import Utils from '@app/utils';
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })
-export class OrdersComponent {
+export class OrdersComponent implements OnInit{
   constructor (
     private globalState : GlobalStateService
   ) {
@@ -18,6 +18,10 @@ export class OrdersComponent {
       OrderStatus.Active,
       OrderStatus.Archive
     ]
+  }
+
+  ngOnInit(): void {
+    this.globalState.refreshOrders()
   }
 
   statuses : string [] = []

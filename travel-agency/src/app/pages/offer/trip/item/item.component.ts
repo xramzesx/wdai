@@ -1,8 +1,9 @@
 import { Component, Input, HostBinding } from '@angular/core';
-import { Rate, TripDate } from '@app/types';
+import { Rate, TripDate, UserRole } from '@app/types';
 import { QuantityMaskPipe } from '@app/pipes/quantity.pipe';
 import { GlobalStateService } from '@app/services/global-state.service';
 import { Router } from '@angular/router';
+import { TokenService } from '@app/services/token.service';
 
 @Component({
   selector: 'app-trip-item',
@@ -13,6 +14,7 @@ export class ItemComponent {
 
   constructor( 
     private globalState: GlobalStateService,
+    private tokenService : TokenService,
     private quantityPipe : QuantityMaskPipe,
     private router: Router
   ) {}
@@ -93,5 +95,13 @@ export class ItemComponent {
 
   get path() {
     return `/offer/${this.id}`
+  }
+
+  get isNotAnon() {
+    return this.tokenService.user.role !== UserRole.anon
+  }
+
+  get isAdmin() {
+    return this.tokenService.user.role === UserRole.admin || this.tokenService.user.role === UserRole.manager 
   }
 }

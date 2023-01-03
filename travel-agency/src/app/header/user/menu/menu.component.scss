@@ -1,0 +1,52 @@
+@use 'variables';
+@use 'mixins';
+
+:host {
+    position: absolute;
+
+    top: 100%;
+    background-color: white;
+
+    right: 2rem;
+
+    border-end-end-radius: 1rem;
+    border-end-start-radius: 1rem;
+    
+    @include mixins.floating-nav-modal;
+
+    display: flex;
+
+    transition: transform .25s ease, opacity .1s ease;
+
+    .container {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        a {
+            padding: 1rem;
+            display: block;
+            text-decoration: none;
+        }
+    }
+    
+}
+
+:host:has(.hide) {
+    transform: translateY(-100vh);
+    opacity: 0;
+}
+
+@media (max-width: variables.$mobileWidth) {
+    :host {
+        
+        left: 2rem;
+        .container {
+            flex-direction: column ;
+            align-items: center;
+    
+            width: 100%;
+    
+            // background-color: aqua;
+        }
+    }
+}

@@ -102,4 +102,34 @@ export type RegisterProps = {
 export type Tokens = {
   accessToken : string;
   refreshToken : string;
+  user?: UserProps;
+}
+
+/**
+ * Value of this enums is equivalent to:
+ * - anon == 'gość'
+ * - user == 'klient'
+ * - admin == 'admin'
+ * - manager == 'manager'
+ * 
+ */
+
+export enum UserRole {
+  anon = 'anonymous',
+  user = 'user',
+  admin = 'admin',
+  manager = 'manager'
+}
+
+export type UserProps = {
+  id : string;
+  nick : string;
+  role : UserRole
+  banned? : boolean
+}
+
+export const defaultUser : UserProps = {
+  id : "",
+  nick : "",
+  role : UserRole.anon
 }

@@ -9,7 +9,8 @@ import {
   Rate, 
   RegisterProps, 
   Tokens, 
-  TripItem 
+  TripItem, 
+  UserProps
 } from '@app/types';
 import { environment } from 'src/environments';
 import { AuthService } from './auth.service';
@@ -38,32 +39,6 @@ export class HttpService {
         ? '/' + id 
         : '' 
     }`
-  }
-
-  prepareOptions( currentOptions : any ) {
-    const result : any = {}
-
-    for (let key in currentOptions ) {
-
-      result[key] = currentOptions[key]
-
-      if ( key === 'headers' ) {
-        result[key] = {
-          ...result[key], 
-            'Authorization' : `Bearer ${
-              this.tokenService.accessToken
-            }, Basic ${
-              this.tokenService.refreshToken
-            }`
-          }
-        }
-
-      console.log(key, currentOptions[key])
-      console.log(key, result[key])
-
-    }
-
-    return result
   }
 
   accessToken : string = ''
@@ -130,7 +105,7 @@ export class HttpService {
 
   getOrders() {
     return this.httpClient.get<OrderItem[]>(
-      this.preparePath(ApiPaths.orders, this.userId )
+      this.preparePath( ApiPaths.orders )
     )
   }
 
@@ -144,7 +119,6 @@ export class HttpService {
 
   login( props : LoginProps ) {
     console.log(props)
-    console.log('prepared',this.prepareOptions(options.auth))
     return this.httpClient.post<any>( 
       this.preparePath( ApiPaths.login ), 
       JSON.stringify(props), 
@@ -157,6 +131,26 @@ export class HttpService {
       this.preparePath( ApiPaths.register ), 
       JSON.stringify( props ), 
       options.auth 
+    )
+  }
+
+  logout() {
+    return this.httpClient.get(
+      this.preparePath(ApiPaths.logout)
+    )
+  }
+
+  refresh() {
+    return this.httpClient.get<Tokens>(
+      this.preparePath( ApiPaths.refreshToken )
+    )
+  }
+
+  //// USERS ////
+
+  getUsers() {
+    return this.httpClient.get<UserProps[]>(
+      this.preparePath(ApiPaths.users)
     )
   }
 }

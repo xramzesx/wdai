@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '@app/services/auth.service';
 import { GlobalStateService } from '@app/services/global-state.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-register',
@@ -10,11 +12,13 @@ import { GlobalStateService } from '@app/services/global-state.service';
 })
 export class RegisterComponent {
   modelForm! : FormGroup
+  error : string = ''
 
   constructor(
     private globalState : GlobalStateService,
     private authService : AuthService,
-    private formBuilder : FormBuilder
+    private formBuilder : FormBuilder,
+    private router : Router
   ) {}
 
   ngOnInit(): void {
@@ -27,10 +31,14 @@ export class RegisterComponent {
   }
 
   onSubmit() : void {
+    this.error = ''
     this.authService.register( 
       this.modelForm.value,
       tokens => {
         console.log(tokens)
+        this.router.navigate(['/orders'])
+      }, err => {
+        this.error = err.error.error
       }
     )
   }

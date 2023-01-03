@@ -18,6 +18,8 @@
         type="password" 
     ></app-input>
 
+    <div ngClass="error">{{error}}</div>
+
     <input 
         [disabled]="!modelForm.valid" 
         type="submit" 

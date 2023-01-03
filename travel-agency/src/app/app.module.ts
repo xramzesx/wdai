@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -43,6 +43,13 @@ import { ButtonComponent } from './header/user/button/button.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { RegisterComponent } from './pages/auth/register/register.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { UserMenuComponent } from './header/user/menu/menu.component';
+import { AdminViewComponent } from './pages/admin-view/admin-view.component';
+import { TripManageComponent } from './pages/trip-manage/trip-manage.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule} from '@angular/material/button';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -83,18 +90,29 @@ import { RegisterComponent } from './pages/auth/register/register.component';
     AuthComponent,
     LoginComponent,
     RegisterComponent,
+    UserMenuComponent,
+    AdminViewComponent,
+    TripManageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatSelectModule
   ],
   providers: [
     QuantityMaskPipe, 
     FilterPipe,
-    DecimalPipe
+    DecimalPipe,
+    {
+      provide : HTTP_INTERCEPTORS,
+      useClass : AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

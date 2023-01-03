@@ -1,0 +1,14 @@
+<div [ngClass]="{container: true, hide : hide}">
+    <ng-container *ngIf="isAnon()">
+        <a (click)="hideFloat()" routerLink="/auth/register">Register</a>
+        <a (click)="hideFloat()" routerLink="/auth/login">Login</a>
+    </ng-container>
+    <ng-container *ngIf="isUser()">
+        <a (click)="hideFloat()" routerLink="/orders">{{ user.nick }}</a>
+        <a (click)="hideFloat()" routerLink="/auth/login" (click)="logout()">Logout</a>
+    </ng-container>
+    <ng-container *ngIf="isManager()">
+        <a (click)="hideFloat()" routerLink="/orders">Manager</a>
+        <a (click)="hideFloat()" routerLink="/auth/login" (click)="logout()">Logout</a>
+    </ng-container>
+</div>

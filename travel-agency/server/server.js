@@ -57,31 +57,45 @@ app.use(bodyParser.json())
 
 const jwt = require('jsonwebtoken')
 
+const getAuthHeader = req => req.get('authorization')
+const getAccessToken = token => token.split(/\,? /)[1]
+const getRefreshToken = token => token.split(/\,? /)[3]
+
 const maxAge = 3 * 24 * 60 * 60
 const generateToken = id => jwt.sign({id}, JWT_SECRET, { expiresIn : maxAge })
 
 const verifyJWT = (req, res, next) => {
     try {
-        let token = req.get("authorization")
+        
+        let token = getAuthHeader(req)
 
         if (!token)
             return res.status(404).json({ success: false, error: "Token not found" })
         
-        token = token.split(/\,? /)[1]
+        token = getAccessToken(token)
 
         const decoded = jwt.verify(token, JWT_SECRET )
-        req.userId = decoded.id
         
+        req.auth = {
+            id : decoded.id,
+            role : decoded.role
+        }
+
+        req.userId = decoded.id
         next()
     } catch (error) {
         return res.status(401).json({success : false, error : error.message})
     }
 }
 
-const verifyRefresh = (id, token) => {
+const refreshTokens = new Set()
+
+const verifyRefresh = (token) => {
     try {
+        console.log(token)
+        console.log(refreshTokens, refreshTokens.has(token))
         const decoded = jwt.verify(token, REFRESH_SECRET)
-        return decoded.id === id
+        return refreshTokens.has(token)
     } catch {
         return false
     }
@@ -119,11 +133,11 @@ app.post('/register', async (req, res) => {
             .status(400)
             .json({ success : false, error : "enter valid data" })
 
-
-    if ( !/^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$/g.test(email))
+    if ( !RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$').test(email.trim()))
         return res
             .status(400)
             .json({ success : false, error : "enter valid email" })
+            console.log('siema')
 
     //// CHECK WITH DB ////
 
@@ -140,42 +154,42 @@ app.post('/register', async (req, res) => {
             .status(409)
             .json({ success: false, error: "this email address is already used" })
 
-    } catch {
-        const { insertedId } = await usersCollection.insertOne({
-            nick,
-            email,
-            password,
-            role : 'user',
-            birthDate : new Date(birthDate),
-            joinDate : new Date()
-        })
+    } catch { }
 
-        const accessToken = jwt.sign({ id : insertedId }, JWT_SECRET, {
-            expiresIn : "2m"
-        })
+    try {
+        const user = await usersCollection.findOne({ nick })
 
-        const refreshToken = jwt.sign({ id : insertedId }, REFRESH_SECRET, {
-            expiresIn: "10m"
-        })
+        if ( user === null )
+            throw new Error('user not found')
 
-        return res.status(200).cookie(
-            cookies.token.jwt, 
-            accessToken,
-            {
-                secure: true,
-                httpOnly : true,
-                expires : new Date ( Date.now() + expires.token.jwt )
-            }
-        ).cookie(
-            cookies.token.refresh, 
-            refreshToken,
-            {
-                secure: true,
-                httpOnly : true,
-                expires : new Date( Date.now() + expires.token.refresh )
-            }
-        ).json({ accessToken, refreshToken })
-    }
+        return res
+            .status(409)
+            .json({ success: false, error: "this nickname is already used" })
+
+    } catch {}
+
+    const { insertedId } = await usersCollection.insertOne({
+        nick,
+        email,
+        password,
+        role : 'user',
+        birthDate : new Date(birthDate),
+        joinDate : new Date()
+    })
+
+    const accessToken = jwt.sign({ id : insertedId, role : 'user' }, JWT_SECRET, {
+        expiresIn : "2m"
+    })
+
+    const refreshToken = jwt.sign({ id : insertedId, role : 'user' }, REFRESH_SECRET, {
+        expiresIn: "10m"
+    })
+
+    refreshTokens.add(refreshToken)
+
+    const user = await usersCollection.findOne({_id : insertedId })
+
+    return res.status(200).json({ accessToken, refreshToken, user: mapId(user) })
 })
 
 app.post('/login', async (req, res) => {
@@ -203,31 +217,19 @@ app.post('/login', async (req, res) => {
             throw new Error('Invalid password')
 
 
-        const accessToken = jwt.sign({ id : user._id }, JWT_SECRET, {
+        const accessToken = jwt.sign({ id : user._id, role : user.role }, JWT_SECRET, {
             expiresIn : "2m"
         })
 
-        const refreshToken = jwt.sign({ id : user._id }, REFRESH_SECRET, {
+        const refreshToken = jwt.sign({ id : user._id, role : user.role }, REFRESH_SECRET, {
             expiresIn: "10m"
         })
 
-        return res.status(200).cookie(
-            cookies.token.jwt, 
-            accessToken,
-            {
-                secure: true,
-                httpOnly : true,
-                expires : new Date ( Date.now() + expires.token.jwt )
-            }
-        ).cookie(
-            cookies.token.refresh, 
-            refreshToken,
-            {
-                secure: true,
-                httpOnly : true,
-                expires : new Date( Date.now() + expires.token.refresh )
-            }
-        ).json({ accessToken, refreshToken })
+        refreshTokens.add(refreshToken)
+
+        console.log(refreshTokens)
+
+        return res.status(200).json({ accessToken, refreshToken, user : mapId(user)})
 
     } catch {
         return res
@@ -237,23 +239,64 @@ app.post('/login', async (req, res) => {
 })
 
 app.get('/logout', (req, res) => {
-
+    //// TODO: implement token blacklisting ////
+    
+    res.send('')
 })
 
 
-app.get('/refresh', (req, res) => {
+app.get('/refresh', async (req, res) => {
+
+    const token = getRefreshToken( 
+        getAuthHeader(req)
+    )
+
+    const isValid = verifyRefresh(token)
+    
+    if (!isValid)
+        return res.status(401).json({success : false, error : "Invalid token, try login again"})
+    
+    const {id : userId} = jwt.verify(token, REFRESH_SECRET )    
+
+    console.log('uid', new ObjectId(userId))
+    try {
+        const db = client.db(DB_NAME)
+        const usersCollection = db.collection(collections.users)
+    
+        const user = await usersCollection.findOne({ _id : new ObjectId(userId) })
+        console.log(user)
+        if (user === null)
+            throw new Error('User not found')
+
+        const accessToken = jwt.sign({ id : user._id, role : user.role }, JWT_SECRET, {
+            expiresIn : "2m"
+        })
+    
+        const refreshToken = jwt.sign({ id : user._id, role : user.role }, REFRESH_SECRET, {
+            expiresIn: "10m"
+        })
+
+        refreshTokens.add(refreshToken)
+
+        return res.status(200).json({ accessToken, refreshToken, user : mapId(user)})
+    } catch {
+        return res
+            .status(401)
+            .json({ success: false, error: "User not found, try login again" })
+    }
+
 
 })
 
 
 //// UTILS /////
 
-const mapId = item => ({ ...item, _id : undefined, id: item._id  })
+const mapId = item => ({ ...item, _id : undefined, id: item._id, password : undefined  })
 
 //// ROUTES ////
 
 app.all('/*', (req, res, next) => {
-    console.log(req.url, new Date())
+    console.log(new Date(), req.url)
     next()
 })
 
@@ -304,7 +347,11 @@ app.get('/trips', async (req, res) => {
     res.json(result)
 })
 
-app.post('/trips', async (req, res) => {
+app.post('/trips', verifyJWT, async (req, res) => {
+    if ( !(req.auth.role == 'admin' || req.auth.role == 'manager') ){
+        return res.status(401).json({success : false, error : "User doesn't have permission"})
+    }
+    
     const db = client.db(DB_NAME)
     const collection = db.collection(collections.trips)
     const { name, country, description, images, price, quantity, date } = req.body
@@ -322,7 +369,7 @@ app.post('/trips', async (req, res) => {
     res.send(mapId(result))
 })
 
-app.get('/trips/:id', async (req, res) => {
+app.get('/trips/:id', verifyJWT, async (req, res) => {
     const db = client.db(DB_NAME)
     const collection = db.collection(collections.trips)
 
@@ -336,7 +383,11 @@ app.get('/trips/:id', async (req, res) => {
     }
 })
 
-app.delete('/trips/:id', async (req, res) => {
+app.delete('/trips/:id', verifyJWT ,async (req, res) => {
+    if ( !(req.auth.role == 'admin' || req.auth.role == 'manager') ){
+        return res.status(401).json({success : false, error : "User doesn't have permission"})
+    }
+
     const db = client.db(DB_NAME)
     const collection = db.collection(collections.trips)
 
@@ -349,7 +400,7 @@ app.delete('/trips/:id', async (req, res) => {
 
 /// RATES ///
 
-app.post('/trips/rates/:id', async (req, res) => {
+app.post('/trips/rates/:id', verifyJWT, async (req, res) => {
     const db = client.db(DB_NAME)
     const collection = db.collection(collections.trips)
     const { 
@@ -395,25 +446,32 @@ app.post('/trips/rates/:id', async (req, res) => {
 
 //// ORDERS ////
 
-app.get( '/orders/:id', async (req, res) => {
+app.get( '/orders', verifyJWT, async (req, res) => {
+    
+    const userId = req.auth.id
+
     const db = client.db(DB_NAME)
     const collection = db.collection(collections.orders)
     
-    const result = await (await collection.find({ userId : req.params.id }).toArray()).map(mapId)
+    const result = await (await collection.find({ userId }).toArray()).map(mapId)
 
     for ( const order of result )
         order.trip = await db.collection(collections.trips).findOne({_id : new ObjectId(order.tripId)})
-    
 
     res.json(result)
 })
 
 
-app.post( '/orders', async (req, res) => {
+app.post( '/orders', verifyJWT ,async (req, res) => {
+    
+    console.log('userid:',req.userId)
+    
+    const userId = req.auth.id
+
     const db = client.db(DB_NAME)
     const collection = db.collection(collections.orders)
     
-    const { userId, tripId, quantity } = req.body
+    const { tripId, quantity } = req.body
     
     const parsed = {
         userId :  userId,
@@ -441,6 +499,31 @@ app.post( '/orders', async (req, res) => {
     result.trip = trip
 
     res.json(mapId(result))
+})
+
+
+//// USERS ////
+
+
+app.get('/users', verifyJWT, async (req, res) => {
+    if ( !(req.auth.role == 'admin' || req.auth.role == 'manager') ){
+        return res.status(401).json({success : false, error : "User doesn't have permission"})
+    }
+
+    const db = client.db(DB_NAME)
+    const collection = db.collection(collections.users)
+
+    const result = await collection
+        .find({})
+        .map( ({_id, nick, banned, role}) => ({ 
+            id : _id, 
+            role,
+            nick, 
+            banned : banned || false 
+        })).toArray()
+
+    res.json(result)
+
 })
 
 app.get('/', async (req, res) => {

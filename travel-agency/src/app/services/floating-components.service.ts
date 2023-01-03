@@ -14,11 +14,17 @@ export class FloatingComponentsService {
     this.hideMenuChange.subscribe( (hideMenu : boolean) => {
       this.hideMenu = hideMenu
     })
+
+    this.hideUserMenuChange.subscribe( (hideMenu : boolean) => {
+      this.hideUserMenu = hideMenu
+    })
+
   }
 
   hideAll() {
     this.hideCartChange.next(true)
     this.hideMenuChange.next(true)
+    this.hideUserMenuChange.next(true)
   }
 
   //// HAMBURGER MENU ////
@@ -43,4 +49,17 @@ export class FloatingComponentsService {
     this.hideAll()
     this.hideCartChange.next(!current)
   }
+
+  //// USER MENU ////
+  
+  hideUserMenu : boolean = true
+  hideUserMenuChange: Subject<boolean> = new Subject<boolean>()
+
+  toggleUserMenu() {
+    const current = this.hideUserMenu
+    this.hideAll()
+
+    this.hideUserMenuChange.next(!current)
+  }
+  
 }

@@ -1,0 +1,27 @@
+@use 'mixins';
+
+:host {
+    padding: 1rem;
+    background-color: white;
+    border-radius: 1rem;
+    margin-top:2rem;
+
+    @include mixins.default-drop-shadow;
+    
+    .error {
+        height: 1rem;
+        font-size: .75rem;
+        text-align: center;
+        color: red;
+    }
+
+    &, form {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+
+        input[type="submit"] {
+            padding: .5rem;
+        }
+    }
+}
