@@ -22,6 +22,19 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
+## Running server
+
+Run `npm run server` to run Node server, but firstly specify some variables in the `.env` file
+
+### Variables
+
+- `MONGO_USER` - MongoDB username
+- `MONGO_PASSWORD` - MongoDB user password
+- `MONGO_URL` - MongoDB server address
+- `DB_NAME` - MongoDB database name
+- `JWT_SECRET` - JSON Web Token secret
+- `REFRESH_SECRET` - JSON Web Token refresh secret
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
