@@ -16,7 +16,7 @@ This repository contains assignments for the Introduction to Web Applications (W
 
 ### CSS-only Product modal ([`lab2/zad12`](lab2/zad12))
 
-https://github.com/xramzesx/wdai/assets/46059547/32a6fd75-6d38-41c6-a941-392e11bfaa04
+https://github.com/xramzesx/wdai/assets/46059547/09979b51-d0ce-4398-ad3b-4186ab29f2e8
 
 #### Technology:
 - CSS
@@ -24,7 +24,7 @@ https://github.com/xramzesx/wdai/assets/46059547/32a6fd75-6d38-41c6-a941-392e11b
 
 ### CSS navbar ([`lab2/zad06`](lab2/zad06))
 
-https://github.com/xramzesx/wdai/assets/46059547/5cf24af5-5604-48d7-8259-8861559703c3
+https://github.com/xramzesx/wdai/assets/46059547/fddb682f-8975-449d-a1f2-4396cd2a0452
 
 #### Technology
 - CSS
@@ -32,7 +32,7 @@ https://github.com/xramzesx/wdai/assets/46059547/5cf24af5-5604-48d7-8259-8861559
 
 ### Zombies ([`lab3/zad12`](lab3/zad12))
 
-https://github.com/xramzesx/wdai/assets/46059547/caea3b3a-f150-4f72-aad0-da146615aa84
+https://github.com/xramzesx/wdai/assets/46059547/cebc0660-0cd2-4525-afe5-27e1c3730c58
 
 #### Technology
 - JavaScript
@@ -43,11 +43,11 @@ https://github.com/xramzesx/wdai/assets/46059547/caea3b3a-f150-4f72-aad0-da14661
 ### Travel Agency ([`travel-agency`](travel-agency))
 #### Admin view
 
-https://github.com/xramzesx/wdai/assets/46059547/d0d72d8b-b3b5-440d-97ae-5d854716a0bf
+https://github.com/xramzesx/wdai/assets/46059547/c10934c8-19c2-488a-952c-c17d0f8c08b6
 
 #### User view
 
-https://github.com/xramzesx/wdai/assets/46059547/ceed6691-c4b3-4a7b-93da-cd14f544f7be
+https://github.com/xramzesx/wdai/assets/46059547/d57e3e79-a22d-4cec-9b5d-887912acc67b
 
 #### Technology: 
 - TypeScript
